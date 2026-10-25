@@ -1,1 +1,1 @@
-# Craft Enchanting (Fabric, Minecraft Java 26.3)
+# Progression Mod (Fabric, Minecraft Java 26.3)
