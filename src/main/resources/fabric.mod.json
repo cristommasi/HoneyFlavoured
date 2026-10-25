@@ -1,0 +1,20 @@
+{
+	"schemaVersion": 1,
+	"id": "craftenchanting",
+	"version": "${version}",
+	"name": "Craft Enchanting",
+	"description": "Replaces the enchanting table menu with a 3x3 crafting grid. Surround a book with a recipe item to craft a specific enchantment.",
+	"authors": ["Cristopher"],
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["com.example.craftenchanting.CraftEnchanting"],
+		"client": ["com.example.craftenchanting.client.CraftEnchantingClient"]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
