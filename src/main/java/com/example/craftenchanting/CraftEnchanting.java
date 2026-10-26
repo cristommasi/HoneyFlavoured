@@ -39,7 +39,7 @@ public class CraftEnchanting implements ModInitializer {
 		// Packet used for the "new enchanting recipe unlocked" toast.
 		registerUnlockPacket();
 
-		// Lapis lazuli always shines, so players know it's used for enchanting.
+		// Lapis lazuli enchantment glint.
 		DefaultItemComponentEvents.MODIFY.register(context ->
 			context.modify(Items.LAPIS_LAZULI, builder -> builder.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)));
 

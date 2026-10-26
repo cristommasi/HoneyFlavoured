@@ -176,43 +176,62 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 	/** Clicking a recipe in the knowledge book: fill the 7 ingredient slots + lapis from the inventory. */
 	@Override
 	public boolean clickMenuButton(Player clicker, int id) {
-		if (id < 0 || id >= Recipes.ORDERED.size()
-			|| !(clicker instanceof ServerPlayer sp) || !Recipes.isUnlocked(sp, id)) {
-			return false;
-		}
-		Item ingredient = Recipes.ORDERED.get(id).getKey();
-		Inventory inv = clicker.getInventory();
-
-		// Put the ingredient slots and the lapis slot back into the inventory first.
-		// The centre slot (book / pickaxe / ...) is never touched.
-		int[] fillSlots = {0, 1, 2, 3, 5, 6, 8, LAPIS};
-		for (int i : fillSlots) {
-			ItemStack s = this.grid.getItem(i);
-			if (s.isEmpty()) {
-				continue;
-			}
-			ItemStack moving = s.copy();
-			if (inv.add(moving)) {
-				this.grid.setItem(i, ItemStack.EMPTY);
-			} else {
-				this.grid.setItem(i, moving);   // inventory full: keep what didn't fit
-				return false;
-			}
-		}
-
-		if (count(inv, ingredient) < Recipes.RING.length
-			|| count(inv, Items.LAPIS_LAZULI) < LAPIS_COST) {
-			return false;   // not enough materials: slots stay empty
-		}
-
-		for (int i : Recipes.RING) {
-			this.grid.setItem(i, takeOne(inv, ingredient));
-		}
-		for (int k = 0; k < LAPIS_COST; k++) {
-			takeOne(inv, Items.LAPIS_LAZULI);
-		}
-		this.grid.setItem(LAPIS, new ItemStack(Items.LAPIS_LAZULI, LAPIS_COST));
-		return true;
+	    if (id < 0 || id >= Recipes.ORDERED.size()
+	            || !(clicker instanceof ServerPlayer sp)
+	            || !Recipes.isUnlocked(sp, id)) {
+	        return false;
+	    }
+	
+	    Item ingredient = Recipes.ORDERED.get(id).getKey();
+	    Inventory inv = clicker.getInventory();
+	
+	    // Return all previous recipe ingredients and lapis.
+	    // Never touch the centre slot, which holds the book or item being enchanted.
+	    int[] fillSlots = {0, 1, 2, 3, 5, 6, 8, LAPIS};
+	    boolean inventoryFull = false;
+	
+	    for (int i : fillSlots) {
+	        ItemStack stack = this.grid.getItem(i);
+		
+	        if (stack.isEmpty()) {
+	            continue;
+	        }
+		
+	        ItemStack moving = stack.copy();
+	        boolean fullyAdded = inv.add(moving);
+		
+	        if (fullyAdded) {
+	            this.grid.setItem(i, ItemStack.EMPTY);
+	        } else {
+	            // Keep anything that didn't fit. Never delete items.
+	            this.grid.setItem(i, moving);
+	            inventoryFull = true;
+	        }
+	    }
+	
+	    // If the inventory cannot hold the old ingredients, do not overwrite them.
+	    if (inventoryFull) {
+	        return false;
+	    }
+	
+	    // No ingredients? Leave the grid clear so the client can display
+	    // the unavailable recipe's red ghost preview.
+	    if (count(inv, ingredient) < Recipes.RING.length
+	            || count(inv, Items.LAPIS_LAZULI) < LAPIS_COST) {
+	        return false;
+	    }
+	
+	    // Load the newly selected recipe.
+	    for (int i : Recipes.RING) {
+	        this.grid.setItem(i, takeOne(inv, ingredient));
+	    }
+	
+	    for (int k = 0; k < LAPIS_COST; k++) {
+	        takeOne(inv, Items.LAPIS_LAZULI);
+	    }
+	
+	    this.grid.setItem(LAPIS, new ItemStack(Items.LAPIS_LAZULI, LAPIS_COST));
+	    return true;
 	}
 
 	/** Item currently in the centre slot (used to animate the vanilla book on the client). */
@@ -455,4 +474,6 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 		super.removed(player);
 		this.access.execute((level, pos) -> this.clearContainer(player, this.grid));
 	}
+
+	
 }
