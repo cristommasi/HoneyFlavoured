@@ -2,7 +2,9 @@ package com.example.craftenchanting;
 
 import java.lang.reflect.Method;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +28,10 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.resources.ResourceKey;
 
 /**
- * The enchanting recipes: ONE ingredient item surrounding a book in a 3x3 grid.
- * The 7 ingredient slots (everything except centre = book and bottom middle = lapis) must hold the same item.
+ * The enchanting recipes. 3x3 grid:
+ *   - centre = item / book to enchant, bottom middle = lapis
+ *   - bottom left + bottom right = a flower belonging to the recipe (see FLOWERS)
+ *   - the 5 remaining slots (RING) must hold the recipe's main ingredient.
  *
  * Map.ofEntries throws on duplicate keys at class load, so no item can ever
  * be mapped to two enchantments by accident.
@@ -42,51 +46,51 @@ public final class Recipes {
 	public static final Map<Item, ResourceKey<Enchantment>> BY_INGREDIENT = Map.ofEntries(
 		// All purpose
 		r(Items.NETHER_STAR, Enchantments.MENDING),
-		r(Items.OBSIDIAN, Enchantments.UNBREAKING),
-		r(Items.TOTEM_OF_UNDYING, Enchantments.VANISHING_CURSE),
+		r(Items.EMERALD, Enchantments.UNBREAKING),
+		r(Items.POISONOUS_POTATO, Enchantments.VANISHING_CURSE),
 
 		// Armor
 		r(Items.NAUTILUS_SHELL, Enchantments.AQUA_AFFINITY),
 		r(Items.GUNPOWDER, Enchantments.BLAST_PROTECTION),
 		r(Items.SLIME_BALL, Enchantments.BINDING_CURSE),
-		r(Items.PRISMARINE_SHARD, Enchantments.DEPTH_STRIDER),
+		r(Items.SPONGE, Enchantments.DEPTH_STRIDER),
 		r(Items.FEATHER, Enchantments.FEATHER_FALLING),
-		r(Items.FIRE_CHARGE, Enchantments.FIRE_PROTECTION),
-		r(Items.PACKED_ICE, Enchantments.FROST_WALKER),
-		r(Items.ARMADILLO_SCUTE, Enchantments.PROTECTION),
+		r(Items.ARMADILLO_SCUTE, Enchantments.FIRE_PROTECTION),
+		r(Items.SNOWBALL, Enchantments.FROST_WALKER),
+		r(Items.PHANTOM_MEMBRANE, Enchantments.PROTECTION),
 		r(Items.TURTLE_SCUTE, Enchantments.RESPIRATION),
-		r(Items.SOUL_LANTERN, Enchantments.SOUL_SPEED),
+		r(Items.SOUL_SOIL, Enchantments.SOUL_SPEED),
 		r(Items.CACTUS, Enchantments.THORNS),
 		r(Items.ECHO_SHARD, Enchantments.SWIFT_SNEAK),
-		r(Items.ARROW, Enchantments.PROJECTILE_PROTECTION),       // added (not in your list)
+		r(Items.ARROW, Enchantments.PROJECTILE_PROTECTION),
 
 		// Melee weapons
 		r(Items.STRING, Enchantments.BANE_OF_ARTHROPODS),
-		r(Items.SHEARS, Enchantments.BREACH),
+		r(Items.GOAT_HORN, Enchantments.BREACH),
 		r(Items.ANCIENT_DEBRIS, Enchantments.DENSITY),
-		r(Items.HONEYCOMB, Enchantments.EFFICIENCY),
+		r(Items.AMETHYST_SHARD, Enchantments.EFFICIENCY),
 		r(Items.RABBIT_FOOT, Enchantments.LOOTING),
-		r(Items.SWEET_BERRIES, Enchantments.LUNGE),
-		r(Items.AMETHYST_SHARD, Enchantments.IMPALING),
-		r(Items.CACTUS_FLOWER, Enchantments.KNOCKBACK),
+		r(Items.SUGAR, Enchantments.LUNGE),
+		r(Items.PRISMARINE_SHARD, Enchantments.IMPALING),
+		r(Items.TNT, Enchantments.KNOCKBACK),
 		r(Items.DIAMOND, Enchantments.SHARPNESS),
 		r(Items.ROTTEN_FLESH, Enchantments.SMITE),
 		r(Items.BONE, Enchantments.SWEEPING_EDGE),
 		r(Items.WIND_CHARGE, Enchantments.WIND_BURST),
-		r(Items.MAGMA_CREAM, Enchantments.FIRE_ASPECT),          // added (not in your list)
+		r(Items.MAGMA_CREAM, Enchantments.FIRE_ASPECT),     
 
 		// Ranged weapons
 		// Lightning rods are a copper "collection" in 26.x, so look the plain one up by id.
 		r(BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace("lightning_rod")), Enchantments.CHANNELING),
-		r(Items.BLAZE_POWDER, Enchantments.FLAME),
+		r(Items.FIRE_CHARGE, Enchantments.FLAME),
 		r(Items.RESIN_CLUMP, Enchantments.INFINITY),
 		r(Items.LEAD, Enchantments.LOYALTY),
-		r(Items.TNT, Enchantments.RIPTIDE),
+		r(Items.FIREWORK_ROCKET, Enchantments.RIPTIDE),
 		r(Items.QUARTZ, Enchantments.MULTISHOT),
 		r(Items.POINTED_DRIPSTONE, Enchantments.PIERCING),
 		r(Items.GOLDEN_APPLE, Enchantments.POWER),
-		r(Items.ANVIL, Enchantments.PUNCH),
-		r(Items.SALMON, Enchantments.QUICK_CHARGE),
+		r(Items.SWEET_BERRIES, Enchantments.PUNCH),
+		r(Items.HONEYCOMB, Enchantments.QUICK_CHARGE),
 
 		// Tools (Efficiency is honeycomb only, per "first listing only")
 		r(Items.ENCHANTED_GOLDEN_APPLE, Enchantments.FORTUNE),
@@ -100,6 +104,86 @@ public final class Recipes {
 		.sorted(Comparator.comparing((Map.Entry<Item, ResourceKey<Enchantment>> e) ->
 			BuiltInRegistries.ITEM.getKey(e.getKey()).getPath()))
 		.toList();
+
+	// ---- flowers: the second ingredient (two of them, bottom-left and bottom-right slots)
+	/** Grid indices of the two flower slots. */
+	public static final int[] FLOWER_SLOTS = {6, 8};
+
+	private static final Map<ResourceKey<Enchantment>, List<Item>> FLOWERS = new HashMap<>();
+	private static final Set<Item> ALL_FLOWERS = new HashSet<>();
+
+	/** Registers the flower(s) for an enchantment by item id. Unknown ids are skipped with a warning. */
+	private static void f(ResourceKey<Enchantment> ench, String... ids) {
+		List<Item> list = new ArrayList<>();
+		for (String id : ids) {
+			Identifier ident = Identifier.withDefaultNamespace(id);
+			if (BuiltInRegistries.ITEM.containsKey(ident)) {
+				list.add(BuiltInRegistries.ITEM.getValue(ident));
+			} else {
+				System.err.println("[craftenchanting] Unknown flower item id: minecraft:" + id);
+			}
+		}
+		FLOWERS.put(ench, list);
+		ALL_FLOWERS.addAll(list);
+	}
+
+	static {
+		f(Enchantments.MENDING, "wither_rose");
+		f(Enchantments.SHARPNESS, "open_eyeblossom");
+		f(Enchantments.UNBREAKING, "vine");
+		f(Enchantments.INFINITY, "firefly_bush");
+		f(Enchantments.LOOTING, "golden_dandelion");
+		f(Enchantments.PROTECTION, "chorus_flower");
+		f(Enchantments.POWER, "sunflower");
+		f(Enchantments.EFFICIENCY, "allium");
+		f(Enchantments.SILK_TOUCH, "oxeye_daisy");
+		f(Enchantments.FORTUNE, "wildflowers");
+		f(Enchantments.SMITE, "poppy");
+		f(Enchantments.QUICK_CHARGE, "peony");
+		f(Enchantments.KNOCKBACK, "cactus_flower");
+		f(Enchantments.FEATHER_FALLING, "blue_orchid");
+		f(Enchantments.BLAST_PROTECTION, "red_tulip", "orange_tulip", "white_tulip", "pink_tulip");
+		f(Enchantments.PROJECTILE_PROTECTION, "dandelion");
+		f(Enchantments.BANE_OF_ARTHROPODS, "azure_bluet");
+		f(Enchantments.SWEEPING_EDGE, "lily_of_the_valley");
+		f(Enchantments.AQUA_AFFINITY, "fire_coral");
+		f(Enchantments.RESPIRATION, "tube_coral");
+		f(Enchantments.CHANNELING, "horn_coral");
+		f(Enchantments.DEPTH_STRIDER, "brain_coral");
+		f(Enchantments.LOYALTY, "kelp");
+		f(Enchantments.RIPTIDE, "mangrove_propagule");
+		f(Enchantments.LURE, "lily_pad");
+		f(Enchantments.LUCK_OF_THE_SEA, "sea_pickle");
+		f(Enchantments.FROST_WALKER, "fern");
+		f(Enchantments.SWIFT_SNEAK, "pitcher_plant");
+		f(Enchantments.IMPALING,
+			"dead_tube_coral", "dead_brain_coral", "dead_bubble_coral", "dead_fire_coral", "dead_horn_coral",
+			"dead_tube_coral_fan", "dead_brain_coral_fan", "dead_bubble_coral_fan", "dead_fire_coral_fan", "dead_horn_coral_fan");
+		f(Enchantments.FLAME, "twisting_vines");
+		f(Enchantments.FIRE_PROTECTION, "rose_bush");
+		f(Enchantments.FIRE_ASPECT, "weeping_vines");
+		f(Enchantments.THORNS, "short_dry_grass", "tall_dry_grass");
+		f(Enchantments.SOUL_SPEED, "torchflower");
+		f(Enchantments.VANISHING_CURSE, "dead_bush");
+		f(Enchantments.BINDING_CURSE, "dead_bush");
+		f(Enchantments.LUNGE, "cornflower");
+		f(Enchantments.DENSITY, "red_shrub");
+		f(Enchantments.BREACH, "bush");
+		f(Enchantments.MULTISHOT, "pink_petals");
+		f(Enchantments.WIND_BURST, "hanging_roots");
+		f(Enchantments.PIERCING, "spore_blossom");
+		f(Enchantments.PUNCH, "lilac");
+	}
+
+	/** The flower items accepted for this enchantment's recipe. */
+	public static List<Item> flowersFor(ResourceKey<Enchantment> key) {
+		return FLOWERS.getOrDefault(key, List.of());
+	}
+
+	/** Is this item a flower of any recipe? (what the two flower slots accept) */
+	public static boolean isFlower(Item item) {
+		return ALL_FLOWERS.contains(item);
+	}
 
 	// ---- knowledge book: unlocked recipes are stored as player tags (saved with the player, survive death)
 	private static String tagFor(Item item) {
@@ -147,7 +231,11 @@ public final class Recipes {
 		}
 		for (int i = 0; i < ORDERED.size(); i++) {
 			Item item = ORDERED.get(i).getKey();
-			if (held.contains(item) && !tagsOf(player).contains(tagFor(item))) {
+			boolean has = held.contains(item);
+			for (Item fl : flowersFor(ORDERED.get(i).getValue())) {
+				has |= held.contains(fl);
+			}
+			if (has && !tagsOf(player).contains(tagFor(item))) {
 				addTag(player, tagFor(item));
 				// Tell the client so it can show the "new recipe unlocked" toast.
 				ServerPlayNetworking.send(player, new UnlockPayload(i));
@@ -167,13 +255,13 @@ public final class Recipes {
 	}
 
 	/**
-	 * Grid indices of the 7 ingredient slots. Index 4 (centre) is the book and
-	 * index 7 (bottom middle) is the lapis slot, so neither is part of the recipe.
+	 * Grid indices of the 5 main-ingredient slots. Index 4 (centre) is the book / item, index 7 (bottom middle)
+	 * is the lapis slot, and 6 + 8 (bottom left / right) are the flower slots.
 	 */
-	public static final int[] RING = {0, 1, 2, 3, 5, 6, 8};
+	public static final int[] RING = {0, 1, 2, 3, 5};
 
 	/** XP level cost by resulting enchantment level I..V. Matches level_1/2/3/6/9 icons. */
-	private static final int[] COSTS = {1, 2, 3, 6, 9};
+	private static final int[] COSTS = {1, 3, 6, 9, 12};
 	/** Flat cost for treasure enchantments. Matches the level_12 icon. */
 	private static final int TREASURE_COST = 12;
 
@@ -209,6 +297,17 @@ public final class Recipes {
 				return Optional.empty();
 			}
 		}
-		return Optional.ofNullable(BY_INGREDIENT.get(item));
+		ResourceKey<Enchantment> key = BY_INGREDIENT.get(item);
+		if (key == null) {
+			return Optional.empty();
+		}
+		List<Item> flowers = flowersFor(key);
+		for (int i : FLOWER_SLOTS) {
+			ItemStack s = grid.getItem(i);
+			if (s.isEmpty() || !flowers.contains(s.getItem())) {
+				return Optional.empty();
+			}
+		}
+		return Optional.of(key);
 	}
 }

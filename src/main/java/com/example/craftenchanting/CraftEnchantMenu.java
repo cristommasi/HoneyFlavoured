@@ -1,5 +1,6 @@
 package com.example.craftenchanting;
 
+import java.util.List;
 import java.util.Optional;
 
 import net.minecraft.core.Holder;
@@ -33,8 +34,9 @@ import net.minecraft.world.level.block.Blocks;
  *   0 1 2                         result = 0
  *   3 4 5      4 = book           grid   = 1..9   (menu slot = grid index + 1)
  *   6 7 8      7 = lapis          player = 10..36, hotbar = 37..45
+ *              6, 8 = flowers
  *
- * The 7 remaining grid slots (0,1,2,3,5,6,8) hold the recipe ingredient.
+ * The 5 remaining grid slots (0,1,2,3,5) hold the main recipe ingredient.
  */
 public class CraftEnchantMenu extends AbstractContainerMenu {
 	/** Slot positions (relative to the GUI's top-left). Your enchanting_table.png must match these. */
@@ -46,6 +48,9 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 	/** Lapis lazuli used up per craft. */
 	public static final int LAPIS_COST = 1;
 
+	/** Added to the recipe id by the client when shift is held: fill the slots with as much as possible. */
+	public static final int FILL_ALL = 64;
+
 	private static final int RESULT_SLOT = 0;
 	private static final int GRID_START = 1;
 	private static final int GRID_END = 10;      // exclusive
@@ -53,6 +58,10 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 	private static final int INV_END = 46;       // exclusive
 	private static final int BOOK = 4;           // grid index, centre
 	private static final int LAPIS = 7;          // grid index, bottom middle
+	private static final int FLOWER_L = 6;         // grid index, bottom left
+	private static final int FLOWER_R = 8;         // grid index, bottom right
+	private static final int FLOWER_L_SLOT = GRID_START + FLOWER_L;
+	private static final int FLOWER_R_SLOT = GRID_START + FLOWER_R;
 	private static final int BOOK_SLOT = GRID_START + BOOK;
 	private static final int LAPIS_SLOT = GRID_START + LAPIS;
 
@@ -96,6 +105,8 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 					this.addSlot(new CentreSlot(this.grid, gi, gx, gy));
 				} else if (gi == LAPIS) {
 					this.addSlot(new LapisSlot(this.grid, gi, gx, gy));
+				} else if (gi == FLOWER_L || gi == FLOWER_R) {
+					this.addSlot(new FlowerSlot(this.grid, gi, gx, gy));
 				} else {
 					this.addSlot(new Slot(this.grid, gi, gx, gy));
 				}
@@ -173,65 +184,114 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 		return ItemStack.EMPTY;
 	}
 
-	/** Clicking a recipe in the knowledge book: fill the 7 ingredient slots + lapis from the inventory. */
+	/** Clicking a recipe in the knowledge book: fill the 5 ingredient slots, the 2 flower slots and the lapis. */
 	@Override
 	public boolean clickMenuButton(Player clicker, int id) {
-	    if (id < 0 || id >= Recipes.ORDERED.size()
-	            || !(clicker instanceof ServerPlayer sp)
-	            || !Recipes.isUnlocked(sp, id)) {
-	        return false;
-	    }
-	
-	    Item ingredient = Recipes.ORDERED.get(id).getKey();
-	    Inventory inv = clicker.getInventory();
-	
-	    // Return all previous recipe ingredients and lapis.
-	    // Never touch the centre slot, which holds the book or item being enchanted.
-	    int[] fillSlots = {0, 1, 2, 3, 5, 6, 8, LAPIS};
-	    boolean inventoryFull = false;
-	
-	    for (int i : fillSlots) {
-	        ItemStack stack = this.grid.getItem(i);
-		
-	        if (stack.isEmpty()) {
-	            continue;
-	        }
-		
-	        ItemStack moving = stack.copy();
-	        boolean fullyAdded = inv.add(moving);
-		
-	        if (fullyAdded) {
-	            this.grid.setItem(i, ItemStack.EMPTY);
-	        } else {
-	            // Keep anything that didn't fit. Never delete items.
-	            this.grid.setItem(i, moving);
-	            inventoryFull = true;
-	        }
-	    }
-	
-	    // If the inventory cannot hold the old ingredients, do not overwrite them.
-	    if (inventoryFull) {
-	        return false;
-	    }
-	
-	    // No ingredients? Leave the grid clear so the client can display
-	    // the unavailable recipe's red ghost preview.
-	    if (count(inv, ingredient) < Recipes.RING.length
-	            || count(inv, Items.LAPIS_LAZULI) < LAPIS_COST) {
-	        return false;
-	    }
-	
-	    // Load the newly selected recipe.
-	    for (int i : Recipes.RING) {
-	        this.grid.setItem(i, takeOne(inv, ingredient));
-	    }
-	
-	    for (int k = 0; k < LAPIS_COST; k++) {
-	        takeOne(inv, Items.LAPIS_LAZULI);
-	    }
-	
-	    this.grid.setItem(LAPIS, new ItemStack(Items.LAPIS_LAZULI, LAPIS_COST));
-	    return true;
+		boolean fillAll = id >= FILL_ALL;
+		if (fillAll) {
+			id -= FILL_ALL;
+		}
+		if (id < 0 || id >= Recipes.ORDERED.size()
+				|| !(clicker instanceof ServerPlayer sp)
+				|| !Recipes.isUnlocked(sp, id)) {
+			return false;
+		}
+
+		Item ingredient = Recipes.ORDERED.get(id).getKey();
+		List<Item> flowers = Recipes.flowersFor(Recipes.ORDERED.get(id).getValue());
+		Inventory inv = clicker.getInventory();
+
+		// Return all previous recipe ingredients, flowers and lapis.
+		// Never touch the centre slot, which holds the book or item being enchanted.
+		int[] fillSlots = {0, 1, 2, 3, 5, FLOWER_L, FLOWER_R, LAPIS};
+		boolean inventoryFull = false;
+
+		for (int i : fillSlots) {
+			ItemStack stack = this.grid.getItem(i);
+			if (stack.isEmpty()) {
+				continue;
+			}
+			ItemStack moving = stack.copy();
+			if (inv.add(moving)) {
+				this.grid.setItem(i, ItemStack.EMPTY);
+			} else {
+				// Keep anything that didn't fit. Never delete items.
+				this.grid.setItem(i, moving);
+				inventoryFull = true;
+			}
+		}
+
+		// If the inventory cannot hold the old ingredients, do not overwrite them.
+		if (inventoryFull) {
+			return false;
+		}
+
+		// Most plentiful flower of this recipe, and how many flowers in total.
+		Item best = null;
+		int bestCount = 0;
+		int flowerTotal = 0;
+		for (Item f : flowers) {
+			int c = count(inv, f);
+			flowerTotal += c;
+			if (c > bestCount) {
+				best = f;
+				bestCount = c;
+			}
+		}
+
+		// Missing materials? Leave the grid clear so the client can show the red ghost preview.
+		if (count(inv, ingredient) < Recipes.RING.length
+				|| count(inv, Items.LAPIS_LAZULI) < LAPIS_COST
+				|| flowerTotal < 2) {
+			return false;
+		}
+
+		// Normal click = one craft. Shift-click = as many crafts as the materials and stack sizes allow.
+		int n = 1;
+		if (fillAll) {
+			n = Math.min(new ItemStack(ingredient).getMaxStackSize(), count(inv, ingredient) / Recipes.RING.length);
+			n = Math.min(n, count(inv, Items.LAPIS_LAZULI) / LAPIS_COST);
+			n = Math.min(n, new ItemStack(Items.LAPIS_LAZULI).getMaxStackSize() / LAPIS_COST);
+			if (best != null && bestCount >= 2) {
+				n = Math.min(n, Math.min(new ItemStack(best).getMaxStackSize(), bestCount / 2));
+			} else {
+				n = 1;
+			}
+			n = Math.max(n, 1);
+		}
+
+		for (int i : Recipes.RING) {
+			for (int k = 0; k < n; k++) {
+				takeOne(inv, ingredient);
+			}
+			this.grid.setItem(i, new ItemStack(ingredient, n));
+		}
+
+		// Flowers: the same flower in both slots when possible, otherwise any two of the recipe's flowers.
+		boolean same = best != null && bestCount >= 2 * n;
+		for (int i : Recipes.FLOWER_SLOTS) {
+			if (same) {
+				for (int k = 0; k < n; k++) {
+					takeOne(inv, best);
+				}
+				this.grid.setItem(i, new ItemStack(best, n));
+			} else {
+				ItemStack one = ItemStack.EMPTY;
+				for (Item f : flowers) {
+					one = takeOne(inv, f);
+					if (!one.isEmpty()) {
+						break;
+					}
+				}
+				this.grid.setItem(i, one);
+			}
+		}
+
+		for (int k = 0; k < n * LAPIS_COST; k++) {
+			takeOne(inv, Items.LAPIS_LAZULI);
+		}
+		this.grid.setItem(LAPIS, new ItemStack(Items.LAPIS_LAZULI, n * LAPIS_COST));
+		return true;
 	}
 
 	/** Item currently in the centre slot (used to animate the vanilla book on the client). */
@@ -362,6 +422,18 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 		}
 	}
 
+	/** Bottom-left / bottom-right slots: only accept flowers. */
+	private static class FlowerSlot extends Slot {
+		FlowerSlot(Container container, int index, int x, int y) {
+			super(container, index, x, y);
+		}
+
+		@Override
+		public boolean mayPlace(ItemStack stack) {
+			return Recipes.isFlower(stack.getItem());
+		}
+	}
+
 	/** Bottom-middle slot: only accepts lapis lazuli. */
 	private static class LapisSlot extends Slot {
 		LapisSlot(Container container, int index, int x, int y) {
@@ -400,14 +472,20 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 
 	// ---------------------------------------------------------------- shift-click
 
-	/** Moves a stack into the 7 ingredient slots only (never the book or lapis slot). */
+	/** Moves a stack into the 5 main-ingredient slots only (never book, flower or lapis slots). */
 	private boolean moveToIngredients(ItemStack stack) {
 		boolean moved = this.moveItemStackTo(stack, GRID_START, BOOK_SLOT, false);          // grid 0-3
 		if (!stack.isEmpty()) {
-			moved |= this.moveItemStackTo(stack, BOOK_SLOT + 1, LAPIS_SLOT, false);         // grid 5-6
+			moved |= this.moveItemStackTo(stack, BOOK_SLOT + 1, BOOK_SLOT + 2, false);      // grid 5
 		}
+		return moved;
+	}
+
+	/** Moves a flower into the two flower slots. */
+	private boolean moveToFlowers(ItemStack stack) {
+		boolean moved = this.moveItemStackTo(stack, FLOWER_L_SLOT, FLOWER_L_SLOT + 1, false);
 		if (!stack.isEmpty()) {
-			moved |= this.moveItemStackTo(stack, LAPIS_SLOT + 1, GRID_END, false);          // grid 8
+			moved |= this.moveItemStackTo(stack, FLOWER_R_SLOT, FLOWER_R_SLOT + 1, false);
 		}
 		return moved;
 	}
@@ -438,10 +516,12 @@ public class CraftEnchantMenu extends AbstractContainerMenu {
 			}
 		} else {
 			// From inventory into the grid: books -> centre only, lapis -> lapis slot only,
-			// everything else -> the 7 ingredient slots.
+			// flowers -> flower slots, everything else -> the 5 ingredient slots.
 			boolean moved;
 			if (stack.is(Items.LAPIS_LAZULI)) {
 				moved = this.moveItemStackTo(stack, LAPIS_SLOT, LAPIS_SLOT + 1, false);
+			} else if (Recipes.isFlower(stack.getItem())) {
+				moved = this.moveToFlowers(stack);
 			} else if (!Recipes.BY_INGREDIENT.containsKey(stack.getItem()) && isValidCentre(stack)) {
 				// Books and enchantable items -> centre only. (Recipe ingredients that are also
 				// enchantable, like shears, go to the ingredient slots; place those by hand.)
