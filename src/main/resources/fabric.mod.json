@@ -8,8 +8,8 @@
 	"license": "MIT",
 	"environment": "*",
 	"entrypoints": {
-		"main": ["com.example.craftenchanting.CraftEnchanting"],
-		"client": ["com.example.craftenchanting.client.CraftEnchantingClient"]
+	  "main": ["com.example.ProgressionMod"],
+	  "client": ["com.example.ProgressionModClient"]
 	},
 	"depends": {
 		"fabricloader": ">=0.19.5",

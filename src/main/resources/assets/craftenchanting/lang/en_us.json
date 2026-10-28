@@ -1,5 +1,6 @@
 {
 	"container.craftenchanting.title": "Enchanting",
 	"craftenchanting.not_enough_levels": "Not enough levels! You need %s.",
-	"craftenchanting.cost": "Cost: %s levels"
+	"craftenchanting.cost": "Cost: %s levels",
+	"container.fletching.title": "Fletching"
 }
