@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Player.class)
 public abstract class PlayerExperienceMixin {
 
-    private static final int XP_PER_LEVEL = 18;
+    private static final int XP_PER_LEVEL = 16;
 
     @Inject(method = "getXpNeededForNextLevel", at = @At("HEAD"), cancellable = true)
     private void craftEnchanting$changeXpCurve(CallbackInfoReturnable<Integer> cir) {
