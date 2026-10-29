@@ -1,21 +1,28 @@
+
 {
-	"schemaVersion": 1,
-	"id": "craftenchanting",
-	"version": "${version}",
-	"name": "Craft Enchanting",
-	"description": "Replaces the enchanting table menu with a 3x3 crafting grid. Surround a book with a recipe item to craft a specific enchantment.",
-	"authors": ["Cristopher"],
-	"license": "MIT",
-	"environment": "*",
-	"entrypoints": {
-	  "main": ["com.example.ProgressionMod"],
-	  "client": ["com.example.ProgressionModClient"]
-	},
-	"depends": {
-		"fabricloader": ">=0.19.5",
-		"minecraft": "~26.3",
-		"java": ">=25",
-		"fabric-api": "*"
-	},
-	"mixins": ["craftenchanting.mixins.json"]
+  "schemaVersion": 1,
+  "id": "honeyflavoured",
+  "version": "${version}",
+  "name": "Honey Flavoured",
+  "description": "Replaces the enchanting table menu with a 3x3 crafting grid. Surround a book with a recipe item to craft a specific enchantment.",
+  "authors": ["Cristopher"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.honeyflavoured.HoneyFlavoured"
+    ],
+    "client": [
+      "com.honeyflavoured.HoneyFlavouredClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "mixins": [
+    "honeyflavoured.mixins.json"
+  ]
 }
