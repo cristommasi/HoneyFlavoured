@@ -2,6 +2,7 @@ package com.honeyflavoured;
 
 import com.honeyflavoured.enchanting.Enchanting;
 import com.honeyflavoured.fletching.Fletching;
+import com.honeyflavoured.farming.Farming;
 
 import net.fabricmc.api.ModInitializer;
 
@@ -18,5 +19,6 @@ public class HoneyFlavoured implements ModInitializer {
 
 		Enchanting.register();
 		Fletching.register();
+		Farming.register();
 	}
 }
