@@ -311,7 +311,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
 
             String enchantmentId = Recipes.ORDERED.get(i).getValue().identifier().getPath();
 
-            this.enchantmentTextures[i] = Identifier.fromNamespaceAndPath(HoneyFlavoured.MOD_ID, "textures/gui/enchantments/" + enchantmentId + ".png");
+            this.enchantmentTextures[i] = Identifier.fromNamespaceAndPath(HoneyFlavoured.MOD_ID, "textures/gui/enchanting/enchantments/" + enchantmentId + ".png");
 
             Holder<Enchantment> holder = lookup.getOrThrow(Recipes.ORDERED.get(i).getValue());
 

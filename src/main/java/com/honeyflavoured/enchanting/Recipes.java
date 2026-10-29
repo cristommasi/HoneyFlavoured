@@ -123,7 +123,7 @@ public final class Recipes {
 			}
 			else {
 
-				System.err.println("[craftenchanting] Unknown flower item id: minecraft:" + id);
+				System.err.println("[enchanting] Unknown flower item id: minecraft:" + id);
 			}
 		}
 		FLOWERS.put(ench, list);
@@ -193,7 +193,7 @@ public final class Recipes {
 	// ---- knowledge book: unlocked recipes are stored as player tags (saved with the player, survive death)
 	private static String tagFor(Item item) {
 
-		return "craftenchanting_unlocked_" + BuiltInRegistries.ITEM.getKey(item).getPath();
+		return "enchanting_unlocked_" + BuiltInRegistries.ITEM.getKey(item).getPath();
 	}
 
 	// Entity tag methods were renamed between versions, so they are looked up by name at runtime.

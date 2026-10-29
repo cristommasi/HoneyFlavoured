@@ -14,26 +14,18 @@ import net.minecraft.world.item.Items;
 public class EnchantingRecipeToast implements Toast {
 
     private static final Identifier BACKGROUND_SPRITE = Identifier.withDefaultNamespace("toast/recipe");
-
     private static final long DISPLAY_TIME = 5000L;
-
     private static final Component TITLE_TEXT = Component.literal("New Enchantment Unlocked");
-
     private static final Component DESCRIPTION_TEXT = Component.literal("Check your recipe book");
-
     private static final int TOAST_WIDTH = 200;
     private static final int TOAST_HEIGHT = 32;
-
-    private final ItemStack craftingStation =
-            new ItemStack(Items.ENCHANTING_TABLE);
-
+    private final ItemStack craftingStation = new ItemStack(Items.ENCHANTING_TABLE);
     private final Identifier iconTexture;
-
     private long lastChanged;
     private boolean changed = true;
-
     private Toast.Visibility wantedVisibility = Toast.Visibility.HIDE;
 
+    
     public EnchantingRecipeToast(Identifier iconTexture) {
         this.iconTexture = iconTexture;
     }

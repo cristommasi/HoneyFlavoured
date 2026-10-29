@@ -75,7 +75,7 @@ public final class Enchanting {
 
 				player.openMenu(new SimpleMenuProvider(
 					(id, inv, p) -> new EnchantingMenu(id, inv, ContainerLevelAccess.create(world, pos)),
-					Component.translatable("container.craftenchanting.title")
+					Component.translatable("container.enchanting.title")
 				));
 			}
 			return InteractionResult.SUCCESS;
@@ -88,7 +88,7 @@ public final class Enchanting {
 		for (String name : new String[] {"clientboundPlay", "playS2C"}) {
 
 			try {
-				
+
 				Object registry = PayloadTypeRegistry.class.getMethod(name).invoke(null);
 				PayloadTypeRegistry.class
 					.getMethod("register", CustomPacketPayload.Type.class, StreamCodec.class)

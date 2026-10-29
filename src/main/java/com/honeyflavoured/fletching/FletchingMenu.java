@@ -20,12 +20,12 @@ import net.minecraft.world.level.block.Blocks;
  */
 public class FletchingMenu extends AbstractContainerMenu {
 	/** Slot positions (relative to the GUI's top-left). Adjust these to match your fletching_table.png. */
-	public static final int ARROW_X = 44;
-	public static final int ARROW_Y = 23;
-	public static final int POTION_X = 44;
-	public static final int POTION_Y = 44;
-	public static final int RESULT_X = 116;
-	public static final int RESULT_Y = 34;
+	public static final int ARROW_X = 63;
+	public static final int ARROW_Y = 14;
+	public static final int POTION_X = 97;
+	public static final int POTION_Y = 14;
+	public static final int RESULT_X = 80;
+	public static final int RESULT_Y = 58;
 
 	private static final int ARROW_SLOT = 0;
 	private static final int POTION_SLOT = 1;

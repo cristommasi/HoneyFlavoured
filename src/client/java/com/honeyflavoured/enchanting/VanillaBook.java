@@ -26,7 +26,7 @@ import net.minecraft.world.item.ItemStack;
  * If anything about that fails it logs once and the book is simply not drawn.
  */
 final class VanillaBook {
-	private static final Logger LOGGER = LoggerFactory.getLogger("craftenchanting");
+	private static final Logger LOGGER = LoggerFactory.getLogger("enchanting");
 	private static final long TICK_NS = 50_000_000L;
 
 	/** Set to true to try drawing the vanilla book. false = never touch vanilla's book code (no crashes). */
@@ -189,7 +189,7 @@ final class VanillaBook {
 		init.invoke(screen);
 		Field bookModel = EnchantmentScreen.class.getDeclaredField("bookModel");
 		bookModel.setAccessible(true);
-		
+
 		if (bookModel.get(screen) == null) {
 
 			throw new IllegalStateException("bookModel is still null after init()");
