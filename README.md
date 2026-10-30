@@ -1,3 +1,3 @@
-# An mc Progression Mod (Fabric Java 26.3)
+# An mc progression mod WIP
 
-Revamping the 2week playthrough with small vanilla-like tweaks
+Trying to revamp the 2week phase by adding use to all amour types, tweaks like removing RNG from enchanting, transforming it into crafting enchantments, farming fixes for hoes and crops to make use of fortune, fletching table menu, etc.
