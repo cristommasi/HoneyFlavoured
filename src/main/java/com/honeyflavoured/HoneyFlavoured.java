@@ -4,6 +4,8 @@ import com.honeyflavoured.enchanting.Enchanting;
 import com.honeyflavoured.fletching.Fletching;
 import com.honeyflavoured.farming.Farming;
 
+import com.honeyflavoured.temperature.TemperatureManager;
+
 import net.fabricmc.api.ModInitializer;
 
 /**
@@ -20,5 +22,7 @@ public class HoneyFlavoured implements ModInitializer {
 		Enchanting.register();
 		Fletching.register();
 		Farming.register();
+		
+		TemperatureManager.register();
 	}
 }
