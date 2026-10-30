@@ -1,1 +1,3 @@
-# Progression Mod (Fabric, Minecraft Java 26.3)
+# An mc Progression Mod (Fabric Java 26.3)
+
+Revamping the 2week playthrough with small vanilla-like tweaks
