@@ -1,6 +1,7 @@
 package com.honeyflavoured.fletching;
 
 import com.honeyflavoured.HoneyFlavoured;
+import com.honeyflavoured.commands.HoneyFlavouredGameRules;
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
@@ -14,6 +15,7 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.Blocks;
+
 
 /** Fletching table feature: arrows + lingering potion = tipped arrows. Call Fletching.register() once from onInitialize. */
 public final class Fletching {
@@ -32,6 +34,10 @@ public final class Fletching {
 		UseBlockCallback.EVENT.register((player, world, hand, hit) -> {
 			BlockPos pos = hit.getBlockPos();
 			if (!world.getBlockState(pos).is(Blocks.FLETCHING_TABLE) || player.isSpectator()) {
+				return InteractionResult.PASS;
+			}
+			// Gamerule honeyflavoured:fletching_table false = vanilla fletching table.
+			if (!HoneyFlavouredGameRules.enabled(world, HoneyFlavouredGameRules.FLETCHING_TABLE)) {
 				return InteractionResult.PASS;
 			}
 			// Same as vanilla: sneaking with an item in hand lets you place blocks instead.

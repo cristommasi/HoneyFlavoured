@@ -1,11 +1,10 @@
-
 {
   "schemaVersion": 1,
   "id": "honeyflavoured",
   "version": "${version}",
   "name": "Honey Flavoured",
   "description": "Replaces the enchanting table menu with a 3x3 crafting grid. Surround a book with a recipe item to craft a specific enchantment.",
-  "authors": ["Cristopher"],
+  "authors": ["cristommasi"],
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
@@ -23,6 +22,7 @@
     "fabric-api": "*"
   },
   "mixins": [
-    "honeyflavoured.mixins.json"
+    "honeyflavoured.farming.mixins.json",
+    "honeyflavoured.enchanting.mixins.json"
   ]
 }

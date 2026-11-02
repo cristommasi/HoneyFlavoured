@@ -1,5 +1,6 @@
 package com.honeyflavoured;
 
+import com.honeyflavoured.commands.HoneyFlavouredCommands;
 import com.honeyflavoured.enchanting.Enchanting;
 import com.honeyflavoured.fletching.Fletching;
 import com.honeyflavoured.farming.Farming;
@@ -14,15 +15,17 @@ import net.fabricmc.api.ModInitializer;
  */
 public class HoneyFlavoured implements ModInitializer {
 
-	public static final String MOD_ID = "honeyflavoured";
+    public static final String MOD_ID = "honeyflavoured";
 
-	@Override
-	public void onInitialize() {
+    @Override
+    public void onInitialize() {
 
-		Enchanting.register();
-		Fletching.register();
-		Farming.register();
-		
-		TemperatureManager.register();
-	}
+        HoneyFlavouredCommands.register();
+
+        Enchanting.register();
+        Fletching.register();
+        Farming.register();
+
+        TemperatureManager.register();
+    }
 }

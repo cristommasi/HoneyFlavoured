@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
+import com.honeyflavoured.commands.HoneyFlavouredGameRules;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -111,6 +113,12 @@ public final class TemperatureManager {
         boolean hotEnvironment = isHotEnvironment(player, nearEndPortal, nearNetherPortal);
         float coldProtection = protection(player, TemperatureAttributes.CALEFACTION);
 
+        // Gamerules: when cold / hot damage is off, that side is wiped completely.
+        boolean coldRule = HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.COLD_DAMAGE);
+        boolean hotRule = HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.HOT_DAMAGE);
+        if (!coldRule) { coldEnvironment = false; data.coldExposure = 0.0F; }
+        if (!hotRule) { hotEnvironment = false; data.hotExposure = 0.0F; }
+
         // Entering a cold / hot area does nothing until you have stayed there for a while.
         int delay = TemperatureConfig.ENVIRONMENT_ENTRY_DELAY_TICKS;
         data.coldEnterTicks = coldEnvironment ? Math.min(data.coldEnterTicks + 1, delay + 1) : 0;
@@ -138,10 +146,10 @@ public final class TemperatureManager {
         if (coldActive && player.isInWater() && coldProtection < 1.0F) data.coldExposure = 1.0F;
 
         // Powder snow does the same, in any biome, and ignores the entry delay like vanilla does.
-        if (player.isInPowderSnow && coldProtection < 1.0F) data.coldExposure = 1.0F;
+        if (coldRule && player.isInPowderSnow && coldProtection < 1.0F) data.coldExposure = 1.0F;
 
         // Being in lava instantly heats all hearts.
-        if (player.isInLava()) data.hotExposure = 1.0F;
+        if (hotRule && player.isInLava()) data.hotExposure = 1.0F;
 
 
         // Count coloured hearts against maximum health, not current health.
@@ -296,6 +304,15 @@ public final class TemperatureManager {
     public static float getHotExposure(Player player) {
         TemperatureData data = DATA.get(player);
         return data == null ? 0.0F : data.hotExposure;
+    }
+
+    /** Used by the /honeyflavoured temperature command: sets the filled amount (0 to 1) of both bars. */
+    public static void setExposure(ServerPlayer player, float cold, float hot) {
+        TemperatureData data = DATA.computeIfAbsent(player, p -> new TemperatureData());
+        data.coldExposure = Mth.clamp(cold, 0.0F, 1.0F);
+        data.hotExposure = Mth.clamp(hot, 0.0F, 1.0F);
+        data.damageTimer = 0;
+        sync(player, data);
     }
 
     public static void applyHeatEffect(Player player) {

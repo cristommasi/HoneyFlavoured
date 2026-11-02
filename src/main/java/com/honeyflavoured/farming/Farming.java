@@ -1,7 +1,8 @@
-
 package com.honeyflavoured.farming;
 
 import java.util.List;
+
+import com.honeyflavoured.commands.HoneyFlavouredGameRules;
 
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.core.Holder;
@@ -31,6 +32,11 @@ public final class Farming {
         BlockState state = context.getOptional(LootContextParams.BLOCK_STATE);
 
         if (state == null || drops.isEmpty()) {
+            return;
+        }
+
+        // Gamerule honeyflavoured:farming_changes false = vanilla crop drops.
+        if (!HoneyFlavouredGameRules.enabled(context.getLevel(), HoneyFlavouredGameRules.FARMING_CHANGES)) {
             return;
         }
 

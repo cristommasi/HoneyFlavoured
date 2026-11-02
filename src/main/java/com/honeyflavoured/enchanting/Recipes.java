@@ -228,6 +228,28 @@ public final class Recipes {
 		}
 	}
 
+	private static void removeTag(Entity entity, String tag) {
+		try {
+			Entity.class.getMethod("removeTag", String.class).invoke(entity, tag);
+		} catch (ReflectiveOperationException e) {
+			throw new IllegalStateException("No removeTag(String) found on Entity", e);
+		}
+	}
+
+	/** Used by the commands. Returns true if something changed. */
+	public static boolean setUnlocked(ServerPlayer player, int index, boolean unlocked, boolean toast) {
+		String tag = tagFor(ORDERED.get(index).getKey());
+		boolean has = tagsOf(player).contains(tag);
+		if (has == unlocked) return false;
+		if (unlocked) {
+			addTag(player, tag);
+			if (toast) ServerPlayNetworking.send(player, new UnlockPayload(index));
+		} else {
+			removeTag(player, tag);
+		}
+		return true;
+	}
+
 	public static boolean isUnlocked(ServerPlayer player, int index) {
 		return tagsOf(player).contains(tagFor(ORDERED.get(index).getKey()));
 	}

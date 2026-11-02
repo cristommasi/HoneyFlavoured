@@ -1,5 +1,7 @@
 package com.honeyflavoured.enchanting;
 
+import com.honeyflavoured.commands.HoneyFlavouredGameRules;
+
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -63,6 +65,11 @@ public final class Enchanting {
 				return InteractionResult.PASS;
 			}
 			if (player.isSpectator()) {
+
+				return InteractionResult.PASS;
+			}
+			// Gamerule honeyflavoured:modded_enchanting false = vanilla enchanting table.
+			if (!HoneyFlavouredGameRules.enabled(world, HoneyFlavouredGameRules.MODDED_ENCHANTING)) {
 
 				return InteractionResult.PASS;
 			}

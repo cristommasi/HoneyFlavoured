@@ -1,4 +1,6 @@
-package com.honeyflavoured.mixin;
+package com.honeyflavoured.farming.mixin;
+
+import com.honeyflavoured.commands.HoneyFlavouredGameRules;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -33,6 +35,11 @@ public abstract class FarmingMixin {
 
     @Inject(method = "getDestroyProgress", at = @At("HEAD"), cancellable = true, require = 1)
     private void honeyflavoured$changeCropBreakingSpeed(Player player, BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
+
+        // Gamerule honeyflavoured:farming_changes false = vanilla crop breaking.
+        if (!HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.FARMING_CHANGES)) {
+            return;
+        }
 
         BlockState state = (BlockState) (Object) this;
         Block block = state.getBlock();

@@ -1,4 +1,6 @@
-package com.honeyflavoured.mixin;
+package com.honeyflavoured.enchanting.mixin;
+
+import com.honeyflavoured.commands.HoneyFlavouredGameRules;
 
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +15,13 @@ public abstract class PlayerExperienceMixin {
 
     @Inject(method = "getXpNeededForNextLevel", at = @At("HEAD"), cancellable = true)
     private void HoneyFlavoured$changeXpCurve(CallbackInfoReturnable<Integer> cir) {
-        
+        Player self = (Player) (Object) this;
+
+        // Gamerule honeyflavoured:modded_xp false = vanilla XP curve.
+        if (!HoneyFlavouredGameRules.enabled(self.level(), HoneyFlavouredGameRules.MODDED_XP)) {
+            return;
+        }
+
         cir.setReturnValue(XP_PER_LEVEL);
     }
 

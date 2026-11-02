@@ -1,11 +1,9 @@
-
 {
   "required": true,
-  "package": "com.honeyflavoured.mixin",
+  "package": "com.honeyflavoured.enchanting.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "PlayerExperienceMixin",
-    "FarmingMixin"
+    "PlayerExperienceMixin"
   ],
   "injectors": {
     "defaultRequire": 1
