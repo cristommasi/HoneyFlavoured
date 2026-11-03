@@ -42,7 +42,7 @@ public final class TemperatureManager {
     /* Biomes that make you cold. The whole End dimension counts too. */
     private static final Set<ResourceKey<Biome>> COLD_BIOMES = Set.of(
         Biomes.THE_END, Biomes.SMALL_END_ISLANDS, Biomes.END_MIDLANDS, Biomes.END_HIGHLANDS, Biomes.END_BARRENS,
-        Biomes.ICE_SPIKES, Biomes.SNOWY_PLAINS, Biomes.SNOWY_BEACH, Biomes.FROZEN_RIVER, Biomes.RIVER,
+        Biomes.ICE_SPIKES, Biomes.SNOWY_PLAINS, Biomes.SNOWY_BEACH, Biomes.FROZEN_RIVER,
         Biomes.SNOWY_TAIGA, Biomes.SNOWY_SLOPES, Biomes.GROVE, Biomes.FROZEN_PEAKS, Biomes.JAGGED_PEAKS,
         Biomes.DEEP_FROZEN_OCEAN, Biomes.FROZEN_OCEAN
     );
