@@ -36,3 +36,16 @@ public final class HoneyFlavouredGameRules {
         return !(level instanceof ServerLevel server) || server.getGameRules().get(rule);
     }
 }
+
+/*
+/damage x 0 honeyflavoured:freeze
+/damage x 0 honeyflavoured:burn
+/effect give x honeyflavoured:grace_period 255 true
+/gamerule honeyflavoured:doFreezeDamage true
+/gamerule honeyflavoured:doBurnDamage true
+/gamerule honeyflavoured:useSlowFarmingSpeed true
+/gamerule honeyflavoured:useHoeFortuneDrops true
+/gamerule honeyflavoured:useFletchingTable true
+/gamerule honeyflavoured:useEnchantingTable true
+/gamerule honeyflavoured:useNewXpCurve true
+*/

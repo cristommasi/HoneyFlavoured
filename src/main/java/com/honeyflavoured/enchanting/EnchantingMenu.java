@@ -79,6 +79,8 @@ public class EnchantingMenu extends AbstractContainerMenu {
 	};
 	private final SimpleContainer resultContainer = new SimpleContainer(1);
 	private final DataSlot cost = DataSlot.standalone();
+	/** Player level needed to enchant this item (depends on the item's material). 0 = no result. Synced to the client. */
+	private final DataSlot required = DataSlot.standalone();
 
 	/** Client-side constructor (used by the MenuType). */
 	public EnchantingMenu(int containerId, Inventory inventory) {
@@ -124,6 +126,7 @@ public class EnchantingMenu extends AbstractContainerMenu {
 		}
 
 		this.addDataSlot(this.cost);
+		this.addDataSlot(this.required);
 		for (DataSlot d : this.unlocked) {
 			this.addDataSlot(d);
 		}
@@ -134,6 +137,11 @@ public class EnchantingMenu extends AbstractContainerMenu {
 	/** XP levels the current result costs (0 = no result). Synced to the client. */
 	public int getCost() {
 		return this.cost.get();
+	}
+
+	/** Player level you must have reached to take the result (0 = no result). Synced to the client. */
+	public int getRequiredLevel() {
+		return this.required.get();
 	}
 
 	// ---------------------------------------------------------------- knowledge book
@@ -328,6 +336,7 @@ public class EnchantingMenu extends AbstractContainerMenu {
 		this.access.execute((level, pos) -> {
 			ItemStack out = ItemStack.EMPTY;
 			int newCost = 0;
+				int newRequired = 0;
 
 			ItemStack centre = this.grid.getItem(BOOK);
 			ItemStack lapis = this.grid.getItem(LAPIS);
@@ -376,17 +385,21 @@ public class EnchantingMenu extends AbstractContainerMenu {
 						out = centre.copyWithCount(1);
 						out.set(DataComponents.ENCHANTMENTS, mutable.toImmutable());
 					}
-					newCost = Recipes.costFor(key.get(), newLevel);
+					// 1 to 3 real levels, depending on how high this enchantment goes. You also need a minimum level for the item.
+						newCost = EnchantLevels.xpCost(max, newLevel);
+						newRequired = EnchantLevels.requiredLevel(centre);
 				}
 			}
 
 			this.resultContainer.setItem(0, out);
 			this.cost.set(newCost);
+				this.required.set(newRequired);
 		});
 	}
 
 	private boolean canAfford(Player player) {
-		return player.hasInfiniteMaterials() || player.experienceLevel >= this.cost.get();
+		return player.hasInfiniteMaterials()
+				|| (player.experienceLevel >= this.cost.get() && player.experienceLevel >= this.required.get());
 	}
 
 	/** Called after the player takes the result: charge XP, use up one of each input and the lapis. */

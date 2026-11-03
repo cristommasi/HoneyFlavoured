@@ -1,0 +1,116 @@
+{
+  "values": [
+    {
+      "id": "minecraft:brush",
+      "required": false
+    },
+    {
+      "id": "minecraft:flint_and_steel",
+      "required": false
+    },
+    {
+      "id": "minecraft:carrot_on_a_stick",
+      "required": false
+    },
+    {
+      "id": "minecraft:warped_fungus_on_a_stick",
+      "required": false
+    },
+    {
+      "id": "minecraft:fishing_rod",
+      "required": false
+    },
+    {
+      "id": "minecraft:bow",
+      "required": false
+    },
+    {
+      "id": "minecraft:crossbow",
+      "required": false
+    },
+    {
+      "id": "minecraft:shield",
+      "required": false
+    },
+    {
+      "id": "minecraft:trident",
+      "required": false
+    },
+    {
+      "id": "minecraft:mace",
+      "required": false
+    },
+    {
+      "id": "minecraft:turtle_helmet",
+      "required": false
+    },
+    {
+      "id": "minecraft:elytra",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_helmet",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_chestplate",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_leggings",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_boots",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_sword",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_pickaxe",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_axe",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_shovel",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_hoe",
+      "required": false
+    },
+    {
+      "id": "minecraft:wooden_spear",
+      "required": false
+    },
+    {
+      "id": "minecraft:stone_spear",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_spear",
+      "required": false
+    },
+    {
+      "id": "minecraft:iron_spear",
+      "required": false
+    },
+    {
+      "id": "minecraft:golden_spear",
+      "required": false
+    },
+    {
+      "id": "minecraft:diamond_spear",
+      "required": false
+    },
+    {
+      "id": "minecraft:netherite_spear",
+      "required": false
+    }
+  ]
+}

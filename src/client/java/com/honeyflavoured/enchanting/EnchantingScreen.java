@@ -944,25 +944,35 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         // 3. Vanilla enchanting-table book (left side). It opens when the centre slot holds an item.
         VanillaBook.draw(graphics, this.leftPos, this.topPos, delta, this.menu.getCentreItem());
 
-        // 4. XP orb + level number, centred under the result slot (orb to the left, number to its right).
+        // 4. XP orb + levels it costs, centred under the result slot. The level you must be at sits on the
+        //    top-left corner of the result slot frame (26x26, starting 5px up/left of the item).
         int cost = this.menu.getCost();
+        int required = this.menu.getRequiredLevel();
 
         if (cost > 0 && this.minecraft != null && this.minecraft.player != null) {
 
-            boolean affordable = this.minecraft.player.hasInfiniteMaterials() || this.minecraft.player.experienceLevel >= cost;
+            boolean creative = this.minecraft.player.hasInfiniteMaterials();
+            int level = this.minecraft.player.experienceLevel;
+            boolean canPay = creative || level >= cost;
+            boolean levelOk = creative || level >= required;
 
-            int[] orb = sizeOf(affordable ? "xp_orb.png" : "xp_orb_disabled.png", 16, 16);
+            int frameX = this.leftPos + RESULT_X - RESULT_BOX_PAD;
+            int frameY = this.topPos + RESULT_Y - RESULT_BOX_PAD;
 
+            // Orb + cost, centred under the result slot.
+            int[] orb = sizeOf(canPay ? "xp_orb.png" : "xp_orb_disabled.png", 16, 16);
             Component number = Component.literal(String.valueOf(cost));
-
-            int numberW = this.font.width(number);
-            int totalW = orb[0] + COST_GAP + numberW;
+            int totalW = orb[0] + COST_GAP + this.font.width(number);
             int slotCentreX = this.leftPos + RESULT_X + RESULT_SIZE / 2;
             int x = slotCentreX - totalW / 2;
             int y = this.topPos + RESULT_Y + RESULT_SIZE + COST_BELOW_SLOT + 2;
 
-            graphics.blit(RenderPipelines.GUI_TEXTURED, affordable ? ORB : ORB_DISABLED, x, y, 0.0F, 0.0F, orb[0], orb[1], orb[0], orb[1]);
-            graphics.text(this.font, number, x + orb[0] + COST_GAP - 2, y + (orb[1] - 8) / 2, affordable ? COST_GREEN : COST_RED, true);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, canPay ? ORB : ORB_DISABLED, x, y, 0.0F, 0.0F, orb[0], orb[1], orb[0], orb[1]);
+            graphics.text(this.font, number, x + orb[0] + COST_GAP - 2, y + (orb[1] - 8) / 2, canPay ? COST_GREEN : COST_RED, true);
+
+            // Top-left corner: required level, centred on the corner. Green when you are at that level, red when not.
+            Component req = Component.literal(String.valueOf(required));
+            graphics.text(this.font, req, frameX - this.font.width(req) / 2, frameY - 4, levelOk ? COST_GREEN : COST_RED, true);
         }
 
 

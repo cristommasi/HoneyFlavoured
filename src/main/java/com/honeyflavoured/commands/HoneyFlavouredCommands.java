@@ -24,8 +24,8 @@ public final class HoneyFlavouredCommands {
                 .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                 .then(EnchantingCommand.build())
                 .then(TemperatureCommand.build())
-                // .then(FletchingCommand.build())   <- future features go here
             )
         );
     }
 }
+

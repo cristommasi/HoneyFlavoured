@@ -70,6 +70,7 @@ public final class TemperatureManager {
     public static void register() {
         TemperatureAttributes.register();
         TemperatureArmor.register();
+        TemperatureGrace.register();
 
         PayloadTypeRegistry.clientboundPlay().register(TemperaturePayload.TYPE, TemperaturePayload.CODEC);
 
@@ -114,8 +115,10 @@ public final class TemperatureManager {
         float coldProtection = protection(player, TemperatureAttributes.CALEFACTION);
 
         // Gamerules: when cold / hot damage is off, that side is wiped completely.
-        boolean coldRule = HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.COLD_DAMAGE);
-        boolean hotRule = HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.HOT_DAMAGE);
+        // The grace period effect switches both off for as long as it lasts.
+        boolean grace = TemperatureGrace.has(player);
+        boolean coldRule = HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.COLD_DAMAGE) && !grace;
+        boolean hotRule = HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.HOT_DAMAGE) && !grace;
         if (!coldRule) { coldEnvironment = false; data.coldExposure = 0.0F; }
         if (!hotRule) { hotEnvironment = false; data.hotExposure = 0.0F; }
 
