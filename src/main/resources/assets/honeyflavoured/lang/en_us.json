@@ -5,5 +5,5 @@
 	"container.fletching.title": "Fletching",
 	"attribute.name.honeyflavoured.calefaction": "Calefaction",
    "attribute.name.honeyflavoured.sweltering": "Sweltering",
-   "effect.honeyflavoured.temperature.grace_period": "Grace Period"
+   "effect.honeyflavoured.grace_period": "Grace Period"
 }

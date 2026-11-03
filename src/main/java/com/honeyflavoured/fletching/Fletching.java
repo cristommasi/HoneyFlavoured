@@ -1,7 +1,7 @@
 package com.honeyflavoured.fletching;
 
 import com.honeyflavoured.HoneyFlavoured;
-import com.honeyflavoured.commands.HoneyFlavouredGameRules;
+import com.honeyflavoured.commands.HoneyFlavouredCommands;
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
@@ -37,7 +37,7 @@ public final class Fletching {
 				return InteractionResult.PASS;
 			}
 			// Gamerule honeyflavoured:fletching_table false = vanilla fletching table.
-			if (!HoneyFlavouredGameRules.enabled(world, HoneyFlavouredGameRules.FLETCHING_TABLE)) {
+			if (!HoneyFlavouredCommands.enabled(world, HoneyFlavouredCommands.USE_FLETCHING_TABLE)) {
 				return InteractionResult.PASS;
 			}
 			// Same as vanilla: sneaking with an item in hand lets you place blocks instead.

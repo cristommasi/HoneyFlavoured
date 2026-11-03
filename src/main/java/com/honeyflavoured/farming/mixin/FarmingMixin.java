@@ -1,6 +1,6 @@
 package com.honeyflavoured.farming.mixin;
 
-import com.honeyflavoured.commands.HoneyFlavouredGameRules;
+import com.honeyflavoured.commands.HoneyFlavouredCommands;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -37,7 +37,7 @@ public abstract class FarmingMixin {
     private void honeyflavoured$changeCropBreakingSpeed(Player player, BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
 
         // Gamerule honeyflavoured:farming_changes false = vanilla crop breaking.
-        if (!HoneyFlavouredGameRules.enabled(player.level(), HoneyFlavouredGameRules.FARMING_CHANGES)) {
+        if (!HoneyFlavouredCommands.enabled(player.level(), HoneyFlavouredCommands.USE_SLOW_FARMING_SPEED)) {
             return;
         }
 

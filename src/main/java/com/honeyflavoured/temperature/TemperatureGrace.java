@@ -33,7 +33,7 @@ public final class TemperatureGrace {
     public static void register() {
         EFFECT = Registry.registerForHolder(
             BuiltInRegistries.MOB_EFFECT,
-            Identifier.fromNamespaceAndPath("honeyflavoured", "temperature/grace_period"),
+            Identifier.fromNamespaceAndPath("honeyflavoured", "grace_period"),
             new MobEffect(MobEffectCategory.BENEFICIAL, 0xF2C94C) {}
         );
 

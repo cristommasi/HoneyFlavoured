@@ -23,7 +23,8 @@
   },
   "mixins": [
     "honeyflavoured.farming.mixins.json",
-    "honeyflavoured.enchanting.mixins.json"
+    "honeyflavoured.enchanting.mixins.json",
+    "honeyflavoured.bundles.mixins.json"
   ]
 }
 

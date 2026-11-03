@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.honeyflavoured.bundles.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "BundleContentsMixin",
+    "BundleContentsMutableMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

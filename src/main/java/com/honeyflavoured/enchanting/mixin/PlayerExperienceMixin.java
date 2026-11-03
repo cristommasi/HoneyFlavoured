@@ -1,6 +1,6 @@
 package com.honeyflavoured.enchanting.mixin;
 
-import com.honeyflavoured.commands.HoneyFlavouredGameRules;
+import com.honeyflavoured.commands.HoneyFlavouredCommands;
 
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ public abstract class PlayerExperienceMixin {
         Player self = (Player) (Object) this;
 
         // Gamerule honeyflavoured:modded_xp false = vanilla XP curve.
-        if (!HoneyFlavouredGameRules.enabled(self.level(), HoneyFlavouredGameRules.MODDED_XP)) {
+        if (!HoneyFlavouredCommands.enabled(self.level(), HoneyFlavouredCommands.USE_NEW_XP_CURVE)) {
             return;
         }
 

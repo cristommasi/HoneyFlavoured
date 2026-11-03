@@ -1,6 +1,6 @@
 package com.honeyflavoured.enchanting;
 
-import com.honeyflavoured.commands.HoneyFlavouredGameRules;
+import com.honeyflavoured.commands.HoneyFlavouredCommands;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -69,7 +69,7 @@ public final class Enchanting {
 				return InteractionResult.PASS;
 			}
 			// Gamerule honeyflavoured:modded_enchanting false = vanilla enchanting table.
-			if (!HoneyFlavouredGameRules.enabled(world, HoneyFlavouredGameRules.MODDED_ENCHANTING)) {
+			if (!HoneyFlavouredCommands.enabled(world, HoneyFlavouredCommands.USE_ENCHANTING_TABLE)) {
 
 				return InteractionResult.PASS;
 			}
