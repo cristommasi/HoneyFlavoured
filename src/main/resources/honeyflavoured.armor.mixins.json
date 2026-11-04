@@ -1,0 +1,11 @@
+{
+    "required": true,
+    "package": "com.honeyflavoured.armor.mixin",
+    "compatibilityLevel": "JAVA_25",
+    "mixins": [
+        "ArmorMaterialMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

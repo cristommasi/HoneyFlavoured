@@ -24,7 +24,9 @@
   "mixins": [
     "honeyflavoured.farming.mixins.json",
     "honeyflavoured.enchanting.mixins.json",
-    "honeyflavoured.bundles.mixins.json"
+    "honeyflavoured.bundles.mixins.json",
+    "honeyflavoured.tools.mixins.json",
+    "honeyflavoured.armor.mixins.json"
   ]
 }
 

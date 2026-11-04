@@ -17,28 +17,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BundleContents.class)
 public abstract class BundleContentsMixin {
 
-    private static final Fraction STACKABLE =
-        Fraction.getFraction(1, 64);
+    private static final Fraction STACKABLE = Fraction.getFraction(1, 64);
 
-    private static final Fraction UNSTACKABLE =
-        Fraction.getFraction(1, 8);
+    private static final Fraction UNSTACKABLE = Fraction.getFraction(1, 8);
 
-    @Inject(
-        method = "getWeight(Lnet/minecraft/world/item/ItemInstance;)Lcom/mojang/serialization/DataResult;",
-        at = @At("RETURN"),
-        cancellable = true
-    )
-    private static void honeyflavoured$bundleWeight(
-        ItemInstance item,
-        CallbackInfoReturnable<DataResult<Fraction>> cir
-    ) {
+    @Inject(method = "getWeight(Lnet/minecraft/world/item/ItemInstance;)Lcom/mojang/serialization/DataResult;", at = @At("RETURN"), cancellable = true)
+    private static void honeyflavoured$bundleWeight(ItemInstance item, CallbackInfoReturnable<DataResult<Fraction>> cir) {
+
         if (!Bundles.enabled) {
             return;
         }
 
-        Fraction weight = item.getMaxStackSize() == 1
-            ? UNSTACKABLE
-            : STACKABLE;
+        Fraction weight = item.getMaxStackSize() == 1 ? UNSTACKABLE : STACKABLE;
 
         cir.setReturnValue(DataResult.success(weight));
     }
