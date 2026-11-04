@@ -1,0 +1,25 @@
+{
+  "anvil_cost": 8,
+  "description": {
+    "translate": "enchantment.honeyflavoured.tunneling"
+  },
+  "exclusive_set": [
+    "minecraft:fortune",
+    "minecraft:efficiency"
+  ],
+  "max_cost": {
+    "base": 65,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 0
+  },
+  "primary_items": "#honeyflavoured:enchantable/tunneling",
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#honeyflavoured:enchantable/tunneling",
+  "weight": 1
+}

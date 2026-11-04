@@ -15,6 +15,8 @@ import net.minecraft.world.level.gamerules.GameRuleCategory;
 public final class HoneyFlavouredCommands {
     private HoneyFlavouredCommands() {}
 
+    public static final GameRule<Boolean> USE_LAVA_BREATHING =
+        registerRule("use_lava_breathing");
     // Gamerules: all enabled by default.
     public static final GameRule<Boolean> DO_FREEZE_DAMAGE =
         registerRule("do_freeze_damage");
@@ -39,6 +41,9 @@ public final class HoneyFlavouredCommands {
 
     public static final GameRule<Boolean> USE_BUNDLES =
         registerRule("use_bundles");
+
+    public static final GameRule<Boolean> USE_NEW_ENCHANTMENTS =
+        registerRule("use_new_enchantments");
 
     private static GameRule<Boolean> registerRule(String name) {
         return GameRuleBuilder.forBoolean(true)
@@ -87,6 +92,7 @@ public final class HoneyFlavouredCommands {
                                         + "/recipe take <targets> honeyflavoured:*\n\n"
 
                                         + "Gamerules:\n"
+                                        + "/gamerule honeyflavoured:use_lava_breathing <true|false>\n"
                                         + "/gamerule honeyflavoured:do_freeze_damage <true|false>\n"
                                         + "/gamerule honeyflavoured:do_burn_damage <true|false>\n"
                                         + "/gamerule honeyflavoured:use_slow_farming_speed <true|false>\n"
@@ -94,7 +100,8 @@ public final class HoneyFlavouredCommands {
                                         + "/gamerule honeyflavoured:use_fletching_table <true|false>\n"
                                         + "/gamerule honeyflavoured:use_enchanting_table <true|false>\n"
                                         + "/gamerule honeyflavoured:use_new_xp_curve <true|false>\n"
-                                        + "/gamerule honeyflavoured:use_bundles <true|false>"
+                                        + "/gamerule honeyflavoured:use_bundles <true|false>\n"
+                                        + "/gamerule honeyflavoured:use_new_enchantments <true|false>"
                                     ),
                                     false
                                 );

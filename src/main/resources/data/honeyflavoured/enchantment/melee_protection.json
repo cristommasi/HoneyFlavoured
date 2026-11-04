@@ -1,0 +1,65 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.honeyflavoured.melee_protection"
+  },
+  "effects": {
+    "minecraft:damage_protection": [
+      {
+        "effect": {
+          "type": "minecraft:add",
+          "value": {
+            "type": "minecraft:linear",
+            "base": 1.5,
+            "per_level_above_first": 1.5
+          }
+        },
+        "requirements": {
+          "type": "minecraft:all_of",
+          "terms": [
+            {
+              "type": "minecraft:damage_source_properties",
+              "predicate": {
+                "is_direct": true,
+                "tags": [
+                  {
+                    "expected": false,
+                    "id": "#minecraft:is_projectile"
+                  },
+                  {
+                    "expected": false,
+                    "id": "#minecraft:is_explosion"
+                  },
+                  {
+                    "expected": false,
+                    "id": "#minecraft:bypasses_invulnerability"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "minecraft:entity_properties",
+              "entity": "attacker",
+              "predicate": {}
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#minecraft:exclusive_set/armor",
+  "max_cost": {
+    "base": 12,
+    "per_level_above_first": 11
+  },
+  "max_level": 5,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 11
+  },
+  "slots": [
+    "armor"
+  ],
+  "supported_items": "#minecraft:enchantable/armor",
+  "weight": 5
+}

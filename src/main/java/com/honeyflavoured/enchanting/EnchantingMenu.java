@@ -26,6 +26,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Blocks;
+import com.honeyflavoured.enchantments.NewEnchantments;
 
 /**
  * Enchanting table menu that works like a crafting table.
@@ -366,6 +367,9 @@ public class EnchantingMenu extends AbstractContainerMenu {
 							allowed = false;
 							break;
 						}
+					}
+					if (NewEnchantments.tooManyProtections(existing, holder)) {
+						allowed = false;
 					}
 				}
 

@@ -2,6 +2,7 @@ package com.honeyflavoured;
 
 import com.honeyflavoured.commands.HoneyFlavouredCommands;
 import com.honeyflavoured.enchanting.Enchanting;
+import com.honeyflavoured.enchantments.NewEnchantments;
 import com.honeyflavoured.fletching.Fletching;
 import com.honeyflavoured.farming.Farming;
 
@@ -25,7 +26,7 @@ public class HoneyFlavoured implements ModInitializer {
         Enchanting.register();
         Fletching.register();
         Farming.register();
-
+        NewEnchantments.register();
         TemperatureManager.register();
     }
 }

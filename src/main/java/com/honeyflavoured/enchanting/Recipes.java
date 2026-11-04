@@ -26,6 +26,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.resources.ResourceKey;
+import com.honeyflavoured.enchantments.NewEnchantments;
 
 /**
  * The enchanting recipes. 3x3 grid:
@@ -57,15 +58,17 @@ public final class Recipes {
 		r(Items.FEATHER, Enchantments.FEATHER_FALLING),
 		r(Items.ARMADILLO_SCUTE, Enchantments.FIRE_PROTECTION),
 		r(Items.SNOWBALL, Enchantments.FROST_WALKER),
-		r(Items.PHANTOM_MEMBRANE, Enchantments.PROTECTION),
+		r(Items.TUFF, NewEnchantments.MELEE_PROTECTION),
 		r(Items.TURTLE_SCUTE, Enchantments.RESPIRATION),
 		r(Items.SOUL_SOIL, Enchantments.SOUL_SPEED),
 		r(Items.CACTUS, Enchantments.THORNS),
 		r(Items.ECHO_SHARD, Enchantments.SWIFT_SNEAK),
 		r(Items.ARROW, Enchantments.PROJECTILE_PROTECTION),
+		r(Items.OBSIDIAN, NewEnchantments.IGNEOUS_STRIDER),
 
 		// Melee weapons
-		r(Items.STRING, Enchantments.BANE_OF_ARTHROPODS),
+		r(Items.PORKCHOP, NewEnchantments.PORCINE_GRACE),
+		r(Items.STRING, NewEnchantments.BANE_OF_POLYPODS),
 		r(Items.GOAT_HORN, Enchantments.BREACH),
 		r(Items.ANCIENT_DEBRIS, Enchantments.DENSITY),
 		r(Items.AMETHYST_SHARD, Enchantments.EFFICIENCY),
@@ -96,7 +99,8 @@ public final class Recipes {
 		r(Items.ENCHANTED_GOLDEN_APPLE, Enchantments.FORTUNE),
 		r(Items.HEART_OF_THE_SEA, Enchantments.LUCK_OF_THE_SEA),
 		r(Items.CLOCK, Enchantments.LURE),
-		r(Items.COBWEB, Enchantments.SILK_TOUCH)
+		r(Items.COBWEB, Enchantments.SILK_TOUCH),
+		r(Items.SULFUR_SPIKE, NewEnchantments.TUNNELING)
 	);
 
 	/** All recipes in a fixed order (by ingredient id). Index = bit used for "unlocked" syncing. */
@@ -132,14 +136,15 @@ public final class Recipes {
 
 	static {
 		f(Enchantments.MENDING, "wither_rose");
-		f(Enchantments.SHARPNESS, "open_eyeblossom");
+		f(NewEnchantments.PORCINE_GRACE, "open_eyeblossom");
 		f(Enchantments.UNBREAKING, "vine");
 		f(Enchantments.INFINITY, "firefly_bush");
 		f(Enchantments.LOOTING, "golden_dandelion");
-		f(Enchantments.PROTECTION, "chorus_flower");
+		f(NewEnchantments.MELEE_PROTECTION, "chorus_flower");
 		f(Enchantments.POWER, "sunflower");
 		f(Enchantments.EFFICIENCY, "allium");
 		f(Enchantments.SILK_TOUCH, "oxeye_daisy");
+		f(NewEnchantments.TUNNELING, "flowering_azaela");
 		f(Enchantments.FORTUNE, "wildflowers");
 		f(Enchantments.SMITE, "poppy");
 		f(Enchantments.QUICK_CHARGE, "peony");
@@ -147,21 +152,20 @@ public final class Recipes {
 		f(Enchantments.FEATHER_FALLING, "blue_orchid");
 		f(Enchantments.BLAST_PROTECTION, "red_tulip", "orange_tulip", "white_tulip", "pink_tulip");
 		f(Enchantments.PROJECTILE_PROTECTION, "dandelion");
-		f(Enchantments.BANE_OF_ARTHROPODS, "azure_bluet");
+		f(NewEnchantments.BANE_OF_POLYPODS, "azure_bluet");
 		f(Enchantments.SWEEPING_EDGE, "lily_of_the_valley");
 		f(Enchantments.AQUA_AFFINITY, "fire_coral");
 		f(Enchantments.RESPIRATION, "tube_coral");
 		f(Enchantments.CHANNELING, "horn_coral");
 		f(Enchantments.DEPTH_STRIDER, "brain_coral");
+		f(NewEnchantments.IGNEOUS_STRIDER, "dead_brain_coral");
 		f(Enchantments.LOYALTY, "kelp");
 		f(Enchantments.RIPTIDE, "mangrove_propagule");
 		f(Enchantments.LURE, "lily_pad");
 		f(Enchantments.LUCK_OF_THE_SEA, "sea_pickle");
 		f(Enchantments.FROST_WALKER, "fern");
 		f(Enchantments.SWIFT_SNEAK, "pitcher_plant");
-		f(Enchantments.IMPALING,
-			"dead_tube_coral", "dead_brain_coral", "dead_bubble_coral", "dead_fire_coral", "dead_horn_coral",
-			"dead_tube_coral_fan", "dead_brain_coral_fan", "dead_bubble_coral_fan", "dead_fire_coral_fan", "dead_horn_coral_fan");
+		f(Enchantments.IMPALING, "brown_mushroom");
 		f(Enchantments.FLAME, "twisting_vines");
 		f(Enchantments.FIRE_PROTECTION, "rose_bush");
 		f(Enchantments.FIRE_ASPECT, "weeping_vines");
