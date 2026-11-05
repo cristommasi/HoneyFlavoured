@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 public final class LavaBreathingHud {
     private LavaBreathingHud() {}
 
-    private static final String DIR = "textures/gui/enchantments/container/";   // <- the folder your 3 files are in
+    private static final String DIR = "textures/gui/enchantments/container/";
     private static final Identifier AIR = tex("lava_air");
     private static final Identifier EMPTY = tex("lava_air_empty");
     private static final Identifier BURSTING = tex("lava_air_bursting");

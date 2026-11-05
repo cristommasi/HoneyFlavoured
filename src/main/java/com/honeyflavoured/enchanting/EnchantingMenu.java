@@ -378,6 +378,14 @@ public class EnchantingMenu extends AbstractContainerMenu {
 				// Already has this enchant -> one level higher. Otherwise the default (level I).
 				int newLevel = current > 0 ? current + 1 : 1;
 
+				if (!book && NewEnchantments.fireProtectionVNeedsGold(holder, newLevel, centre)) {
+					allowed = false;
+				}
+
+				if (!book && NewEnchantments.respirationIVNeedsHelmet(holder, newLevel, centre)) {
+					allowed = false;
+				}
+				
 				if (allowed && newLevel <= max) {
 					ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(existing);
 					mutable.set(holder, newLevel);

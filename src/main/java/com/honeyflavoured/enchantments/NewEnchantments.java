@@ -19,6 +19,9 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
 
 /**
  * The mod's own enchantments. Their stats are in data/honeyflavoured/enchantment/*.json.
@@ -41,6 +44,11 @@ public final class NewEnchantments {
 
     /** An armour piece can carry at most this many different protection enchantments. */
     public static final int MAX_PROTECTIONS = 2;
+
+    /** Level at which Fire Protection grants lava immunity, and the only armour it works on. */
+    public static final int LAVA_IMMUNITY_LEVEL = 5;
+
+    public static final int RESPIRATION_RESTRICTED_LEVEL = 4;
 
     /** Read by the code above. Set by the server tick, and on the client by the packet. */
     public static volatile boolean enabled = true;
@@ -117,5 +125,43 @@ public final class NewEnchantments {
         }
 
         return best;
+    }
+
+    public static boolean isGoldArmor(ItemStack stack) {
+        return stack.is(Items.GOLDEN_HELMET) || stack.is(Items.GOLDEN_CHESTPLATE)
+            || stack.is(Items.GOLDEN_LEGGINGS) || stack.is(Items.GOLDEN_BOOTS);
+    }
+
+    /** True if putting this enchantment at this level on this item breaks the "level 5 = gold only" rule. */
+    public static boolean fireProtectionVNeedsGold(Holder<Enchantment> adding, int level, ItemStack target) {
+        return adding.is(Enchantments.FIRE_PROTECTION)
+            && level >= LAVA_IMMUNITY_LEVEL
+            && !isGoldArmor(target);
+    }
+
+    /** Lava immunity: a golden armour piece worn with Fire Protection V. */
+    public static boolean hasLavaImmunity(LivingEntity entity) {
+        Holder<Enchantment> fire = holder(entity.level().registryAccess(), Enchantments.FIRE_PROTECTION);
+
+        for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+            ItemStack piece = entity.getItemBySlot(slot);
+
+            if (isGoldArmor(piece) && EnchantmentHelper.getItemEnchantmentLevel(fire, piece) >= LAVA_IMMUNITY_LEVEL) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static boolean isRespirationIVHelmet(ItemStack stack) {
+        return stack.is(Items.GOLDEN_HELMET) || stack.is(Items.IRON_HELMET) || stack.is(Items.TURTLE_HELMET);
+    }
+
+    /** True if putting this enchantment at this level on this item breaks the "Respiration IV = gold/iron/turtle only" rule. */
+    public static boolean respirationIVNeedsHelmet(Holder<Enchantment> adding, int level, ItemStack target) {
+        return adding.is(Enchantments.RESPIRATION)
+            && level >= RESPIRATION_RESTRICTED_LEVEL
+            && !isRespirationIVHelmet(target);
     }
 }
