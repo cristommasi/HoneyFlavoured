@@ -28,9 +28,10 @@ public abstract class IgneousStriderMixin {
     private void honeyflavoured$igneousStrider(Vec3 input, CallbackInfo ci) {
         LivingEntity self = (LivingEntity) (Object) this;
 
-        if (!NewEnchantments.enabled || !(self instanceof Player) || !self.isInLava()) {
-            return;
-        }
+    if (!NewEnchantments.enabled || !(self instanceof Player player) || !self.isInLava()
+        || player.getAbilities().flying || player.isFallFlying()) {
+        return;
+    }
 
         Holder<Enchantment> igneous = self.level().registryAccess()
             .lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(NewEnchantments.IGNEOUS_STRIDER);

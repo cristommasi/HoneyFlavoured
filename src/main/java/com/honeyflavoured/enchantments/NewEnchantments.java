@@ -21,7 +21,8 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-
+import net.minecraft.core.component.DataComponents;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 /**
  * The mod's own enchantments. Their stats are in data/honeyflavoured/enchantment/*.json.
@@ -41,6 +42,7 @@ public final class NewEnchantments {
     public static final ResourceKey<Enchantment> MELEE_PROTECTION = key("melee_protection");
     public static final ResourceKey<Enchantment> SWINENESS = key("swineness");
     public static final ResourceKey<Enchantment> BANE_OF_POLYPODS = key("bane_of_polypods");
+    public static final ResourceKey<Enchantment> LAVA_AFFINITY = key("lava_affinity");
 
     /** An armour piece can carry at most this many different protection enchantments. */
     public static final int MAX_PROTECTIONS = 2;
@@ -163,5 +165,28 @@ public final class NewEnchantments {
         return adding.is(Enchantments.RESPIRATION)
             && level >= RESPIRATION_RESTRICTED_LEVEL
             && !isRespirationIVHelmet(target);
+    }
+
+    /** True if this finished item breaks one of our rules (3rd protection, Fire Prot V / Respiration IV on the wrong item). */
+    public static boolean violatesRules(ItemStack stack) {
+        if (stack.isEmpty() || stack.is(Items.ENCHANTED_BOOK)) {
+            return false;
+        }
+
+        ItemEnchantments ench = stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
+        int protections = 0;
+
+        for (Object2IntMap.Entry<Holder<Enchantment>> e : ench.entrySet()) {
+            Holder<Enchantment> h = e.getKey();
+            int level = e.getIntValue();
+
+            if (isProtection(h)) {
+                protections++;
+            }
+            if (fireProtectionVNeedsGold(h, level, stack) || respirationIVNeedsHelmet(h, level, stack)) {
+                return true;
+            }
+        }
+        return protections > MAX_PROTECTIONS;
     }
 }

@@ -136,19 +136,23 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         Map.entry("unbreaking", "Increases item durability."),
         Map.entry("vanishing_curse", "Item destroyed upon death."),
         Map.entry("aqua_affinity", "Increases underwater mining speed."),
+        Map.entry("lava_affinity", "Increases underlava mining speed."),
         Map.entry("blast_protection", "Reduces explosion damage and knockback."),
         Map.entry("binding_curse", "Item cannot be removed from armor slots."),
         Map.entry("depth_strider", "Increases underwater movement speed."),
+        Map.entry("igneous_strider", "Increases underlava movement speed."),
         Map.entry("feather_falling", "Reduces fall damage."),
         Map.entry("fire_protection", "Reduces fire damage and burn time."),
         Map.entry("frost_walker", "Turns water beneath you into frosted ice."),
         Map.entry("projectile_protection", "Reduces projectile damage."),
         Map.entry("protection", "Reduces most types of damage."),
-        Map.entry("respiration", "Extends underwater breathing time."),
+        Map.entry("melee_protection", "Reduces melee damage."),
+        Map.entry("respiration", "Extends breathing time."),
         Map.entry("soul_speed", "Increases speed on soul sand and soul soil."),
         Map.entry("thorns", "Reflects some of the damage taken when hit."),
         Map.entry("swift_sneak", "Increases speed while crouching."),
         Map.entry("bane_of_arthropods", "Increases damage to arthropod mobs."),
+        Map.entry("bane_of_polypods", "Increases damage to polypod mobs."),
         Map.entry("breach", "Reduces the effectiveness of enemy armor."),
         Map.entry("density", "Increases mace damage while falling."),
         Map.entry("efficiency", "Increases mining speed."),
@@ -158,6 +162,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         Map.entry("impaling", "Trident deals extra damage to ocean mobs."),
         Map.entry("knockback", "Knocks mobs away when hit."),
         Map.entry("sharpness", "Increases weapon damage."),
+        Map.entry("swineness", "Increases damage to suid mobs."),
         Map.entry("smite", "Increases damage to undead mobs."),
         Map.entry("sweeping_edge", "Increases sweeping attack damage."),
         Map.entry("wind_burst", "Bounces you into the air after a hit."),
@@ -174,7 +179,8 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         Map.entry("fortune", "Increases item drops from blocks."),
         Map.entry("luck_of_the_sea", "Increases rare loot from fishing."),
         Map.entry("lure", "Decreases wait time until a fish bites."),
-        Map.entry("silk_touch", "Mined blocks drop as themselves.")
+        Map.entry("silk_touch", "Mined blocks drop as themselves."),
+        Map.entry("tunneling", "Mines surrounding blocks.")
     );
 
     /* Fake stack used only for the tooltip: enchant name as title, description underneath. */

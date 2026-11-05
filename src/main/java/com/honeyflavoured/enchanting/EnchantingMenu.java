@@ -69,7 +69,7 @@ public class EnchantingMenu extends AbstractContainerMenu {
 	private final ContainerLevelAccess access;
 	private final RegistryAccess registries;
 	private final Player player;
-	private final DataSlot[] unlocked = {DataSlot.standalone(), DataSlot.standalone(), DataSlot.standalone()};
+	private final DataSlot[] unlocked = {DataSlot.standalone(), DataSlot.standalone(), DataSlot.standalone(), DataSlot.standalone()};
 	private int unlockTimer;
 	private final SimpleContainer grid = new SimpleContainer(9) {
 		@Override
@@ -166,7 +166,7 @@ public class EnchantingMenu extends AbstractContainerMenu {
 		if (this.player instanceof ServerPlayer sp && this.unlockTimer++ % 10 == 0) {
 			Recipes.unlockFromInventory(sp);
 			int[] mask = Recipes.unlockedMask(sp);
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < this.unlocked.length; i++) {
 				this.unlocked[i].set(mask[i]);
 			}
 		}
@@ -385,7 +385,7 @@ public class EnchantingMenu extends AbstractContainerMenu {
 				if (!book && NewEnchantments.respirationIVNeedsHelmet(holder, newLevel, centre)) {
 					allowed = false;
 				}
-				
+
 				if (allowed && newLevel <= max) {
 					ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(existing);
 					mutable.set(holder, newLevel);

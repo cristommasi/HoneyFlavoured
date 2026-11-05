@@ -52,6 +52,7 @@ public final class Recipes {
 
 		// Armor
 		r(Items.NAUTILUS_SHELL, Enchantments.AQUA_AFFINITY),
+		r(Items.BLAZE_POWDER, NewEnchantments.LAVA_AFFINITY),
 		r(Items.GUNPOWDER, Enchantments.BLAST_PROTECTION),
 		r(Items.SLIME_BALL, Enchantments.BINDING_CURSE),
 		r(Items.SPONGE, Enchantments.DEPTH_STRIDER),
@@ -144,7 +145,7 @@ public final class Recipes {
 		f(Enchantments.POWER, "sunflower");
 		f(Enchantments.EFFICIENCY, "allium");
 		f(Enchantments.SILK_TOUCH, "oxeye_daisy");
-		f(NewEnchantments.TUNNELING, "flowering_azaela");
+		f(NewEnchantments.TUNNELING, "flowering_azalea");
 		f(Enchantments.FORTUNE, "wildflowers");
 		f(Enchantments.SMITE, "poppy");
 		f(Enchantments.QUICK_CHARGE, "peony");
@@ -155,6 +156,7 @@ public final class Recipes {
 		f(NewEnchantments.BANE_OF_POLYPODS, "azure_bluet");
 		f(Enchantments.SWEEPING_EDGE, "lily_of_the_valley");
 		f(Enchantments.AQUA_AFFINITY, "fire_coral");
+		f(NewEnchantments.LAVA_AFFINITY, "magma", "warped_fungus");
 		f(Enchantments.RESPIRATION, "tube_coral");
 		f(Enchantments.CHANNELING, "horn_coral");
 		f(Enchantments.DEPTH_STRIDER, "brain_coral");
@@ -292,7 +294,7 @@ public final class Recipes {
 	/** Unlocked recipes as three 16-bit masks (container data is sent as 16-bit values). */
 	public static int[] unlockedMask(ServerPlayer player) {
 
-		int[] mask = new int[3];
+		int[] mask = new int[4];
 
 		for (int i = 0; i < ORDERED.size(); i++) {
 
