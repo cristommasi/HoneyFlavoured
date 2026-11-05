@@ -3,7 +3,7 @@
   "id": "honeyflavoured",
   "version": "${version}",
   "name": "Honey Flavoured",
-  "description": "Replaces the enchanting table menu with a 3x3 crafting grid. Surround a book with a recipe item to craft a specific enchantment.",
+  "description": "Tweaks to change some stagnant functionalities, add parity across enchantments and game logic, and new enchantments.",
   "authors": ["cristommasi"],
   "license": "MIT",
   "environment": "*",
