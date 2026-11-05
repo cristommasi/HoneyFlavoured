@@ -9,8 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 /** Fire Protection V makes you immune to lava: no lava damage and no burning. One piece at level V is enough. */
-public final class LavaImmunity {
-    private LavaImmunity() {}
+public final class FireProtection {
+    private FireProtection() {}
 
     private static final int LEVEL_NEEDED = 5;
 

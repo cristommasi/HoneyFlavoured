@@ -67,7 +67,7 @@ public final class Recipes {
 		r(Items.OBSIDIAN, NewEnchantments.IGNEOUS_STRIDER),
 
 		// Melee weapons
-		r(Items.PORKCHOP, NewEnchantments.PORCINE_GRACE),
+		r(Items.PORKCHOP, NewEnchantments.SWINENESS),
 		r(Items.STRING, NewEnchantments.BANE_OF_POLYPODS),
 		r(Items.GOAT_HORN, Enchantments.BREACH),
 		r(Items.ANCIENT_DEBRIS, Enchantments.DENSITY),
@@ -136,7 +136,7 @@ public final class Recipes {
 
 	static {
 		f(Enchantments.MENDING, "wither_rose");
-		f(NewEnchantments.PORCINE_GRACE, "open_eyeblossom");
+		f(NewEnchantments.SWINENESS, "open_eyeblossom");
 		f(Enchantments.UNBREAKING, "vine");
 		f(Enchantments.INFINITY, "firefly_bush");
 		f(Enchantments.LOOTING, "golden_dandelion");

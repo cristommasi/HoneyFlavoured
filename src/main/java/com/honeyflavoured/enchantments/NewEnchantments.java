@@ -24,10 +24,11 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
  * The mod's own enchantments. Their stats are in data/honeyflavoured/enchantment/*.json.
  * Code behind them:
  *   Tunneling        -> Tunneling.java
- *   Igneous Strider  -> mixin/LivingEntityMixin.java
+ *   Igneous Strider  -> mixin/IgneousStriderMixin.java
+ *   Respiration  -> mixin/LavaBreathingMixin.java
  *   Fire Protection V lava immunity -> LavaImmunity.java
  * Switched with /gamerule honeyflavoured:use_new_enchantments <true|false>.
- * (Melee Protection, the level 5 protections, Bane of Polypods and Porcine Grace are plain data and are always on.)
+ * (Melee Protection, the level 5 protections, Bane of Polypods and Swineness are plain data and are always on.)
  */
 public final class NewEnchantments {
     private NewEnchantments() {}
@@ -35,7 +36,7 @@ public final class NewEnchantments {
     public static final ResourceKey<Enchantment> TUNNELING = key("tunneling");
     public static final ResourceKey<Enchantment> IGNEOUS_STRIDER = key("igneous_strider");
     public static final ResourceKey<Enchantment> MELEE_PROTECTION = key("melee_protection");
-    public static final ResourceKey<Enchantment> PORCINE_GRACE = key("porcine_grace");
+    public static final ResourceKey<Enchantment> SWINENESS = key("swineness");
     public static final ResourceKey<Enchantment> BANE_OF_POLYPODS = key("bane_of_polypods");
 
     /** An armour piece can carry at most this many different protection enchantments. */
@@ -70,7 +71,7 @@ public final class NewEnchantments {
         });
 
         Tunneling.register();
-        LavaImmunity.register();
+        FireProtection.register();
     }
 
     public static Holder<Enchantment> holder(RegistryAccess access, ResourceKey<Enchantment> key) {

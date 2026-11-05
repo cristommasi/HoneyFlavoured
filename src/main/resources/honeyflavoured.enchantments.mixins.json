@@ -3,7 +3,8 @@
   "package": "com.honeyflavoured.enchantments.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "LivingEntityMixin"
+    "IgneousStriderMixin",
+    "LavaBreathingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
