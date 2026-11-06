@@ -1,0 +1,23 @@
+# Spawns the serenity test mobs around the command block. NoAI = they cannot move. Tag hf_test lets you find/kill them.
+summon minecraft:pig ~-3 ~ ~0 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:cow ~0 ~ ~-3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:mooshroom ~0 ~ ~3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:sheep ~3 ~ ~0 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:goat ~-3 ~ ~-3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:horse ~-3 ~ ~3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:donkey ~3 ~ ~-3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:mule ~3 ~ ~3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:camel ~-6 ~ ~0 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:llama ~0 ~ ~-6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:trader_llama ~0 ~ ~6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:wolf ~6 ~ ~0 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:cat ~-6 ~ ~-3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:ocelot ~-6 ~ ~3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:fox ~-3 ~ ~-6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:rabbit ~-3 ~ ~6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:panda ~3 ~ ~-6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:polar_bear ~3 ~ ~6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:armadillo ~6 ~ ~-3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:turtle ~6 ~ ~3 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:frog ~-6 ~ ~-6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}
+summon minecraft:sniffer ~-6 ~ ~6 {NoAI:1b,PersistenceRequired:1b,Tags:["hf_test"]}

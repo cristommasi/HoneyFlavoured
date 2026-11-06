@@ -43,7 +43,8 @@
     "per_level_above_first": 6
   },
   "slots": [
-    "armor"
+    "armor",
+    "body"
   ],
   "supported_items": "#minecraft:enchantable/armor",
   "weight": 5

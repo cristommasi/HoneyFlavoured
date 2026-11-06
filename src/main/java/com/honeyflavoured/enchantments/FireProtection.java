@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.player.Player;
+
 
 
 /** Fire Protection V makes you immune to lava: no lava damage and no burning. One piece at level V is enough. */
@@ -16,9 +16,8 @@ public final class FireProtection {
     public static void register() {
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
             if (NewEnchantments.enabled
-                && entity instanceof Player player
                 && source.is(DamageTypes.LAVA)
-                && NewEnchantments.hasLavaImmunity(player)) {
+                && NewEnchantments.hasLavaImmunity(entity)) {
                 return false;
             }
             return true;

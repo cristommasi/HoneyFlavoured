@@ -69,6 +69,8 @@ public final class Recipes {
 
 		// Melee weapons
 		r(Items.PORKCHOP, NewEnchantments.SWINENESS),
+		r(Items.REDSTONE, NewEnchantments.THAUMATURGY),
+		r(Items.WHEAT, NewEnchantments.SERENITY),
 		r(Items.STRING, NewEnchantments.BANE_OF_POLYPODS),
 		r(Items.GOAT_HORN, Enchantments.BREACH),
 		r(Items.ANCIENT_DEBRIS, Enchantments.DENSITY),
@@ -170,6 +172,8 @@ public final class Recipes {
 		f(Enchantments.IMPALING, "brown_mushroom");
 		f(Enchantments.FLAME, "twisting_vines");
 		f(Enchantments.FIRE_PROTECTION, "rose_bush");
+		f(NewEnchantments.SERENITY, "red_mushroom");
+		f(NewEnchantments.THAUMATURGY, "crimson_roots");
 		f(Enchantments.FIRE_ASPECT, "weeping_vines");
 		f(Enchantments.THORNS, "short_dry_grass", "tall_dry_grass");
 		f(Enchantments.SOUL_SPEED, "torchflower");

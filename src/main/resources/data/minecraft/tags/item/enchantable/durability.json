@@ -1,4 +1,5 @@
 {
+  
   "values": [
     {
       "id": "minecraft:brush",
@@ -111,6 +112,7 @@
     {
       "id": "minecraft:netherite_spear",
       "required": false
-    }
+    },
+    "#honeyflavoured:animal_armor"
   ]
 }

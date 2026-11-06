@@ -163,6 +163,8 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         Map.entry("knockback", "Knocks mobs away when hit."),
         Map.entry("sharpness", "Increases weapon damage."),
         Map.entry("swineness", "Increases damage to suid mobs."),
+        Map.entry("thaumaturgy", "Increases damage to magic using mobs."),
+        Map.entry("serenity", "Increases damage to peaceful tetraped mobs."),
         Map.entry("smite", "Increases damage to undead mobs."),
         Map.entry("sweeping_edge", "Increases sweeping attack damage."),
         Map.entry("wind_burst", "Bounces you into the air after a hit."),

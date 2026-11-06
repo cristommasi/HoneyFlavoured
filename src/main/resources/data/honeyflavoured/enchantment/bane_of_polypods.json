@@ -60,7 +60,7 @@
       }
     ]
   },
-  "exclusive_set": "#minecraft:exclusive_set/damage",
+  "exclusive_set": ["minecraft:sharpness", "minecraft:bane_of_arthropods"],
   "max_cost": {
     "base": 25,
     "per_level_above_first": 8
@@ -74,6 +74,6 @@
   "slots": [
     "mainhand"
   ],
-  "supported_items": "#minecraft:enchantable/weapon",
+  "supported_items": "#minecraft:enchantable/sharp_weapon",
   "weight": 5
 }

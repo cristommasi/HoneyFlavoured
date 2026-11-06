@@ -15,6 +15,9 @@ import net.minecraft.world.level.gamerules.GameRuleCategory;
 public final class HoneyFlavouredCommands {
     private HoneyFlavouredCommands() {}
 
+    public static final GameRule<Boolean> USE_ANIMAL_ARMOR = registerRule("use_animal_armor");
+    public static final GameRule<Boolean> USE_MOUNT_SWIMMING = registerRule("use_mount_swimming");
+
     public static final GameRule<Boolean> USE_LAVA_BREATHING =
         registerRule("use_lava_breathing");
     // Gamerules: all enabled by default.
@@ -101,7 +104,9 @@ public final class HoneyFlavouredCommands {
                                         + "/gamerule honeyflavoured:use_enchanting_table <true|false>\n"
                                         + "/gamerule honeyflavoured:use_new_xp_curve <true|false>\n"
                                         + "/gamerule honeyflavoured:use_bundles <true|false>\n"
-                                        + "/gamerule honeyflavoured:use_new_enchantments <true|false>"
+                                        + "/gamerule honeyflavoured:use_new_enchantments <true|false>\n"
+                                        + "/gamerule honeyflavoured:use_animal_armor <true|false>\n"
+                                        + "/gamerule honeyflavoured:use_mount_swimming <true|false>\n"
                                     ),
                                     false
                                 );

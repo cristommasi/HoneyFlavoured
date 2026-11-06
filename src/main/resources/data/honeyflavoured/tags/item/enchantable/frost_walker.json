@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#minecraft:enchantable/foot_armor",
+    { "id": "minecraft:leather_horse_armor", "required": false },
+    { "id": "minecraft:copper_horse_armor", "required": false },
+    { "id": "minecraft:iron_horse_armor", "required": false },
+    { "id": "minecraft:golden_horse_armor", "required": false },
+    { "id": "minecraft:diamond_horse_armor", "required": false },
+    { "id": "minecraft:netherite_horse_armor", "required": false },
+    { "id": "minecraft:wolf_armor", "required": false }
+  ]
+}

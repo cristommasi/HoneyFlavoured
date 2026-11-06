@@ -1,5 +1,6 @@
 package com.honeyflavoured;
 
+import com.honeyflavoured.animalarmor.AnimalArmor;
 import com.honeyflavoured.commands.HoneyFlavouredCommands;
 import com.honeyflavoured.enchanting.Enchanting;
 import com.honeyflavoured.enchantments.NewEnchantments;
@@ -22,11 +23,11 @@ public class HoneyFlavoured implements ModInitializer {
     public void onInitialize() {
 
         HoneyFlavouredCommands.register();
-
         Enchanting.register();
         Fletching.register();
         Farming.register();
         NewEnchantments.register();
         TemperatureManager.register();
+        AnimalArmor.register();
     }
 }

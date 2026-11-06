@@ -143,6 +143,7 @@
     {
       "id": "minecraft:dragon_head",
       "required": false
-    }
+    },
+    "#honeyflavoured:animal_armor"
   ]
 }

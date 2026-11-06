@@ -1,12 +1,12 @@
 package com.honeyflavoured.enchantments;
 
-import com.honeyflavoured.commands.HoneyFlavouredCommands;
+import java.util.function.Predicate;
 
+import com.honeyflavoured.commands.HoneyFlavouredCommands;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -23,18 +23,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.core.component.DataComponents;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.core.registries.BuiltInRegistries;
 
-/**
- * The mod's own enchantments. Their stats are in data/honeyflavoured/enchantment/*.json.
- * Code behind them:
- *   Tunneling        -> Tunneling.java
- *   Igneous Strider  -> mixin/IgneousStriderMixin.java
- *   Respiration  -> mixin/LavaBreathingMixin.java
- *   Fire Protection V lava immunity -> LavaImmunity.java
- * Switched with /gamerule honeyflavoured:use_new_enchantments <true|false>.
- * (Melee Protection, the level 5 protections, Bane of Polypods and Swineness are plain data and are always on.)
- */
 public final class NewEnchantments {
+
     private NewEnchantments() {}
 
     public static final ResourceKey<Enchantment> TUNNELING = key("tunneling");
@@ -43,23 +35,26 @@ public final class NewEnchantments {
     public static final ResourceKey<Enchantment> SWINENESS = key("swineness");
     public static final ResourceKey<Enchantment> BANE_OF_POLYPODS = key("bane_of_polypods");
     public static final ResourceKey<Enchantment> LAVA_AFFINITY = key("lava_affinity");
+    public static final ResourceKey<Enchantment> SERENITY = key("serenity");
+    public static final ResourceKey<Enchantment> THAUMATURGY = key("thaumaturgy");
 
     /** An armour piece can carry at most this many different protection enchantments. */
     public static final int MAX_PROTECTIONS = 2;
-
-    /** Level at which Fire Protection grants lava immunity, and the only armour it works on. */
+    /** A weapon can carry at most this many of: Smite, Swineness, Serenity, Thaumaturgy, Bane of Polypods. */
+    public static final int MAX_SPECIALISTS = 2;
     public static final int LAVA_IMMUNITY_LEVEL = 5;
-
     public static final int RESPIRATION_RESTRICTED_LEVEL = 4;
-
-    /** Read by the code above. Set by the server tick, and on the client by the packet. */
     public static volatile boolean enabled = true;
 
+    private static final EquipmentSlot[] ALL_SLOTS = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.BODY};
+
     private static ResourceKey<Enchantment> key(String name) {
+
         return ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath("honeyflavoured", name));
     }
 
     public static void register() {
+
         PayloadTypeRegistry.clientboundPlay().register(NewEnchantmentsPayload.TYPE, NewEnchantmentsPayload.CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -82,6 +77,7 @@ public final class NewEnchantments {
 
         Tunneling.register();
         FireProtection.register();
+        BlastProtection.register();
     }
 
     public static Holder<Enchantment> holder(RegistryAccess access, ResourceKey<Enchantment> key) {
@@ -94,12 +90,17 @@ public final class NewEnchantments {
             || h.is(MELEE_PROTECTION);
     }
 
+    private static boolean isSpecialist(Holder<Enchantment> h) {
+        return h.is(Enchantments.SMITE) || h.is(SWINENESS) || h.is(SERENITY)
+            || h.is(THAUMATURGY) || h.is(BANE_OF_POLYPODS);
+    }
+
     /**
-     * True when adding this enchantment would put a 3rd kind of protection on the item.
-     * Levelling up one it already has is always fine. Used by the enchanting menu.
+     * True when adding this enchantment would put one kind too many of this group on the item.
+     * Raising an enchantment the item already has is always fine.
      */
-    public static boolean tooManyProtections(ItemEnchantments existing, Holder<Enchantment> adding) {
-        if (!isProtection(adding)) {
+    private static boolean tooMany(ItemEnchantments existing, Holder<Enchantment> adding, Predicate<Holder<Enchantment>> kind, int max) {
+        if (!kind.test(adding)) {
             return false;
         }
 
@@ -109,12 +110,22 @@ public final class NewEnchantments {
             if (h.equals(adding)) {
                 return false;
             }
-            if (isProtection(h)) {
+            if (kind.test(h)) {
                 others++;
             }
         }
 
-        return others >= MAX_PROTECTIONS;
+        return others >= max;
+    }
+
+    /** Used by the enchanting menu: would this be a 3rd kind of protection? */
+    public static boolean tooManyProtections(ItemEnchantments existing, Holder<Enchantment> adding) {
+        return tooMany(existing, adding, NewEnchantments::isProtection, MAX_PROTECTIONS);
+    }
+
+    /** Used by the enchanting menu: would this be a 3rd specialist damage enchantment? */
+    public static boolean tooManySpecialists(ItemEnchantments existing, Holder<Enchantment> adding) {
+        return tooMany(existing, adding, NewEnchantments::isSpecialist, MAX_SPECIALISTS);
     }
 
     /** Highest level of an enchantment on any worn armour piece. */
@@ -122,7 +133,7 @@ public final class NewEnchantments {
         Holder<Enchantment> holder = holder(entity.level().registryAccess(), key);
         int best = 0;
 
-        for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+        for (EquipmentSlot slot : ALL_SLOTS) {
             best = Math.max(best, EnchantmentHelper.getItemEnchantmentLevel(holder, entity.getItemBySlot(slot)));
         }
 
@@ -130,8 +141,9 @@ public final class NewEnchantments {
     }
 
     public static boolean isGoldArmor(ItemStack stack) {
-        return stack.is(Items.GOLDEN_HELMET) || stack.is(Items.GOLDEN_CHESTPLATE)
-            || stack.is(Items.GOLDEN_LEGGINGS) || stack.is(Items.GOLDEN_BOOTS);
+        String id = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
+        return id.equals("golden_helmet") || id.equals("golden_chestplate") || id.equals("golden_leggings")
+            || id.equals("golden_boots") || id.equals("golden_horse_armor") || id.equals("golden_nautilus_armor");
     }
 
     /** True if putting this enchantment at this level on this item breaks the "level 5 = gold only" rule. */
@@ -145,7 +157,7 @@ public final class NewEnchantments {
     public static boolean hasLavaImmunity(LivingEntity entity) {
         Holder<Enchantment> fire = holder(entity.level().registryAccess(), Enchantments.FIRE_PROTECTION);
 
-        for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+        for (EquipmentSlot slot : ALL_SLOTS) {
             ItemStack piece = entity.getItemBySlot(slot);
 
             if (isGoldArmor(piece) && EnchantmentHelper.getItemEnchantmentLevel(fire, piece) >= LAVA_IMMUNITY_LEVEL) {
@@ -167,7 +179,7 @@ public final class NewEnchantments {
             && !isRespirationIVHelmet(target);
     }
 
-    /** True if this finished item breaks one of our rules (3rd protection, Fire Prot V / Respiration IV on the wrong item). */
+    /** True if this finished item breaks one of our rules. Used by the anvil. */
     public static boolean violatesRules(ItemStack stack) {
         if (stack.isEmpty() || stack.is(Items.ENCHANTED_BOOK)) {
             return false;
@@ -175,6 +187,7 @@ public final class NewEnchantments {
 
         ItemEnchantments ench = stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
         int protections = 0;
+        int specialists = 0;
 
         for (Object2IntMap.Entry<Holder<Enchantment>> e : ench.entrySet()) {
             Holder<Enchantment> h = e.getKey();
@@ -183,10 +196,25 @@ public final class NewEnchantments {
             if (isProtection(h)) {
                 protections++;
             }
+            if (isSpecialist(h)) {
+                specialists++;
+            }
             if (fireProtectionVNeedsGold(h, level, stack) || respirationIVNeedsHelmet(h, level, stack)) {
                 return true;
             }
         }
-        return protections > MAX_PROTECTIONS;
+        return protections > MAX_PROTECTIONS || specialists > MAX_SPECIALISTS;
     }
+
+    /** Sum of an enchantment's levels over all worn armour pieces. */
+    public static int armorLevelSum(LivingEntity entity, ResourceKey<Enchantment> key) {
+        Holder<Enchantment> holder = holder(entity.level().registryAccess(), key);
+        int sum = 0;
+
+        for (EquipmentSlot slot : ALL_SLOTS) {
+            sum += EnchantmentHelper.getItemEnchantmentLevel(holder, entity.getItemBySlot(slot));
+        }
+        return sum;
+    }
+
 }
