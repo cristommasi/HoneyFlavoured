@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.honeyflavoured.enchantments.NewEnchantments;
+
 import java.util.Optional;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -26,7 +29,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.resources.ResourceKey;
-import com.honeyflavoured.enchantments.NewEnchantments;
 
 /**
  * The enchanting recipes. 3x3 grid:
@@ -49,6 +51,7 @@ public final class Recipes {
 		r(Items.NETHER_STAR, Enchantments.MENDING),
 		r(Items.EMERALD, Enchantments.UNBREAKING),
 		r(Items.POISONOUS_POTATO, Enchantments.VANISHING_CURSE),
+		r(Items.CARROT, NewEnchantments.BARDING_SPEED),
 
 		// Armor
 		r(Items.NAUTILUS_SHELL, Enchantments.AQUA_AFFINITY),
@@ -186,6 +189,7 @@ public final class Recipes {
 		f(Enchantments.WIND_BURST, "hanging_roots");
 		f(Enchantments.PIERCING, "spore_blossom");
 		f(Enchantments.PUNCH, "lilac");
+		f(NewEnchantments.BARDING_SPEED, "weeping_vines");
 	}
 
 	/** The flower items accepted for this enchantment's recipe. */

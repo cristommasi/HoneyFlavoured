@@ -1,4 +1,4 @@
-package com.honeyflavoured.enchantments;
+package com.honeyflavoured.newenchantments;
 
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;

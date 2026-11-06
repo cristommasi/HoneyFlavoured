@@ -1,4 +1,8 @@
-package com.honeyflavoured.enchantments;
+package com.honeyflavoured.newenchantments;
+
+
+import com.honeyflavoured.enchantments.NewEnchantments;
+import com.honeyflavoured.enchantments.NewEnchantmentsPayload;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 

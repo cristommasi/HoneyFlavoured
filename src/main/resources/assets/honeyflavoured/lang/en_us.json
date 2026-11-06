@@ -13,5 +13,7 @@
 	"enchantment.honeyflavoured.bane_of_polypods": "Bane of Polypods",
 	"enchantment.honeyflavoured.lava_affinity": "Lava Affinity",
 	"enchantment.honeyflavoured.thaumaturgy": "Thaumaturgy",
-	"enchantment.honeyflavoured.serenity": "Serenity"
+	"enchantment.honeyflavoured.serenity": "Serenity",
+	"enchantment.honeyflavoured.barding_speed": "Barding Speed",
+	"item.honeyflavoured.spawner": "%s Spawner"
 }

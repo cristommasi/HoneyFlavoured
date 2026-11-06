@@ -3,6 +3,8 @@ package com.honeyflavoured.enchanting;
 import java.util.List;
 import java.util.Optional;
 
+import com.honeyflavoured.enchantments.NewEnchantments;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
@@ -26,7 +28,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Blocks;
-import com.honeyflavoured.enchantments.NewEnchantments;
 
 /**
  * Enchanting table menu that works like a crafting table.

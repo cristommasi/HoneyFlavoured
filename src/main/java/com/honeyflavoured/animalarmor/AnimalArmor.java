@@ -46,6 +46,8 @@ public final class AnimalArmor {
                 .set(DataComponents.MAX_DAMAGE, durabilityOf(item))
                 .set(DataComponents.DAMAGE, 0)
                 .set(DataComponents.MAX_STACK_SIZE, 1)));
+
+   
     }
 
     /** True if this armour carries Binding Curse. */

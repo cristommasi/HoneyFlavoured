@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.honeyflavoured.horses.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "HorseSwimRenderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

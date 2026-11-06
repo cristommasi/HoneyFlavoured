@@ -16,17 +16,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public abstract class LavaBreathingMixin {
+public abstract class RespirationMixin {
 
     @Unique private int honeyflavoured$airBefore;
 
     @Inject(method = "baseTick()V", at = @At("HEAD"))
     private void honeyflavoured$rememberAir(CallbackInfo ci) {
+
         this.honeyflavoured$airBefore = ((LivingEntity) (Object) this).getAirSupply();
     }
 
     @Inject(method = "baseTick()V", at = @At("TAIL"))
     private void honeyflavoured$lavaBreath(CallbackInfo ci) {
+
         LivingEntity self = (LivingEntity) (Object) this;
 
         if (!(self.level() instanceof ServerLevel level) || !(self instanceof Player player) || !player.isAlive()

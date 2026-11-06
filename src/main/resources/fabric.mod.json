@@ -22,13 +22,16 @@
     "fabric-api": "*"
   },
   "mixins": [
-    "honeyflavoured.farming.mixins.json",
-    "honeyflavoured.enchanting.mixins.json",
-    "honeyflavoured.bundles.mixins.json",
-    "honeyflavoured.tools.mixins.json",
-    "honeyflavoured.armor.mixins.json",
-    "honeyflavoured.enchantments.mixins.json",
-    "honeyflavoured.animalarmor.mixins.json"
+    "mixins/honeyflavoured.farming.mixins.json",
+    "mixins/honeyflavoured.xp.mixins.json",
+    "mixins/honeyflavoured.bundles.mixins.json",
+    "mixins/honeyflavoured.tools.mixins.json",
+    "mixins/honeyflavoured.armor.mixins.json",
+    "mixins/honeyflavoured.enchantments.mixins.json",
+    "mixins/honeyflavoured.animalarmor.mixins.json",
+    "mixins/honeyflavoured.anvil.mixins.json",
+    "mixins/honeyflavoured.horses.common.mixins.json",
+    { "config": "mixins/honeyflavoured.horses.mixins.json", "environment": "client" }
   ]
 }
 

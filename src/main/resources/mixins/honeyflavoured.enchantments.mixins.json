@@ -4,9 +4,9 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "IgneousStriderMixin", 
-    "LavaBreathingMixin", 
-    "LavaMiningMixin", 
-    "AnvilMenuMixin"
+    "LavaAffinityMixin", 
+    "RespirationMixin",
+    "SpawnerPlaceMixin"
   ],
   "injectors": {
     "defaultRequire": 1

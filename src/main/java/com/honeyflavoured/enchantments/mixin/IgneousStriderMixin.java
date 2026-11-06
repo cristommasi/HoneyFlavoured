@@ -1,8 +1,6 @@
 
 package com.honeyflavoured.enchantments.mixin;
 
-import com.honeyflavoured.enchantments.NewEnchantments;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,6 +15,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.honeyflavoured.enchantments.NewEnchantments;
 
 @Mixin(LivingEntity.class)
 public abstract class IgneousStriderMixin {

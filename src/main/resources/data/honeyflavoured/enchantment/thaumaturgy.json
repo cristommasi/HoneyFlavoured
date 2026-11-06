@@ -6,7 +6,7 @@
       {
         "effect": {
           "type": "minecraft:add",
-          "value": { "type": "minecraft:linear", "base": 1.0, "per_level_above_first": 0.5 }
+          "value": { "type": "minecraft:linear", "base": 2.0, "per_level_above_first": 0.5 }
         },
         "requirements": {
           "type": "minecraft:entity_properties",

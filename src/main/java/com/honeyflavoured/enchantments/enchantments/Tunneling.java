@@ -1,8 +1,10 @@
-package com.honeyflavoured.enchantments;
+package com.honeyflavoured.enchantments.enchantments;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import com.honeyflavoured.enchantments.NewEnchantments;
 
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 
@@ -22,6 +24,7 @@ import net.minecraft.world.phys.HitResult;
  * is good at (a pickaxe breaks stone but leaves dirt, a shovel the other way round) and never bedrock and the like.
  */
 public final class Tunneling {
+
     private Tunneling() {}
 
     /** The face of the block each player was mining, remembered just before it breaks. */
@@ -31,6 +34,7 @@ public final class Tunneling {
     private static boolean breaking;
 
     public static void register() {
+
 
         PlayerBlockBreakEvents.BEFORE.register((level, player, pos, state, blockEntity) -> {
             if (NewEnchantments.enabled && player instanceof ServerPlayer && !breaking && hasTunneling(player.getMainHandItem(), level.registryAccess())) {
@@ -99,7 +103,7 @@ public final class Tunneling {
     }
 
     private static boolean hasTunneling(ItemStack tool, net.minecraft.core.RegistryAccess access) {
-        return !tool.isEmpty()
-            && EnchantmentHelper.getItemEnchantmentLevel(NewEnchantments.holder(access, NewEnchantments.TUNNELING), tool) > 0;
+
+        return !tool.isEmpty() && EnchantmentHelper.getItemEnchantmentLevel(NewEnchantments.holder(access, NewEnchantments.TUNNELING), tool) > 0;
     }
 }

@@ -1,4 +1,4 @@
-package com.honeyflavoured.enchanting.mixin;
+package com.honeyflavoured.xp.mixin;
 
 import com.honeyflavoured.commands.HoneyFlavouredCommands;
 
@@ -19,9 +19,9 @@ public abstract class PlayerExperienceMixin {
 
         // Gamerule honeyflavoured:modded_xp false = vanilla XP curve.
         if (!HoneyFlavouredCommands.enabled(self.level(), HoneyFlavouredCommands.USE_NEW_XP_CURVE)) {
+
             return;
         }
-
         cir.setReturnValue(XP_PER_LEVEL);
     }
 

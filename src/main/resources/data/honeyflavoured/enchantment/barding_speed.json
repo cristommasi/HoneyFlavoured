@@ -1,0 +1,35 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.honeyflavoured.barding_speed"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.3,
+          "per_level_above_first": 0.2
+        },
+        "attribute": "minecraft:movement_speed",
+        "id": "honeyflavoured:enchantment.barding_speed",
+        "operation": "add_multiplied_base"
+      }
+    ]
+  },
+  "exclusive_set": "#minecraft:exclusive_set/barding_speed",
+  "max_cost": {
+    "base": 30,
+    "per_level_above_first": 10
+  },
+  "max_level": 2,
+  "min_cost": {
+    "base": 10,
+    "per_level_above_first": 10
+  },
+  "slots": [
+    "body"
+  ],
+  "supported_items": "#honeyflavoured:animal_armor",
+  "weight": 5
+}
