@@ -3,7 +3,8 @@
   "package": "com.honeyflavoured.horses.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
-    "HorseSwimRenderMixin"
+    "HorseSwimRenderMixin",
+        "HorseFovMixin"
   ],
   "injectors": {
     "defaultRequire": 1
