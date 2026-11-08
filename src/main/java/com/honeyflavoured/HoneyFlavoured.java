@@ -5,6 +5,7 @@ import com.honeyflavoured.commands.HoneyFlavouredCommands;
 import com.honeyflavoured.enchanting.Enchanting;
 import com.honeyflavoured.enchantments.NewEnchantments;
 import com.honeyflavoured.fletching.Fletching;
+import com.honeyflavoured.horses.HorseCall;
 import com.honeyflavoured.horses.HorseSwimming;
 import com.honeyflavoured.farming.Farming;
 
@@ -31,5 +32,6 @@ public class HoneyFlavoured implements ModInitializer {
         TemperatureManager.register();
         AnimalArmor.register();
         HorseSwimming.register();
+        HorseCall.register();
     }
 }
