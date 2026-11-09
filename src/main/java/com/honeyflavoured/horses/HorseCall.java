@@ -57,6 +57,7 @@ import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public final class HorseCall {
 
@@ -71,7 +72,7 @@ public final class HorseCall {
 	private static final double SPAWN_MAX = 12.0D;
 	private static final double ARRIVE_DISTANCE = 4.0D;
 	private static final double STEP_DISTANCE = 12.0D;
-	private static final double RUN_SPEED = 3.0D;
+	private static final double CALL_SPEED = 0.45D;
 	private static final int RUN_TIMEOUT = 600;
 	private static final int LOAD_TIMEOUT = 100;
 	private static final int MAX_FAILURES = 5;
@@ -161,6 +162,10 @@ public final class HorseCall {
 		}
 		ownerRef = horse.getOwnerReference();
 		if (ownerRef == null || !ownerRef.getUUID().equals(player.getUUID())) {
+
+			return (InteractionResult.PASS);
+		}
+		if (isBoundTo(stack, horse)) {
 
 			return (InteractionResult.PASS);
 		}
@@ -411,18 +416,19 @@ public final class HorseCall {
 		double dx = player.getX() - horse.getX();
 		double dz = player.getZ() - horse.getZ();
 		double length = Math.sqrt(dx * dx + dz * dz);
+		double speed = speedFor(horse);
 		int x;
 		int z;
 		int y;
 
 		if (horse.distanceTo(player) <= STEP_DISTANCE || length < 1.0D) {
 
-			return (horse.getNavigation().moveTo(player, RUN_SPEED));
+			return (horse.getNavigation().moveTo(player, speed));
 		}
 		x = Mth.floor(horse.getX() + dx / length * STEP_DISTANCE);
 		z = Mth.floor(horse.getZ() + dz / length * STEP_DISTANCE);
 		y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-		return (horse.getNavigation().moveTo(x + 0.5D, y, z + 0.5D, RUN_SPEED));
+		return (horse.getNavigation().moveTo(x + 0.5D, y, z + 0.5D, speed));
 	}
 
 	private static boolean teleportNear(ServerLevel level, ServerPlayer player, AbstractHorse horse, double minRadius, double maxRadius) {
@@ -598,5 +604,27 @@ public final class HorseCall {
 
 			dirty = true;
 		}
+	}
+
+	private static boolean isBoundTo(ItemStack stack, AbstractHorse horse) {
+
+		CustomData data = stack.get(DataComponents.CUSTOM_DATA);
+
+		if (data == null) {
+
+			return (false);
+		}
+		return (horse.getStringUUID().equals(data.copyTag().getString(KEY_UUID).orElse("")));
+	}
+
+	private static double speedFor(AbstractHorse horse) {
+
+		double current = horse.getAttributeValue(Attributes.MOVEMENT_SPEED);
+
+		if (current <= 0.0D) {
+
+			return (1.0D);
+		}
+		return (CALL_SPEED / current);
 	}
 }
