@@ -175,7 +175,7 @@ public final class HorseCall {
 		}
 		if (!horse.hasCustomName()) {
 
-			((ServerPlayer) player).sendSystemMessage(Component.literal("Name your horse with a name tag first").withStyle(ChatFormatting.WHITE), true);
+			((ServerPlayer) player).sendSystemMessage(Component.literal("Name your mount with a name tag first").withStyle(ChatFormatting.WHITE), true);
 			return (InteractionResult.SUCCESS);
 		}
 		bind((ServerLevel) level, horse, stack);
