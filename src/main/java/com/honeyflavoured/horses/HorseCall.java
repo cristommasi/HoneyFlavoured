@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.honeyflavoured.horses.mixin.MobAccessor;
+
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -37,7 +39,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityReference;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.GoalSelector;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +57,6 @@ import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.entity.EntityReference;
 
 public final class HorseCall {
 
@@ -60,15 +66,18 @@ public final class HorseCall {
 	private static final String KEY_NAME = "honeyflavoured_horse_name";
 
 	private static final double TELEPORT_DISTANCE = 100.0D;
+	private static final double TELEPORT_HEIGHT = 16.0D;
 	private static final double SPAWN_MIN = 8.0D;
 	private static final double SPAWN_MAX = 12.0D;
 	private static final double ARRIVE_DISTANCE = 4.0D;
 	private static final double STEP_DISTANCE = 12.0D;
-	private static final double RUN_SPEED = 1.8D;
+	private static final double RUN_SPEED = 3.0D;
 	private static final int RUN_TIMEOUT = 600;
 	private static final int LOAD_TIMEOUT = 100;
 	private static final int MAX_FAILURES = 5;
 	private static final int SAVE_INTERVAL = 6000;
+    private static final double DROP_HEIGHT = 3.0D;
+    private static final int STUCK_TICKS = 40;
 
 	private static final Map<UUID, Last> LAST_SEEN = new HashMap<>();
 	private static final List<Task> TASKS = new ArrayList<>();
@@ -78,6 +87,8 @@ public final class HorseCall {
 	private HorseCall() {}
 
 	private record Last(String dimension, int x, int y, int z) {}
+
+	private record Saved(int priority, Goal goal) {}
 
 	private static final class Task {
 
@@ -92,6 +103,10 @@ public final class HorseCall {
 		private boolean loading;
 		private int ticks;
 		private int failures;
+		private List<Saved> saved;
+        private int arrivedTicks;
+        private double best = Double.MAX_VALUE;
+        private int stuck;
 
 		private Task(UUID horse, UUID player, ServerLevel level, String name, int chunkX, int chunkZ, boolean loading) {
 
@@ -135,32 +150,32 @@ public final class HorseCall {
 		});
 	}
 
-    private static InteractionResult onUseEntity(Player player, Level level, InteractionHand hand, Entity entity, EntityHitResult hit) {
+	private static InteractionResult onUseEntity(Player player, Level level, InteractionHand hand, Entity entity, EntityHitResult hit) {
 
-        ItemStack stack = player.getItemInHand(hand);
-        EntityReference<LivingEntity> ownerRef;
+		ItemStack stack = player.getItemInHand(hand);
+		EntityReference<LivingEntity> ownerRef;
 
-        if (!stack.is(Items.GOAT_HORN) || !(entity instanceof AbstractHorse horse) || player.isSpectator() || !horse.isTamed()) {
+		if (!stack.is(Items.GOAT_HORN) || !(entity instanceof AbstractHorse horse) || player.isSpectator() || !horse.isTamed()) {
 
-            return (InteractionResult.PASS);
-        }
-        ownerRef = horse.getOwnerReference();
-        if (ownerRef == null || !ownerRef.getUUID().equals(player.getUUID())) {
+			return (InteractionResult.PASS);
+		}
+		ownerRef = horse.getOwnerReference();
+		if (ownerRef == null || !ownerRef.getUUID().equals(player.getUUID())) {
 
-            return (InteractionResult.PASS);
-        }
-        if (level.isClientSide()) {
+			return (InteractionResult.PASS);
+		}
+		if (level.isClientSide()) {
 
-            return (InteractionResult.SUCCESS);
-        }
-        if (!horse.hasCustomName()) {
+			return (InteractionResult.SUCCESS);
+		}
+		if (!horse.hasCustomName()) {
 
-            ((ServerPlayer) player).sendSystemMessage(Component.literal("Name your horse with a name tag first").withStyle(ChatFormatting.WHITE), true);
-            return (InteractionResult.SUCCESS);
-        }
-        bind((ServerLevel) level, horse, stack);
-        return (InteractionResult.SUCCESS);
-    }
+			((ServerPlayer) player).sendSystemMessage(Component.literal("Name your horse with a name tag first").withStyle(ChatFormatting.WHITE), true);
+			return (InteractionResult.SUCCESS);
+		}
+		bind((ServerLevel) level, horse, stack);
+		return (InteractionResult.SUCCESS);
+	}
 
 	private static InteractionResult onUseItem(Player player, Level level, InteractionHand hand) {
 
@@ -249,13 +264,21 @@ public final class HorseCall {
 		}
 	}
 
+	private static boolean tooFar(ServerPlayer player, AbstractHorse horse) {
+
+		double dx = player.getX() - horse.getX();
+		double dz = player.getZ() - horse.getZ();
+
+		return (Math.sqrt(dx * dx + dz * dz) > TELEPORT_DISTANCE || Math.abs(player.getY() - horse.getY()) > TELEPORT_HEIGHT);
+	}
+
 	private static boolean launch(ServerPlayer player, Task task, AbstractHorse horse) {
 
 		if (horse.isVehicle() || !horse.isAlive()) {
 
 			return (false);
 		}
-		if (horse.distanceTo(player) > TELEPORT_DISTANCE) {
+		if (tooFar(player, horse)) {
 
 			if (!teleportNear(task.level, player, horse, SPAWN_MIN, SPAWN_MAX)) {
 
@@ -310,43 +333,77 @@ public final class HorseCall {
 			}
 			if (!run(player, task, horse)) {
 
+				release(task);
 				it.remove();
 			}
 		}
 	}
+    
+    private static boolean run(ServerPlayer player, Task task, AbstractHorse horse) {
 
-	private static boolean run(ServerPlayer player, Task task, AbstractHorse horse) {
+        double distance;
 
-		double distance;
+        if (horse == null || !horse.isAlive() || horse.isVehicle()) {
 
-		if (horse == null || !horse.isAlive() || horse.isVehicle()) {
+            return (false);
+        }
+        suppress(task, horse);
+        distance = horse.distanceTo(player);
+        if (task.arrivedTicks > 0 || distance < ARRIVE_DISTANCE) {
 
-			return (false);
+            horse.getNavigation().stop();
+            task.arrivedTicks++;
+            return (task.arrivedTicks < 60);
+        }
+        if (distance < task.best - 0.5D) {
+
+            task.best = distance;
+            task.stuck = 0;
+        } else {
+
+            task.stuck++;
+        }
+        if (player.getY() - horse.getY() > TELEPORT_HEIGHT || horse.getY() - player.getY() > DROP_HEIGHT || task.stuck > STUCK_TICKS || task.ticks > RUN_TIMEOUT || task.failures >= MAX_FAILURES) {
+
+            teleportNear(task.level, player, horse, 3.0D, 5.0D);
+            return (false);
+        }
+        if (task.ticks % 20 != 1) {
+
+            return (true);
+        }
+        if (pathToward(task.level, horse, player)) {
+
+            task.failures = 0;
+        } else {
+
+            task.failures++;
+        }
+        return (true);
+    }
+
+	private static void suppress(Task task, AbstractHorse horse) {
+
+		GoalSelector selector = ((MobAccessor) horse).honeyflavoured$getGoalSelector();
+
+		if (task.saved != null) {
+
+			return;
 		}
-		distance = horse.distanceTo(player);
-		if (distance < ARRIVE_DISTANCE) {
+		task.saved = new ArrayList<>();
+		for (WrappedGoal wrapped : new ArrayList<>(selector.getAvailableGoals())) {
 
-			horse.getNavigation().stop();
-			return (false);
-		}
-		if (task.ticks > RUN_TIMEOUT || task.failures >= MAX_FAILURES) {
+			if (!(wrapped.getGoal() instanceof FloatGoal)) {
 
-			teleportNear(task.level, player, horse, 3.0D, 5.0D);
-			return (false);
+				task.saved.add(new Saved(wrapped.getPriority(), wrapped.getGoal()));
+			}
 		}
-		if (task.ticks % 10 != 1) {
+		for (Saved goal : task.saved) {
 
-			return (true);
+			selector.removeGoal(goal.goal());
 		}
+		horse.clearStanding();
 		horse.setEating(false);
-		if (pathToward(task.level, horse, player)) {
-
-			task.failures = 0;
-		} else {
-
-			task.failures++;
-		}
-		return (true);
 	}
 
 	private static boolean pathToward(ServerLevel level, AbstractHorse horse, ServerPlayer player) {
@@ -387,12 +444,12 @@ public final class HorseCall {
 
 				if (isSafe(level, horse, pos)) {
 
-                    horse.getNavigation().stop();
-                    horse.setDeltaMovement(Vec3.ZERO);
-                    horse.snapTo(x + 0.5D, pos.getY(), z + 0.5D, horse.getYRot(), horse.getXRot());
-                    horse.resetFallDistance();
-                    level.playSound(null, horse.getX(), horse.getY(), horse.getZ(), SoundEvents.HORSE_ANGRY_BABY, SoundSource.NEUTRAL, 1.0F, 1.0F);
-                    return (true);
+					horse.getNavigation().stop();
+					horse.setDeltaMovement(Vec3.ZERO);
+					horse.snapTo(x + 0.5D, pos.getY(), z + 0.5D, horse.getYRot(), horse.getXRot());
+					horse.resetFallDistance();
+					level.playSound(null, horse.getX(), horse.getY(), horse.getZ(), SoundEvents.HORSE_ANGRY_BABY, SoundSource.NEUTRAL, 1.0F, 1.0F);
+					return (true);
 				}
 			}
 		}
@@ -455,6 +512,19 @@ public final class HorseCall {
 
 			task.level.setChunkForced(task.chunkX, task.chunkZ, false);
 			task.forced = false;
+		}
+		if (task.saved != null) {
+
+			if (task.level.getEntity(task.horse) instanceof AbstractHorse horse) {
+
+				GoalSelector selector = ((MobAccessor) horse).honeyflavoured$getGoalSelector();
+
+				for (Saved goal : task.saved) {
+
+					selector.addGoal(goal.priority(), goal.goal());
+				}
+			}
+			task.saved = null;
 		}
 	}
 

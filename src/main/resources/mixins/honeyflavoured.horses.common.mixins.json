@@ -5,7 +5,8 @@
   "mixins": [
     "HorseRiderSinkMixin",
     "HorseBoxMixin",
-    "HorseSinkMixin"
+    "HorseSinkMixin",
+    "MobAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
