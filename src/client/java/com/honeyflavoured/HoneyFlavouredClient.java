@@ -5,7 +5,8 @@ import com.honeyflavoured.enchanting.EnchantingClient;
 import com.honeyflavoured.newenchantments.LavaBreathingHud;
 import com.honeyflavoured.newenchantments.NewEnchantmentsClient;
 import com.honeyflavoured.fletching.FletchingClient;
-import com.honeyflavoured.horses.HorseCallClient;
+import com.honeyflavoured.mounts.MountCallClient;
+import com.honeyflavoured.mounts.MountModelLayers;
 import com.honeyflavoured.temperature.TemperatureHud;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -21,6 +22,7 @@ public class HoneyFlavouredClient implements ClientModInitializer {
         TemperatureHud.register();
         NewEnchantmentsClient.register();
         LavaBreathingHud.register();
-        HorseCallClient.register();
+        MountCallClient.register();
+        MountModelLayers.register();
     }
 }

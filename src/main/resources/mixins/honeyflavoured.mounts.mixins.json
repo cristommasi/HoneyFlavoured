@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.honeyflavoured.mounts.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "MountSwimRenderMixin",
+    "MountFovMixin",
+    "MuleArmorRenderMixin",
+    "LivingEntityRendererAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

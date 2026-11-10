@@ -1,4 +1,4 @@
-package com.honeyflavoured.horses.mixin;
+package com.honeyflavoured.mounts.mixin;
 
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.util.Mth;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayer.class)
-public abstract class HorseFovMixin {
+public abstract class MountFovMixin {
 
 	@Inject(method = "getFieldOfViewModifier(ZF)F", at = @At("RETURN"), cancellable = true, require = 0)
 	private void honeyflavoured$horseFov(boolean firstPerson, float effectScale, CallbackInfoReturnable<Float> cir) {

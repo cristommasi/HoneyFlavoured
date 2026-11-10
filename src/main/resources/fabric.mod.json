@@ -30,8 +30,8 @@
     "mixins/honeyflavoured.enchantments.mixins.json",
     "mixins/honeyflavoured.animalarmor.mixins.json",
     "mixins/honeyflavoured.anvil.mixins.json",
-    "mixins/honeyflavoured.horses.common.mixins.json",
-    { "config": "mixins/honeyflavoured.horses.mixins.json", "environment": "client" }
+    "mixins/honeyflavoured.mounts.common.mixins.json",
+    { "config": "mixins/honeyflavoured.mounts.mixins.json", "environment": "client" }
   ]
 }
 

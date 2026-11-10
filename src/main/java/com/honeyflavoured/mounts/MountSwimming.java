@@ -1,4 +1,4 @@
-package com.honeyflavoured.horses;
+package com.honeyflavoured.mounts;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 
@@ -6,7 +6,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 
-public class HorseSwimming {
+public class MountSwimming {
 
 	private static final double BASE_WATER_EFFICIENCY = 0.5D;
 

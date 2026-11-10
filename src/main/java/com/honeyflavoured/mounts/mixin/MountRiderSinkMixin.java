@@ -1,6 +1,4 @@
-package com.honeyflavoured.horses.mixin;
-
-import com.honeyflavoured.horses.HorseSink;
+package com.honeyflavoured.mounts.mixin;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -12,13 +10,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.honeyflavoured.mounts.MountSink;
+
 @Mixin(AbstractHorse.class)
-public abstract class HorseRiderSinkMixin {
+public abstract class MountRiderSinkMixin {
 
 	@Inject(method = "getPassengerAttachmentPoint", at = @At("RETURN"), cancellable = true)
 	private void honeyflavoured$sinkRider(Entity passenger, EntityDimensions dimensions, float scale, CallbackInfoReturnable<Vec3> cir) {
 
-		float sink = ((HorseSink) this).honeyflavoured$getSink(1.0F);
+		float sink = ((MountSink) this).honeyflavoured$getSink(1.0F);
 
 		if (sink > 0.0F) {
 

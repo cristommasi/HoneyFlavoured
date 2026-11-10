@@ -18,6 +18,7 @@ public final class HoneyFlavouredCommands {
     public static final GameRule<Boolean> USE_ANIMAL_ARMOR = registerRule("use_animal_armor");
     public static final GameRule<Boolean> USE_MOUNT_SWIMMING = registerRule("use_mount_swimming");
 
+
     public static final GameRule<Boolean> USE_LAVA_BREATHING =
         registerRule("use_lava_breathing");
     // Gamerules: all enabled by default.

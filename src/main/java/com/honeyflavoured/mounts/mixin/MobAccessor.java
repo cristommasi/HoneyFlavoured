@@ -1,4 +1,4 @@
-package com.honeyflavoured.horses.mixin;
+package com.honeyflavoured.mounts.mixin;
 
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.GoalSelector;

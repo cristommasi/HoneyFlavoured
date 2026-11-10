@@ -1,6 +1,4 @@
-package com.honeyflavoured.horses.mixin;
-
-import com.honeyflavoured.horses.HorseSink;
+package com.honeyflavoured.mounts.mixin;
 
 import net.minecraft.client.renderer.entity.AbstractHorseRenderer;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
@@ -11,8 +9,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.honeyflavoured.mounts.MountSink;
+
 @Mixin(AbstractHorseRenderer.class)
-public abstract class HorseSwimRenderMixin {
+public abstract class MountSwimRenderMixin {
 
 	private static final float PADDLE_SPEED = 1.0F;
 	private static final float MIN_PADDLE_AMOUNT = 0.7F;
@@ -20,7 +20,7 @@ public abstract class HorseSwimRenderMixin {
 	@Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/equine/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V", at = @At("TAIL"))
 	private void honeyflavoured$swimPose(AbstractHorse entity, EquineRenderState state, float partialTicks, CallbackInfo ci) {
 
-		float sink = ((HorseSink) entity).honeyflavoured$getSink(partialTicks);
+		float sink = ((MountSink) entity).honeyflavoured$getSink(partialTicks);
 
 		if (sink <= 0.0F) {
 

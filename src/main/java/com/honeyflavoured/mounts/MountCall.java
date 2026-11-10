@@ -1,4 +1,4 @@
-package com.honeyflavoured.horses;
+package com.honeyflavoured.mounts;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.honeyflavoured.horses.mixin.MobAccessor;
+import com.honeyflavoured.mounts.mixin.MobAccessor;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -59,12 +59,12 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public final class HorseCall {
+public final class MountCall {
 
 	public static final SimpleParticleType TAME_PARTICLE = FabricParticleTypes.simple();
 
-	private static final String KEY_UUID = "honeyflavoured_horse";
-	private static final String KEY_NAME = "honeyflavoured_horse_name";
+	private static final String KEY_UUID = "honeyflavoured_mount";
+	private static final String KEY_NAME = "honeyflavoured_mount_name";
 
 	private static final double TELEPORT_DISTANCE = 100.0D;
 	private static final double TELEPORT_HEIGHT = 16.0D;
@@ -85,7 +85,7 @@ public final class HorseCall {
 
 	private static boolean dirty;
 
-	private HorseCall() {}
+	private MountCall() {}
 
 	private record Last(String dimension, int x, int y, int z) {}
 
@@ -125,10 +125,10 @@ public final class HorseCall {
 	public static void register() {
 
 		Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath("honeyflavoured", "tame"), TAME_PARTICLE);
-		UseEntityCallback.EVENT.register(HorseCall::onUseEntity);
-		UseItemCallback.EVENT.register(HorseCall::onUseItem);
-		ServerTickEvents.END_SERVER_TICK.register(HorseCall::tick);
-		ServerLifecycleEvents.SERVER_STARTED.register(HorseCall::load);
+		UseEntityCallback.EVENT.register(MountCall::onUseEntity);
+		UseItemCallback.EVENT.register(MountCall::onUseItem);
+		ServerTickEvents.END_SERVER_TICK.register(MountCall::tick);
+		ServerLifecycleEvents.SERVER_STARTED.register(MountCall::load);
 		ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
 
 			for (Task task : TASKS) {
@@ -203,7 +203,7 @@ public final class HorseCall {
 			tag.putString(KEY_UUID, horse.getStringUUID());
 			tag.putString(KEY_NAME, name.getString());
 		});
-		stack.set(DataComponents.ITEM_NAME, name.copy().withStyle(ChatFormatting.YELLOW));
+		stack.set(DataComponents.ITEM_NAME, name.copy().append(Component.literal(" ☆")).withStyle(ChatFormatting.YELLOW));
 		remember(horse, level);
 		level.sendParticles(TAME_PARTICLE, horse.getX(), horse.getY() + horse.getBbHeight() * 0.8D, horse.getZ(), 7, 0.5D, 0.4D, 0.5D, 0.02D);
 	}
@@ -221,7 +221,7 @@ public final class HorseCall {
 			return;
 		}
 		tag = data.copyTag();
-		name = tag.getString(KEY_NAME).orElse("Your horse");
+		name = tag.getString(KEY_NAME).orElse("Your mount") + " ☆";
 		id = parseUuid(tag.getString(KEY_UUID).orElse(""));
 		if (id == null) {
 
@@ -557,7 +557,7 @@ public final class HorseCall {
 
 	private static Path file(MinecraftServer server) {
 
-		return (server.getWorldPath(LevelResource.ROOT).resolve("honeyflavoured_horses.txt"));
+		return (server.getWorldPath(LevelResource.ROOT).resolve("honeyflavoured_mounts.txt"));
 	}
 
 	private static void load(MinecraftServer server) {
