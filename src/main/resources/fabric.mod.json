@@ -1,48 +1,55 @@
+
 {
-  "schemaVersion": 1,
-  "id": "honeyflavoured",
-  "version": "${version}",
-  "name": "Honey Flavoured",
-  "description": "Tweaks to change some stagnant functionalities, add parity across enchantments and game logic, and new enchantments.",
-  "authors": ["cristommasi"],
-  "license": "MIT",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "com.honeyflavoured.HoneyFlavoured"
-    ],
-    "client": [
-      "com.honeyflavoured.HoneyFlavouredClient"
-    ]
-  },
-  "depends": {
-    "fabricloader": ">=0.19.5",
-    "minecraft": "~26.3",
-    "java": ">=25",
-    "fabric-api": "*"
-  },
-  "mixins": [
-    "mixins/honeyflavoured.farming.mixins.json",
+	"schemaVersion": 1,
+	"id": "honeyflavoured",
+	"version": "${version}",
+	"name": "Honey Flavoured",
+	"description": "Tweaks to change some stagnant functionalities, add parity across enchantments and game logic, and new enchantments.",
+	"authors": ["cristommasi"],
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.honeyflavoured.HoneyFlavoured"
+		],
+		"client": [
+			"com.honeyflavoured.HoneyFlavouredClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"mixins": [
 
-    "mixins/honeyflavoured.xp.mixins.json",
+		"mixins/honeyflavoured/farming.json",
 
-    "mixins/honeyflavoured.anvil.mixins.json",
+		"mixins/honeyflavoured/xp.json",
 
-    "mixins/honeyflavoured.bundles.mixins.json",
+		"mixins/honeyflavoured/anvil.json",
 
-    "mixins/honeyflavoured.tools.mixins.json",
+		"mixins/honeyflavoured/bundles.json",
 
-    "mixins/honeyflavoured.armor.mixins.json",
+		"mixins/honeyflavoured/tools.json",
 
-    "mixins/honeyflavoured.enchantments.mixins.json",
+		"mixins/honeyflavoured/armor.json",
 
-    "mixins/honeyflavoured.animalarmor.common.mixins.json",
-    { "config": "mixins/honeyflavoured.animalarmor.mixins.json", "environment": "client" },
+		"mixins/honeyflavoured/enchantments.json",
 
-    { "config": "mixins/honeyflavoured.mountswim.mixins.json", "environment": "client" },
-    "mixins/honeyflavoured.mountswim.common.mixins.json",
+		"mixins/honeyflavoured/animalarmor.json",
+		{
+			"config": "mixins/honeyflavoured/animalarmor.client.json",
+			"environment": "client"
+		},
 
-    "mixins/honeyflavoured.mountcall.common.mixins.json"
-  ]
+		"mixins/honeyflavoured/mountswim.json",
+		{
+			"config": "mixins/honeyflavoured/mountswim.client.json",
+			"environment": "client"
+		},
+
+		"mixins/honeyflavoured/mountcall.json"
+	]
 }
-
