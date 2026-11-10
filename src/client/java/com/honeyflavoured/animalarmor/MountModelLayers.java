@@ -1,5 +1,5 @@
 
-package com.honeyflavoured.mounts;
+package com.honeyflavoured.animalarmor;
 
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 

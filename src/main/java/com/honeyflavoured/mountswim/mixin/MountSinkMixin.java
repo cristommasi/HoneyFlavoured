@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts.mixin;
+package com.honeyflavoured.mountswim.mixin;
 
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.honeyflavoured.mounts.MountSink;
+import com.honeyflavoured.mountswim.MountSink;
 
 @Mixin(AbstractHorse.class)
 public abstract class MountSinkMixin implements MountSink {

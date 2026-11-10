@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts.mixin;
+package com.honeyflavoured.animalarmor.mixin;
 
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.animal.equine.AbstractChestedHorse;

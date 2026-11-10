@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts;
+package com.honeyflavoured.mountcall;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.honeyflavoured.mounts.mixin.MobAccessor;
+import com.honeyflavoured.mountcall.mixin.MobAccessor;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;

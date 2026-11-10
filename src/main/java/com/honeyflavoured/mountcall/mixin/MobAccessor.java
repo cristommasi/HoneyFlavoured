@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts.mixin;
+package com.honeyflavoured.mountcall.mixin;
 
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.GoalSelector;

@@ -1,12 +1,12 @@
 package com.honeyflavoured;
 
+import com.honeyflavoured.animalarmor.MountModelLayers;
 import com.honeyflavoured.bundles.BundlesClient;
 import com.honeyflavoured.enchanting.EnchantingClient;
 import com.honeyflavoured.newenchantments.LavaBreathingHud;
 import com.honeyflavoured.newenchantments.NewEnchantmentsClient;
 import com.honeyflavoured.fletching.FletchingClient;
-import com.honeyflavoured.mounts.MountCallClient;
-import com.honeyflavoured.mounts.MountModelLayers;
+import com.honeyflavoured.mountcall.MountCallClient;
 import com.honeyflavoured.temperature.TemperatureHud;
 
 import net.fabricmc.api.ClientModInitializer;

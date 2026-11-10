@@ -1,5 +1,5 @@
 
-package com.honeyflavoured.mounts;
+package com.honeyflavoured.animalarmor;
 
 import net.minecraft.client.model.animal.equine.AbstractEquineModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;

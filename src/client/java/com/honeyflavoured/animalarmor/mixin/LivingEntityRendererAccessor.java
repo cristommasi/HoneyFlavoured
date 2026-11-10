@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts.mixin;
+package com.honeyflavoured.animalarmor.mixin;
 
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;

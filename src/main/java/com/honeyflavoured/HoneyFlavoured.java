@@ -5,8 +5,8 @@ import com.honeyflavoured.commands.HoneyFlavouredCommands;
 import com.honeyflavoured.enchanting.Enchanting;
 import com.honeyflavoured.enchantments.NewEnchantments;
 import com.honeyflavoured.fletching.Fletching;
-import com.honeyflavoured.mounts.MountCall;
-import com.honeyflavoured.mounts.MountSwimming;
+import com.honeyflavoured.mountcall.MountCall;
+import com.honeyflavoured.mountswim.MountSwimming;
 import com.honeyflavoured.farming.Farming;
 
 import com.honeyflavoured.temperature.TemperatureManager;

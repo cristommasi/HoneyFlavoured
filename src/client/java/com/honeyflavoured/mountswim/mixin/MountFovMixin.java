@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts.mixin;
+package com.honeyflavoured.mountswim.mixin;
 
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.util.Mth;

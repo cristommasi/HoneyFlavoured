@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts;
+package com.honeyflavoured.mountswim;
 
 public interface MountSink {
 

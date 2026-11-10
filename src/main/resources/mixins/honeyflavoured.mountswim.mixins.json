@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "com.honeyflavoured.mountswim.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"MountFovMixin",
+		"MountSwimRenderMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

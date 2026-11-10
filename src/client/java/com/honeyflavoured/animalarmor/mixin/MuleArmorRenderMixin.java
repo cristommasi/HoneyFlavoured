@@ -1,7 +1,7 @@
 
-package com.honeyflavoured.mounts.mixin;
+package com.honeyflavoured.animalarmor.mixin;
 
-import com.honeyflavoured.mounts.MountModelLayers;
+import com.honeyflavoured.animalarmor.MountModelLayers;
 
 import net.minecraft.client.model.animal.equine.DonkeyModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;

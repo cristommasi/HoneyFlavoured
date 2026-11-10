@@ -1,4 +1,4 @@
-package com.honeyflavoured.mounts;
+package com.honeyflavoured.mountswim;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 
