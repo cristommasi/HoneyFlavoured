@@ -7,10 +7,7 @@
     "MountBoxMixin",
     "MountSinkMixin",
     "MobAccessor",
-    "AbstractMountMixin",
-    "MountInventoryMenuMixin",
-    "MountInventorySizeMixin",
-    "AbstractContainerMenuAccessor"
+    "AbstractMountMixin"
   ],
   "injectors": {
     "defaultRequire": 1
