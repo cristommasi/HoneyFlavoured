@@ -13,13 +13,17 @@ public class JukeboxDiscs extends SimpleContainer {
         super(JukeboxMenu.DISC_SLOTS);
     }
 
+    public static boolean isDisc(ItemStack stack) {
+        return !stack.isEmpty() && stack.has(DataComponents.JUKEBOX_PLAYABLE);
+    }
+
     public void setOwner(BlockEntity owner) {
         this.owner = owner;
     }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
-        return stack.has(DataComponents.JUKEBOX_PLAYABLE);
+        return isDisc(stack);
     }
 
     @Override

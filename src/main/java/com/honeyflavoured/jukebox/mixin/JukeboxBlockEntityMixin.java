@@ -42,6 +42,7 @@ public abstract class JukeboxBlockEntityMixin implements JukeboxAccess {
     @Unique private boolean honeyflavoured$want;
     @Unique private boolean honeyflavoured$powered;
     @Unique private long honeyflavoured$lastChange;
+    @Unique private long honeyflavoured$lastPrevPress = -100L;
 
     // ---------- helpers ----------
 
@@ -63,14 +64,51 @@ public abstract class JukeboxBlockEntityMixin implements JukeboxAccess {
         return !stack.isEmpty() && JukeboxSong.fromStack(stack).isPresent();
     }
 
+    /** Circular search: wraps around the 36 slots, returns -1 if there is no playable disc. */
     @Unique
     private int honeyflavoured$find(int from, int dir) {
-        for (int i = from; i >= 0 && i < JukeboxMenu.DISC_SLOTS; i += dir) {
+        int size = JukeboxMenu.DISC_SLOTS;
+        for (int n = 0; n < size; n++) {
+            int i = Math.floorMod(from + n * dir, size);
             if (honeyflavoured$playable(i)) {
                 return i;
             }
         }
         return -1;
+    }
+
+    @Unique
+    private void honeyflavoured$next(ServerLevel level) {
+        int slot = honeyflavoured$find(honeyflavoured$index < 0 ? 0 : honeyflavoured$index + 1, 1);
+        if (slot >= 0) {
+            honeyflavoured$playIndex(level, slot);
+        }
+    }
+
+    @Unique
+    private void honeyflavoured$previous(ServerLevel level) {
+        long now = level.getGameTime();
+        boolean doubleClick = now - honeyflavoured$lastPrevPress <= 12L;
+        honeyflavoured$lastPrevPress = now;
+
+        // nothing selected yet: wrap to the last disc
+        if (honeyflavoured$index < 0 || !honeyflavoured$playable(honeyflavoured$index)) {
+            int last = honeyflavoured$find(JukeboxMenu.DISC_SLOTS - 1, -1);
+            if (last >= 0) {
+                honeyflavoured$playIndex(level, last);
+            }
+            return;
+        }
+        // single press: restart this song
+        if (!doubleClick) {
+            honeyflavoured$playIndex(level, honeyflavoured$index);
+            return;
+        }
+        // double press: go back one disc (circular)
+        int slot = honeyflavoured$find(honeyflavoured$index - 1, -1);
+        if (slot >= 0) {
+            honeyflavoured$playIndex(level, slot);
+        }
     }
 
     @Unique
@@ -109,14 +147,6 @@ public abstract class JukeboxBlockEntityMixin implements JukeboxAccess {
         }
     }
 
-    @Unique
-    private void honeyflavoured$step(ServerLevel level, int dir) {
-        int from = honeyflavoured$index < 0 ? (dir > 0 ? 0 : -1) : honeyflavoured$index + dir;
-        int slot = honeyflavoured$find(from, dir);
-        if (slot >= 0) {
-            honeyflavoured$playIndex(level, slot);
-        }
-    }
 
     // ---------- JukeboxAccess ----------
 
@@ -141,9 +171,9 @@ public abstract class JukeboxBlockEntityMixin implements JukeboxAccess {
             return;
         }
         switch (button) {
-            case JukeboxMenu.BUTTON_PREVIOUS -> honeyflavoured$step(sl, -1);
+            case JukeboxMenu.BUTTON_PREVIOUS -> honeyflavoured$previous(sl);
             case JukeboxMenu.BUTTON_PLAY -> honeyflavoured$toggle(sl);
-            case JukeboxMenu.BUTTON_NEXT -> honeyflavoured$step(sl, 1);
+            case JukeboxMenu.BUTTON_NEXT -> honeyflavoured$next(sl);
             default -> { }
         }
     }
@@ -177,10 +207,10 @@ public abstract class JukeboxBlockEntityMixin implements JukeboxAccess {
             }
         }
 
-        // song ended: go to the next disc to the right / next row, or stop at the end
+        // song ended: go to the next disc, or stop after the last one
         if (honeyflavoured$want && !jukeboxSongPlayer.isPlaying()) {
             int next = honeyflavoured$find(honeyflavoured$index + 1, 1);
-            if (next >= 0) {
+            if (next > honeyflavoured$index) {
                 honeyflavoured$playIndex(level, next);
             } else {
                 honeyflavoured$want = false;

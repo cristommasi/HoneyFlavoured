@@ -11,14 +11,18 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public class JukeboxMenu extends AbstractContainerMenu {
+
     public static final int ROWS = 4;
     public static final int DISC_SLOTS = ROWS * 9;
     public static final int NOW_PLAYING_SLOT = DISC_SLOTS;
     public static final int BUTTON_PREVIOUS = 0;
     public static final int BUTTON_PLAY = 1;
     public static final int BUTTON_NEXT = 2;
-    public static final int NOW_X = 80;
-    public static final int NOW_Y = 94;
+    public static final int GRID_X = 8;    // slot frames start at 7,35 -> items at 8,36
+    public static final int GRID_Y = 36;
+    public static final int NOW_X = 8;     // display slot frame 7,14 -> item at 8,15
+    public static final int NOW_Y = 15;
+    public static final int PLAYER_Y = 139; // top of your player inventory; change if your PNG differs
 
     private final Container discs;
     private final SimpleContainer nowPlaying = new SimpleContainer(1);
@@ -45,7 +49,12 @@ public class JukeboxMenu extends AbstractContainerMenu {
 
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < 9; x++) {
-                this.addSlot(new Slot(discs, x + y * 9, 8 + x * 18, 18 + y * 18));
+                this.addSlot(new Slot(discs, x + y * 9, GRID_X + x * 18, GRID_Y + y * 18) {
+                    @Override
+                    public boolean mayPlace(ItemStack stack) {
+                        return JukeboxDiscs.isDisc(stack);
+                    }
+                });
             }
         }
 
@@ -63,7 +72,7 @@ public class JukeboxMenu extends AbstractContainerMenu {
         });
 
         // same height as a double chest: 6 rows of space
-        this.addStandardInventorySlots(inventory, 8, 18 + 6 * 18 + 13);
+        this.addStandardInventorySlots(inventory, 8, PLAYER_Y);
         this.addDataSlots(data);
 
         if (jukebox != null) {

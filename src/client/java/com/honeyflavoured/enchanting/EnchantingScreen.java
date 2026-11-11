@@ -35,6 +35,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
 
 
 public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
@@ -627,6 +629,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         if (event.button() == 0 || event.button() == 1) {
 
             if (this.overButton(mx, my)) {
+                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 this.setPanelOpen(!this.panelOpen);
                 return true;
             }
