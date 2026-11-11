@@ -40,7 +40,7 @@ public class JukeboxScreen extends AbstractContainerScreen<JukeboxMenu> {
 
     // "Artist - Song" line, to the right of the disc slot, vertically centred on it
     private static final int TEXT_X = 30;
-    private static final int TEXT_Y = 19;
+    private static final int TEXT_Y = 20;
     private static final int TEXT_MAX = 139;   // visible width of the line
     private static final long SCROLL_PAUSE_MS = 1000L;
     private static final int SCROLL_SPEED = 30; // pixels per second

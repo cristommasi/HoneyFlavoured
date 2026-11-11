@@ -20,9 +20,9 @@ public class JukeboxMenu extends AbstractContainerMenu {
     public static final int BUTTON_NEXT = 2;
     public static final int GRID_X = 8;    // slot frames start at 7,35 -> items at 8,36
     public static final int GRID_Y = 36;
-    public static final int NOW_X = 7;     // display slot frame 7,14 -> item at 8,15
-    public static final int NOW_Y = 15;
-    public static final int PLAYER_Y = 139; // top of your player inventory; change if your PNG differs
+    public static final int NOW_X = 8;     // display slot frame 7,14 -> item at 8,15
+    public static final int NOW_Y = 16;
+    public static final int PLAYER_Y = 140; // top of your player inventory; change if your PNG differs
 
     private final Container discs;
     private final SimpleContainer nowPlaying = new SimpleContainer(1);
