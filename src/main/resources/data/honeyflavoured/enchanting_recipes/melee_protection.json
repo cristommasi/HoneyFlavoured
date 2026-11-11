@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:melee_protection",
+    "ingredient":  "minecraft:tuff",
+    "flowers":  [
+                    "minecraft:chorus_flower"
+                ],
+    "description":  "Reduces melee damage."
+}

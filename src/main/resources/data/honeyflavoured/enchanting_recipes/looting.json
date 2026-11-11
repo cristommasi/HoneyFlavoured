@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:looting",
+    "ingredient":  "minecraft:rabbit_foot",
+    "flowers":  [
+                    "minecraft:golden_dandelion"
+                ],
+    "description":  "Increases loot dropped by mobs."
+}

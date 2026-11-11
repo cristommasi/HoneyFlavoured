@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:quick_charge",
+    "ingredient":  "minecraft:honeycomb",
+    "flowers":  [
+                    "minecraft:peony"
+                ],
+    "description":  "Decreases crossbow charging time."
+}

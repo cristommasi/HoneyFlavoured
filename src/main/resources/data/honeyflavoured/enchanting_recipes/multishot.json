@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:multishot",
+    "ingredient":  "minecraft:quartz",
+    "flowers":  [
+                    "minecraft:pink_petals"
+                ],
+    "description":  "Shoots 3 arrows at the cost of one."
+}

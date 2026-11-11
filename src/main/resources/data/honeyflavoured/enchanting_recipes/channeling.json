@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:channeling",
+    "ingredient": "minecraft:lightning_rod",
+    "flowers":  [
+                    "minecraft:horn_coral"
+                ],
+    "description":  "Trident channels lightning at a hit target."
+}

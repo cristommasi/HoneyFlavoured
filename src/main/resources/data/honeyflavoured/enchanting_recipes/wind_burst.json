@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:wind_burst",
+    "ingredient":  "minecraft:wind_charge",
+    "flowers":  [
+                    "minecraft:hanging_roots"
+                ],
+    "description":  "Bounces you into the air after a hit."
+}

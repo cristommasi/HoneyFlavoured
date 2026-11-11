@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:tunneling",
+    "ingredient":  "minecraft:sulfur_spike",
+    "flowers":  [
+                    "minecraft:flowering_azalea"
+                ],
+    "description":  "Mines surrounding blocks."
+}

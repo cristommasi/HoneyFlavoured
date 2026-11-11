@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:thaumaturgy",
+    "ingredient":  "minecraft:redstone",
+    "flowers":  [
+                    "minecraft:crimson_roots"
+                ],
+    "description":  "Increases damage to magic using mobs."
+}

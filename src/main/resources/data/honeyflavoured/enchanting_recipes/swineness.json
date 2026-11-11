@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:swineness",
+    "ingredient":  "minecraft:porkchop",
+    "flowers":  [
+                    "minecraft:open_eyeblossom"
+                ],
+    "description":  "Increases damage to suid mobs."
+}

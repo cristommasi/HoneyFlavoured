@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:lava_affinity",
+    "ingredient":  "minecraft:blaze_powder",
+    "flowers":  [
+                    "minecraft:warped_fungus"
+                ],
+    "description":  "Increases underlava mining speed."
+}

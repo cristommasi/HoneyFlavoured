@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:igneous_strider",
+    "ingredient":  "minecraft:obsidian",
+    "flowers":  [
+                    "minecraft:dead_brain_coral"
+                ],
+    "description":  "Increases underlava movement speed."
+}

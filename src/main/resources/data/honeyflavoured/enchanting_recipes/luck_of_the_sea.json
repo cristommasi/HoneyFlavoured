@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:luck_of_the_sea",
+    "ingredient":  "minecraft:heart_of_the_sea",
+    "flowers":  [
+                    "minecraft:sea_pickle"
+                ],
+    "description":  "Increases rare loot from fishing."
+}

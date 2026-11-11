@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:impaling",
+    "ingredient":  "minecraft:prismarine_shard",
+    "flowers":  [
+                    "minecraft:brown_mushroom"
+                ],
+    "description":  "Trident deals extra damage to ocean mobs."
+}

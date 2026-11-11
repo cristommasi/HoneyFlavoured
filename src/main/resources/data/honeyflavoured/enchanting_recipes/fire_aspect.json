@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:fire_aspect",
+    "ingredient":  "minecraft:magma_cream",
+    "flowers":  [
+                    "minecraft:weeping_vines"
+                ],
+    "description":  "Sets target on fire."
+}

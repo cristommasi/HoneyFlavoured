@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:respiration",
+    "ingredient":  "minecraft:turtle_scute",
+    "flowers":  [
+                    "minecraft:tube_coral"
+                ],
+    "description":  "Extends breathing time."
+}

@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:aqua_affinity",
+    "ingredient":  "minecraft:nautilus_shell",
+    "flowers":  [
+                    "minecraft:fire_coral"
+                ],
+    "description":  "Increases underwater mining speed."
+}

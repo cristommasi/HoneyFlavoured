@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:frost_walker",
+    "ingredient":  "minecraft:snowball",
+    "flowers":  [
+                    "minecraft:fern"
+                ],
+    "description":  "Turns water beneath you into frosted ice."
+}

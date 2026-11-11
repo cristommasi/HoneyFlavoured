@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:piercing",
+    "ingredient":  "minecraft:pointed_dripstone",
+    "flowers":  [
+                    "minecraft:spore_blossom"
+                ],
+    "description":  "Arrows pass through multiple entities."
+}

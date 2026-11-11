@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:loyalty",
+    "ingredient":  "minecraft:lead",
+    "flowers":  [
+                    "minecraft:kelp"
+                ],
+    "description":  "Trident returns after being thrown."
+}

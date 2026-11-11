@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:unbreaking",
+    "ingredient":  "minecraft:emerald",
+    "flowers":  [
+                    "minecraft:vine"
+                ],
+    "description":  "Increases item durability."
+}

@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:efficiency",
+    "ingredient":  "minecraft:amethyst_shard",
+    "flowers":  [
+                    "minecraft:allium"
+                ],
+    "description":  "Increases mining speed."
+}

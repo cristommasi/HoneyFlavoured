@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:feather_falling",
+    "ingredient":  "minecraft:feather",
+    "flowers":  [
+                    "minecraft:blue_orchid"
+                ],
+    "description":  "Reduces fall damage."
+}

@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:punch",
+    "ingredient":  "minecraft:sweet_berries",
+    "flowers":  [
+                    "minecraft:lilac"
+                ],
+    "description":  "Increases arrow knockback."
+}

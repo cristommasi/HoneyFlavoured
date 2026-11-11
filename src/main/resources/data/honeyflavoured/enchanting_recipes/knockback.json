@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:knockback",
+    "ingredient":  "minecraft:tnt",
+    "flowers":  [
+                    "minecraft:cactus_flower"
+                ],
+    "description":  "Knocks mobs away when hit."
+}

@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:breach",
+    "ingredient":  "minecraft:goat_horn",
+    "flowers":  [
+                    "minecraft:bush"
+                ],
+    "description":  "Reduces the effectiveness of enemy armor."
+}

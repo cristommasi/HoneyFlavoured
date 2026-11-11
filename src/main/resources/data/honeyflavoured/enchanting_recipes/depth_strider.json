@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:depth_strider",
+    "ingredient":  "minecraft:sponge",
+    "flowers":  [
+                    "minecraft:brain_coral"
+                ],
+    "description":  "Increases underwater movement speed."
+}

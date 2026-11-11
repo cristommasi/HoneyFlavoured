@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:lure",
+    "ingredient":  "minecraft:clock",
+    "flowers":  [
+                    "minecraft:lily_pad"
+                ],
+    "description":  "Decreases wait time until a fish bites."
+}

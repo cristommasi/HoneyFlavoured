@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:projectile_protection",
+    "ingredient":  "minecraft:arrow",
+    "flowers":  [
+                    "minecraft:dandelion"
+                ],
+    "description":  "Reduces projectile damage."
+}

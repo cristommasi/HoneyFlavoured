@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:mending",
+    "ingredient":  "minecraft:nether_star",
+    "flowers":  [
+                    "minecraft:wither_rose"
+                ],
+    "description":  "Repairs the item when gaining XP orbs."
+}

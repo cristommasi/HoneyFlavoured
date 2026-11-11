@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:bane_of_polypods",
+    "ingredient":  "minecraft:string",
+    "flowers":  [
+                    "minecraft:azure_bluet"
+                ],
+    "description":  "Increases damage to polypod mobs."
+}

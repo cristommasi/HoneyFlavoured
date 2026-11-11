@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:barding_speed",
+    "ingredient":  "minecraft:carrot",
+    "flowers":  [
+                    "minecraft:weeping_vines"
+                ],
+    "description":  "Increases mounts speed."
+}

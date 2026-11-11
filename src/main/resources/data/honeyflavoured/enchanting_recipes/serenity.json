@@ -1,0 +1,8 @@
+{
+    "enchantment":  "honeyflavoured:serenity",
+    "ingredient":  "minecraft:wheat",
+    "flowers":  [
+                    "minecraft:red_mushroom"
+                ],
+    "description":  "Increases damage to peaceful tetraped mobs."
+}

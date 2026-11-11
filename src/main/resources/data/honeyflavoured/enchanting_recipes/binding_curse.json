@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:binding_curse",
+    "ingredient":  "minecraft:slime_ball",
+    "flowers":  [
+                    "minecraft:dead_bush"
+                ],
+    "description":  "Item cannot be removed from armor slots."
+}

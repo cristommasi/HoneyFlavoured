@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.honeyflavoured.enchantments.NewEnchantments;
 
 import java.util.Optional;
 
@@ -25,10 +24,21 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.resources.ResourceKey;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.honeyflavoured.HoneyFlavoured;
+import net.fabricmc.loader.api.FabricLoader;
 
 /**
  * The enchanting recipes. 3x3 grid:
@@ -42,76 +52,10 @@ import net.minecraft.resources.ResourceKey;
 public final class Recipes {
 	private Recipes() {}
 
-	private static Map.Entry<Item, ResourceKey<Enchantment>> r(Item item, ResourceKey<Enchantment> ench) {
-		return Map.entry(item, ench);
-	}
-
-	public static final Map<Item, ResourceKey<Enchantment>> BY_INGREDIENT = Map.ofEntries(
-		// All purpose
-		r(Items.NETHER_STAR, Enchantments.MENDING),
-		r(Items.EMERALD, Enchantments.UNBREAKING),
-		r(Items.POISONOUS_POTATO, Enchantments.VANISHING_CURSE),
-		r(Items.CARROT, NewEnchantments.BARDING_SPEED),
-
-		// Armor
-		r(Items.NAUTILUS_SHELL, Enchantments.AQUA_AFFINITY),
-		r(Items.BLAZE_POWDER, NewEnchantments.LAVA_AFFINITY),
-		r(Items.GUNPOWDER, Enchantments.BLAST_PROTECTION),
-		r(Items.SLIME_BALL, Enchantments.BINDING_CURSE),
-		r(Items.SPONGE, Enchantments.DEPTH_STRIDER),
-		r(Items.FEATHER, Enchantments.FEATHER_FALLING),
-		r(Items.ARMADILLO_SCUTE, Enchantments.FIRE_PROTECTION),
-		r(Items.SNOWBALL, Enchantments.FROST_WALKER),
-		r(Items.TUFF, NewEnchantments.MELEE_PROTECTION),
-		r(Items.TURTLE_SCUTE, Enchantments.RESPIRATION),
-		r(Items.SOUL_SOIL, Enchantments.SOUL_SPEED),
-		r(Items.CACTUS, Enchantments.THORNS),
-		r(Items.ECHO_SHARD, Enchantments.SWIFT_SNEAK),
-		r(Items.ARROW, Enchantments.PROJECTILE_PROTECTION),
-		r(Items.OBSIDIAN, NewEnchantments.IGNEOUS_STRIDER),
-
-		// Melee weapons
-		r(Items.PORKCHOP, NewEnchantments.SWINENESS),
-		r(Items.REDSTONE, NewEnchantments.THAUMATURGY),
-		r(Items.WHEAT, NewEnchantments.SERENITY),
-		r(Items.STRING, NewEnchantments.BANE_OF_POLYPODS),
-		r(Items.GOAT_HORN, Enchantments.BREACH),
-		r(Items.ANCIENT_DEBRIS, Enchantments.DENSITY),
-		r(Items.AMETHYST_SHARD, Enchantments.EFFICIENCY),
-		r(Items.RABBIT_FOOT, Enchantments.LOOTING),
-		r(Items.SUGAR, Enchantments.LUNGE),
-		r(Items.PRISMARINE_SHARD, Enchantments.IMPALING),
-		r(Items.TNT, Enchantments.KNOCKBACK),
-		r(Items.DIAMOND, Enchantments.SHARPNESS),
-		r(Items.ROTTEN_FLESH, Enchantments.SMITE),
-		r(Items.BONE, Enchantments.SWEEPING_EDGE),
-		r(Items.WIND_CHARGE, Enchantments.WIND_BURST),
-		r(Items.MAGMA_CREAM, Enchantments.FIRE_ASPECT),     
-
-		// Ranged weapons
-		// Lightning rods are a copper "collection" in 26.x, so look the plain one up by id.
-		r(BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace("lightning_rod")), Enchantments.CHANNELING),
-		r(Items.FIRE_CHARGE, Enchantments.FLAME),
-		r(Items.RESIN_CLUMP, Enchantments.INFINITY),
-		r(Items.LEAD, Enchantments.LOYALTY),
-		r(Items.FIREWORK_ROCKET, Enchantments.RIPTIDE),
-		r(Items.QUARTZ, Enchantments.MULTISHOT),
-		r(Items.POINTED_DRIPSTONE, Enchantments.PIERCING),
-		r(Items.GOLDEN_APPLE, Enchantments.POWER),
-		r(Items.SWEET_BERRIES, Enchantments.PUNCH),
-		r(Items.HONEYCOMB, Enchantments.QUICK_CHARGE),
-
-		// Tools (Efficiency is honeycomb only, per "first listing only")
-		r(Items.ENCHANTED_GOLDEN_APPLE, Enchantments.FORTUNE),
-		r(Items.HEART_OF_THE_SEA, Enchantments.LUCK_OF_THE_SEA),
-		r(Items.CLOCK, Enchantments.LURE),
-		r(Items.COBWEB, Enchantments.SILK_TOUCH),
-		r(Items.SULFUR_SPIKE, NewEnchantments.TUNNELING)
-	);
-
+	public static final Map<Item, ResourceKey<Enchantment>> BY_INGREDIENT;
 	/** All recipes in a fixed order (by ingredient id). Index = bit used for "unlocked" syncing. */
-	public static final List<Map.Entry<Item, ResourceKey<Enchantment>>> ORDERED = BY_INGREDIENT.entrySet().stream()
-		.sorted(Comparator.comparing((Map.Entry<Item, ResourceKey<Enchantment>> e) -> BuiltInRegistries.ITEM.getKey(e.getKey()).getPath())).toList();
+	public static final List<Map.Entry<Item, ResourceKey<Enchantment>>> ORDERED;
+	private static final Map<ResourceKey<Enchantment>, String> DESCRIPTIONS = new HashMap<>();
 
 	// ---- flowers: the second ingredient (two of them, bottom-left and bottom-right slots)
 	/** Grid indices of the two flower slots. */
@@ -120,76 +64,61 @@ public final class Recipes {
 	private static final Map<ResourceKey<Enchantment>, List<Item>> FLOWERS = new HashMap<>();
 	private static final Set<Item> ALL_FLOWERS = new HashSet<>();
 
-	/** Registers the flower(s) for an enchantment by item id. Unknown ids are skipped with a warning. */
-	private static void f(ResourceKey<Enchantment> ench, String... ids) {
-
-		List<Item> list = new ArrayList<>();
-		for (String id : ids) {
-
-			Identifier ident = Identifier.withDefaultNamespace(id);
-			if (BuiltInRegistries.ITEM.containsKey(ident)) {
-
-				list.add(BuiltInRegistries.ITEM.getValue(ident));
-			}
-			else {
-
-				System.err.println("[enchanting] Unknown flower item id: minecraft:" + id);
+	static {
+		Map<Item, ResourceKey<Enchantment>> byIngredient = new HashMap<>();
+		try {
+			Path dir = FabricLoader.getInstance().getModContainer(HoneyFlavoured.MOD_ID).orElseThrow()
+				.findPath("data/" + HoneyFlavoured.MOD_ID + "/enchanting_recipes").orElseThrow();
+			try (Stream<Path> files = Files.list(dir)) {
+				for (Path file : files.filter(p -> p.toString().endsWith(".json")).sorted().toList()) {
+					readRecipe(file, byIngredient);
+				}
 			}
 		}
-		FLOWERS.put(ench, list);
-		ALL_FLOWERS.addAll(list);
+		catch (IOException e) {
+			throw new IllegalStateException("Could not read the enchanting recipes", e);
+		}
+		BY_INGREDIENT = Map.copyOf(byIngredient);
+		ORDERED = BY_INGREDIENT.entrySet().stream()
+			.sorted(Comparator.comparing((Map.Entry<Item, ResourceKey<Enchantment>> e) -> BuiltInRegistries.ITEM.getKey(e.getKey()).getPath()))
+			.toList();
 	}
 
-	static {
-		f(Enchantments.MENDING, "wither_rose");
-		f(NewEnchantments.SWINENESS, "open_eyeblossom");
-		f(Enchantments.UNBREAKING, "vine");
-		f(Enchantments.INFINITY, "firefly_bush");
-		f(Enchantments.LOOTING, "golden_dandelion");
-		f(NewEnchantments.MELEE_PROTECTION, "chorus_flower");
-		f(Enchantments.POWER, "sunflower");
-		f(Enchantments.EFFICIENCY, "allium");
-		f(Enchantments.SILK_TOUCH, "oxeye_daisy");
-		f(NewEnchantments.TUNNELING, "flowering_azalea");
-		f(Enchantments.FORTUNE, "wildflowers");
-		f(Enchantments.SMITE, "poppy");
-		f(Enchantments.QUICK_CHARGE, "peony");
-		f(Enchantments.KNOCKBACK, "cactus_flower");
-		f(Enchantments.FEATHER_FALLING, "blue_orchid");
-		f(Enchantments.BLAST_PROTECTION, "red_tulip", "orange_tulip", "white_tulip", "pink_tulip");
-		f(Enchantments.PROJECTILE_PROTECTION, "dandelion");
-		f(NewEnchantments.BANE_OF_POLYPODS, "azure_bluet");
-		f(Enchantments.SWEEPING_EDGE, "lily_of_the_valley");
-		f(Enchantments.AQUA_AFFINITY, "fire_coral");
-		f(NewEnchantments.LAVA_AFFINITY, "magma", "warped_fungus");
-		f(Enchantments.RESPIRATION, "tube_coral");
-		f(Enchantments.CHANNELING, "horn_coral");
-		f(Enchantments.DEPTH_STRIDER, "brain_coral");
-		f(NewEnchantments.IGNEOUS_STRIDER, "dead_brain_coral");
-		f(Enchantments.LOYALTY, "kelp");
-		f(Enchantments.RIPTIDE, "mangrove_propagule");
-		f(Enchantments.LURE, "lily_pad");
-		f(Enchantments.LUCK_OF_THE_SEA, "sea_pickle");
-		f(Enchantments.FROST_WALKER, "fern");
-		f(Enchantments.SWIFT_SNEAK, "pitcher_plant");
-		f(Enchantments.IMPALING, "brown_mushroom");
-		f(Enchantments.FLAME, "twisting_vines");
-		f(Enchantments.FIRE_PROTECTION, "rose_bush");
-		f(NewEnchantments.SERENITY, "red_mushroom");
-		f(NewEnchantments.THAUMATURGY, "crimson_roots");
-		f(Enchantments.FIRE_ASPECT, "weeping_vines");
-		f(Enchantments.THORNS, "short_dry_grass", "tall_dry_grass");
-		f(Enchantments.SOUL_SPEED, "torchflower");
-		f(Enchantments.VANISHING_CURSE, "dead_bush");
-		f(Enchantments.BINDING_CURSE, "dead_bush");
-		f(Enchantments.LUNGE, "cornflower");
-		f(Enchantments.DENSITY, "red_shrub");
-		f(Enchantments.BREACH, "bush");
-		f(Enchantments.MULTISHOT, "pink_petals");
-		f(Enchantments.WIND_BURST, "hanging_roots");
-		f(Enchantments.PIERCING, "spore_blossom");
-		f(Enchantments.PUNCH, "lilac");
-		f(NewEnchantments.BARDING_SPEED, "weeping_vines");
+	private static Item itemOf(Path file, String id) {
+		Identifier ident = Identifier.parse(id);
+		if (!BuiltInRegistries.ITEM.containsKey(ident)) {
+			throw new IllegalStateException(file.getFileName() + ": unknown item " + id);
+		}
+		return BuiltInRegistries.ITEM.getValue(ident);
+	}
+
+	private static void readRecipe(Path file, Map<Item, ResourceKey<Enchantment>> out) throws IOException {
+		JsonObject json;
+		try (Reader reader = Files.newBufferedReader(file)) {
+			json = JsonParser.parseReader(reader).getAsJsonObject();
+		}
+
+		ResourceKey<Enchantment> enchantment = ResourceKey.create(Registries.ENCHANTMENT,
+			Identifier.parse(json.get("enchantment").getAsString()));
+		Item ingredient = itemOf(file, json.get("ingredient").getAsString());
+
+		if (out.put(ingredient, enchantment) != null) {
+			throw new IllegalStateException(file.getFileName() + ": that ingredient is already used by another recipe");
+		}
+
+		List<Item> flowers = new ArrayList<>();
+		if (json.has("flowers")) {
+			for (JsonElement e : json.getAsJsonArray("flowers")) {
+				flowers.add(itemOf(file, e.getAsString()));
+			}
+		}
+		FLOWERS.put(enchantment, flowers);
+		ALL_FLOWERS.addAll(flowers);
+		DESCRIPTIONS.put(enchantment, json.has("description") ? json.get("description").getAsString() : "");
+	}
+
+	public static String descriptionFor(ResourceKey<Enchantment> key) {
+		return DESCRIPTIONS.getOrDefault(key, "");
 	}
 
 	/** The flower items accepted for this enchantment's recipe. */

@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:infinity",
+    "ingredient":  "minecraft:resin_clump",
+    "flowers":  [
+                    "minecraft:firefly_bush"
+                ],
+    "description":  "Shooting does not consume arrows."
+}

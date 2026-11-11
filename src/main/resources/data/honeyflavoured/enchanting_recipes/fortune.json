@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:fortune",
+    "ingredient":  "minecraft:enchanted_golden_apple",
+    "flowers":  [
+                    "minecraft:wildflowers"
+                ],
+    "description":  "Increases item drops from blocks."
+}

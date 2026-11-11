@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:silk_touch",
+    "ingredient":  "minecraft:cobweb",
+    "flowers":  [
+                    "minecraft:oxeye_daisy"
+                ],
+    "description":  "Mined blocks drop as themselves."
+}

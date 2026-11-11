@@ -1,0 +1,11 @@
+{
+    "enchantment":  "minecraft:blast_protection",
+    "ingredient":  "minecraft:gunpowder",
+    "flowers":  [
+                    "minecraft:red_tulip",
+                    "minecraft:orange_tulip",
+                    "minecraft:white_tulip",
+                    "minecraft:pink_tulip"
+                ],
+    "description":  "Reduces explosion damage and knockback."
+}

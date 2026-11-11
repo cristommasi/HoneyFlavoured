@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:soul_speed",
+    "ingredient":  "minecraft:soul_soil",
+    "flowers":  [
+                    "minecraft:torchflower"
+                ],
+    "description":  "Increases speed on soul sand and soul soil."
+}

@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:sweeping_edge",
+    "ingredient":  "minecraft:bone",
+    "flowers":  [
+                    "minecraft:lily_of_the_valley"
+                ],
+    "description":  "Increases sweeping attack damage."
+}

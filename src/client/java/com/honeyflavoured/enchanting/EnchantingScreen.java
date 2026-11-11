@@ -132,70 +132,15 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
     private ItemStack lapisIcon;
     private ItemStack tabIcon;
 
-    /* Enchantment title and descriptions */
-    private static final Map<String, String> DESC = Map.ofEntries(
-        Map.entry("mending", "Repairs the item when gaining XP orbs."),
-        Map.entry("unbreaking", "Increases item durability."),
-        Map.entry("vanishing_curse", "Item destroyed upon death."),
-        Map.entry("aqua_affinity", "Increases underwater mining speed."),
-        Map.entry("lava_affinity", "Increases underlava mining speed."),
-        Map.entry("blast_protection", "Reduces explosion damage and knockback."),
-        Map.entry("binding_curse", "Item cannot be removed from armor slots."),
-        Map.entry("depth_strider", "Increases underwater movement speed."),
-        Map.entry("igneous_strider", "Increases underlava movement speed."),
-        Map.entry("feather_falling", "Reduces fall damage."),
-        Map.entry("fire_protection", "Reduces fire damage and burn time."),
-        Map.entry("frost_walker", "Turns water beneath you into frosted ice."),
-        Map.entry("projectile_protection", "Reduces projectile damage."),
-        Map.entry("protection", "Reduces most types of damage."),
-        Map.entry("melee_protection", "Reduces melee damage."),
-        Map.entry("respiration", "Extends breathing time."),
-        Map.entry("soul_speed", "Increases speed on soul sand and soul soil."),
-        Map.entry("thorns", "Reflects some of the damage taken when hit."),
-        Map.entry("swift_sneak", "Increases speed while crouching."),
-        Map.entry("bane_of_arthropods", "Increases damage to arthropod mobs."),
-        Map.entry("bane_of_polypods", "Increases damage to polypod mobs."),
-        Map.entry("breach", "Reduces the effectiveness of enemy armor."),
-        Map.entry("density", "Increases mace damage while falling."),
-        Map.entry("efficiency", "Increases mining speed."),
-        Map.entry("fire_aspect", "Sets target on fire."),
-        Map.entry("looting", "Increases loot dropped by mobs."),
-        Map.entry("lunge", "Spear jabs get a burst of speed."),
-        Map.entry("impaling", "Trident deals extra damage to ocean mobs."),
-        Map.entry("knockback", "Knocks mobs away when hit."),
-        Map.entry("sharpness", "Increases weapon damage."),
-        Map.entry("swineness", "Increases damage to suid mobs."),
-        Map.entry("thaumaturgy", "Increases damage to magic using mobs."),
-        Map.entry("serenity", "Increases damage to peaceful tetraped mobs."),
-        Map.entry("smite", "Increases damage to undead mobs."),
-        Map.entry("sweeping_edge", "Increases sweeping attack damage."),
-        Map.entry("wind_burst", "Bounces you into the air after a hit."),
-        Map.entry("channeling", "Trident channels lightning at a hit target."),
-        Map.entry("flame", "Arrows set targets on fire."),
-        Map.entry("infinity", "Shooting does not consume arrows."),
-        Map.entry("loyalty", "Trident returns after being thrown."),
-        Map.entry("riptide", "Trident launches you with it in water or rain."),
-        Map.entry("multishot", "Shoots 3 arrows at the cost of one."),
-        Map.entry("piercing", "Arrows pass through multiple entities."),
-        Map.entry("power", "Increases arrow damage."),
-        Map.entry("punch", "Increases arrow knockback."),
-        Map.entry("quick_charge", "Decreases crossbow charging time."),
-        Map.entry("fortune", "Increases item drops from blocks."),
-        Map.entry("luck_of_the_sea", "Increases rare loot from fishing."),
-        Map.entry("lure", "Decreases wait time until a fish bites."),
-        Map.entry("silk_touch", "Mined blocks drop as themselves."),
-        Map.entry("tunneling", "Mines surrounding blocks."),
-        Map.entry("barding_speed", "Increases mount's speed.")
-    );
 
     /* Fake stack used only for the tooltip: enchant name as title, description underneath. */
     private ItemStack tooltipStack(int idx) {
-        String id = Recipes.ORDERED.get(idx).getValue().identifier().getPath();
         ItemStack s = new ItemStack(Items.PAPER);
         s.set(DataComponents.CUSTOM_NAME,
             Component.literal(this.names[idx]).withStyle(st -> st.withItalic(false).withColor(ChatFormatting.AQUA)));
         s.set(DataComponents.LORE, new ItemLore(List.of(
-            Component.literal(DESC.getOrDefault(id, "")).withStyle(st -> st.withItalic(false).withColor(ChatFormatting.GRAY))
+            Component.literal(Recipes.descriptionFor(Recipes.ORDERED.get(idx).getValue()))
+                .withStyle(st -> st.withItalic(false).withColor(ChatFormatting.GRAY))
         )));
         return s;
     }

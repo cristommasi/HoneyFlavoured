@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:power",
+    "ingredient":  "minecraft:golden_apple",
+    "flowers":  [
+                    "minecraft:sunflower"
+                ],
+    "description":  "Increases arrow damage."
+}

@@ -1,0 +1,9 @@
+{
+    "enchantment":  "minecraft:thorns",
+    "ingredient":  "minecraft:cactus",
+    "flowers":  [
+                    "minecraft:short_dry_grass",
+                    "minecraft:tall_dry_grass"
+                ],
+    "description":  "Reflects some of the damage taken when hit."
+}

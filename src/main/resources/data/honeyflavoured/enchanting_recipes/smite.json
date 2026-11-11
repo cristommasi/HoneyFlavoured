@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:smite",
+    "ingredient":  "minecraft:rotten_flesh",
+    "flowers":  [
+                    "minecraft:poppy"
+                ],
+    "description":  "Increases damage to undead mobs."
+}

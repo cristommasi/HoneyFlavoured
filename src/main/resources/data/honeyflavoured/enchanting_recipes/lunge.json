@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:lunge",
+    "ingredient":  "minecraft:sugar",
+    "flowers":  [
+                    "minecraft:cornflower"
+                ],
+    "description":  "Spear jabs get a burst of speed."
+}

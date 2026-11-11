@@ -1,0 +1,157 @@
+Ingredients
+Items.NETHER_STAR, Enchantments.MENDING
+Items.EMERALD, Enchantments.UNBREAKING
+Items.POISONOUS_POTATO, Enchantments.VANISHING_CURSE
+Items.CARROT, NewEnchantments.BARDING_SPEED
+Items.NAUTILUS_SHELL, Enchantments.AQUA_AFFINITY
+Items.BLAZE_POWDER, NewEnchantments.LAVA_AFFINITY
+Items.GUNPOWDER, Enchantments.BLAST_PROTECTION
+Items.SLIME_BALL, Enchantments.BINDING_CURSE
+Items.SPONGE, Enchantments.DEPTH_STRIDER
+Items.FEATHER, Enchantments.FEATHER_FALLING
+Items.ARMADILLO_SCUTE, Enchantments.FIRE_PROTECTION
+Items.SNOWBALL, Enchantments.FROST_WALKER
+Items.TUFF, NewEnchantments.MELEE_PROTECTION
+Items.TURTLE_SCUTE, Enchantments.RESPIRATION
+Items.SOUL_SOIL, Enchantments.SOUL_SPEED
+Items.CACTUS, Enchantments.THORNS
+Items.ECHO_SHARD, Enchantments.SWIFT_SNEAK
+Items.ARROW, Enchantments.PROJECTILE_PROTECTION
+Items.OBSIDIAN, NewEnchantments.IGNEOUS_STRIDER
+Items.PORKCHOP, NewEnchantments.SWINENESS
+Items.REDSTONE, NewEnchantments.THAUMATURGY
+Items.WHEAT, NewEnchantments.SERENITY
+Items.STRING, NewEnchantments.BANE_OF_POLYPODS
+Items.GOAT_HORN, Enchantments.BREACH
+Items.ANCIENT_DEBRIS, Enchantments.DENSITY
+Items.AMETHYST_SHARD, Enchantments.EFFICIENCY
+Items.RABBIT_FOOT, Enchantments.LOOTING
+Items.SUGAR, Enchantments.LUNGE
+Items.PRISMARINE_SHARD, Enchantments.IMPALING
+Items.TNT, Enchantments.KNOCKBACK
+Items.DIAMOND, Enchantments.SHARPNESS
+Items.ROTTEN_FLESH, Enchantments.SMITE
+Items.BONE, Enchantments.SWEEPING_EDGE
+Items.WIND_CHARGE, Enchantments.WIND_BURST
+Items.MAGMA_CREAM, Enchantments.FIRE_ASPECT     
+Items.LIGTHNING_ROD, Enchantments.CHANNELING
+Items.FIRE_CHARGE, Enchantments.FLAME
+Items.RESIN_CLUMP, Enchantments.INFINITY
+Items.LEAD, Enchantments.LOYALTY
+Items.FIREWORK_ROCKET, Enchantments.RIPTIDE
+Items.QUARTZ, Enchantments.MULTISHOT
+Items.POINTED_DRIPSTONE, Enchantments.PIERCING
+Items.GOLDEN_APPLE, Enchantments.POWER
+Items.SWEET_BERRIES, Enchantments.PUNCH
+Items.HONEYCOMB, Enchantments.QUICK_CHARGE
+Items.ENCHANTED_GOLDEN_APPLE, Enchantments.FORTUNE
+Items.HEART_OF_THE_SEA, Enchantments.LUCK_OF_THE_SEA
+Items.CLOCK, Enchantments.LURE
+Items.COBWEB, Enchantments.SILK_TOUCH
+Items.SULFUR_SPIKE, NewEnchantments.tunneling
+
+FLOWERS
+Enchantments.MENDING, "wither_rose"
+NewEnchantments.SWINENESS, "open_eyeblossom"
+Enchantments.UNBREAKING, "vine"
+Enchantments.INFINITY, "firefly_bush"
+Enchantments.LOOTING, "golden_dandelion"
+NewEnchantments.MELEE_PROTECTION, "chorus_flower"
+Enchantments.POWER, "sunflower"
+Enchantments.EFFICIENCY, "allium"
+Enchantments.SILK_TOUCH, "oxeye_daisy"
+NewEnchantments.TUNNELING, "flowering_azalea"
+Enchantments.FORTUNE, "wildflowers"
+Enchantments.SMITE, "poppy"
+Enchantments.QUICK_CHARGE, "peony"
+Enchantments.KNOCKBACK, "cactus_flower"
+Enchantments.FEATHER_FALLING, "blue_orchid"
+Enchantments.BLAST_PROTECTION, "red_tulip", "orange_tulip", "white_tulip", "pink_tulip"
+Enchantments.PROJECTILE_PROTECTION, "dandelion"
+NewEnchantments.BANE_OF_POLYPODS, "azure_bluet"
+Enchantments.SWEEPING_EDGE, "lily_of_the_valley"
+Enchantments.AQUA_AFFINITY, "fire_coral"
+NewEnchantments.LAVA_AFFINITY, "magma", "warped_fungus"
+Enchantments.RESPIRATION, "tube_coral"
+Enchantments.CHANNELING, "horn_coral"
+Enchantments.DEPTH_STRIDER, "brain_coral"
+NewEnchantments.IGNEOUS_STRIDER, "dead_brain_coral"
+Enchantments.LOYALTY, "kelp"
+Enchantments.RIPTIDE, "mangrove_propagule"
+Enchantments.LURE, "lily_pad"
+Enchantments.LUCK_OF_THE_SEA, "sea_pickle"
+Enchantments.FROST_WALKER, "fern"
+Enchantments.SWIFT_SNEAK, "pitcher_plant"
+Enchantments.IMPALING, "brown_mushroom"
+Enchantments.FLAME, "twisting_vines"
+Enchantments.FIRE_PROTECTION, "rose_bush"
+NewEnchantments.SERENITY, "red_mushroom"
+NewEnchantments.THAUMATURGY, "crimson_roots"
+Enchantments.FIRE_ASPECT, "weeping_vines"
+Enchantments.THORNS, "short_dry_grass", "tall_dry_grass"
+Enchantments.SOUL_SPEED, "torchflower"
+Enchantments.VANISHING_CURSE, "dead_bush"
+Enchantments.BINDING_CURSE, "dead_bush"
+Enchantments.LUNGE, "cornflower"
+Enchantments.DENSITY, "red_shrub"
+Enchantments.BREACH, "bush"
+Enchantments.MULTISHOT, "pink_petals"
+Enchantments.WIND_BURST, "hanging_roots"
+Enchantments.PIERCING, "spore_blossom"
+Enchantments.PUNCH, "lilac"
+NewEnchantments.BARDING_SPEED, "weeping_vines"
+
+ENCHANTMENT AND DESCRIPTION
+"mending", "Repairs the item when gaining XP orbs."
+"unbreaking", "Increases item durability."
+"vanishing_curse", "Item destroyed upon death."
+"aqua_affinity", "Increases underwater mining speed."
+"lava_affinity", "Increases underlava mining speed."
+"blast_protection", "Reduces explosion damage and knockback."
+"binding_curse", "Item cannot be removed from armor slots."
+"depth_strider", "Increases underwater movement speed."
+"igneous_strider", "Increases underlava movement speed."
+"feather_falling", "Reduces fall damage."
+"fire_protection", "Reduces fire damage and burn time."
+"frost_walker", "Turns water beneath you into frosted ice."
+"projectile_protection", "Reduces projectile damage."
+"protection", "Reduces most types of damage."
+"melee_protection", "Reduces melee damage."
+"respiration", "Extends breathing time."
+"soul_speed", "Increases speed on soul sand and soul soil."
+"thorns", "Reflects some of the damage taken when hit."
+"swift_sneak", "Increases speed while crouching."
+"bane_of_arthropods", "Increases damage to arthropod mobs."
+"bane_of_polypods", "Increases damage to polypod mobs."
+"breach", "Reduces the effectiveness of enemy armor."
+"density", "Increases mace damage while falling."
+"efficiency", "Increases mining speed."
+"fire_aspect", "Sets target on fire."
+"looting", "Increases loot dropped by mobs."
+"lunge", "Spear jabs get a burst of speed."
+"impaling", "Trident deals extra damage to ocean mobs."
+"knockback", "Knocks mobs away when hit."
+"sharpness", "Increases weapon damage."
+"swineness", "Increases damage to suid mobs."
+"thaumaturgy", "Increases damage to magic using mobs."
+"serenity", "Increases damage to peaceful tetraped mobs."
+"smite", "Increases damage to undead mobs."
+"sweeping_edge", "Increases sweeping attack damage."
+"wind_burst", "Bounces you into the air after a hit."
+"channeling", "Trident channels lightning at a hit target."
+"flame", "Arrows set targets on fire."
+"infinity", "Shooting does not consume arrows."
+"loyalty", "Trident returns after being thrown."
+"riptide", "Trident launches you with it in water or rain."
+"multishot", "Shoots 3 arrows at the cost of one."
+"piercing", "Arrows pass through multiple entities."
+"power", "Increases arrow damage."
+"punch", "Increases arrow knockback."
+"quick_charge", "Decreases crossbow charging time."
+"fortune", "Increases item drops from blocks."
+"luck_of_the_sea", "Increases rare loot from fishing."
+"lure", "Decreases wait time until a fish bites."
+"silk_touch", "Mined blocks drop as themselves."
+"tunneling", "Mines surrounding blocks."
+"barding_speed", "Increases mount's speed."
+

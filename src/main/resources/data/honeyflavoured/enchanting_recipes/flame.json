@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:flame",
+    "ingredient":  "minecraft:fire_charge",
+    "flowers":  [
+                    "minecraft:twisting_vines"
+                ],
+    "description":  "Arrows set targets on fire."
+}

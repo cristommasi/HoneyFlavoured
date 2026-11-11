@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:swift_sneak",
+    "ingredient":  "minecraft:echo_shard",
+    "flowers":  [
+                    "minecraft:pitcher_plant"
+                ],
+    "description":  "Increases speed while crouching."
+}

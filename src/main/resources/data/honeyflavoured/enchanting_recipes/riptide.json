@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:riptide",
+    "ingredient":  "minecraft:firework_rocket",
+    "flowers":  [
+                    "minecraft:mangrove_propagule"
+                ],
+    "description":  "Trident launches you with it in water or rain."
+}

@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:vanishing_curse",
+    "ingredient":  "minecraft:poisonous_potato",
+    "flowers":  [
+                    "minecraft:dead_bush"
+                ],
+    "description":  "Item destroyed upon death."
+}

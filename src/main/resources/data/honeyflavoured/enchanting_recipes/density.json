@@ -1,0 +1,8 @@
+{
+    "enchantment":  "minecraft:density",
+    "ingredient":  "minecraft:ancient_debris",
+    "flowers":  [
+                    "minecraft:red_shrub"
+                ],
+    "description":  "Increases mace damage while falling."
+}
