@@ -117,7 +117,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
 
 
 
-
+    private ItemStack ghostHover = ItemStack.EMPTY;
 
 
     private boolean panelOpen;
@@ -184,7 +184,8 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         Map.entry("luck_of_the_sea", "Increases rare loot from fishing."),
         Map.entry("lure", "Decreases wait time until a fish bites."),
         Map.entry("silk_touch", "Mined blocks drop as themselves."),
-        Map.entry("tunneling", "Mines surrounding blocks.")
+        Map.entry("tunneling", "Mines surrounding blocks."),
+        Map.entry("barding_speed", "Increases mount's speed.")
     );
 
     /* Fake stack used only for the tooltip: enchant name as title, description underneath. */
@@ -496,7 +497,11 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, 0.0F, 0.0F, 16, 16, 16, 16);
     }
 
-
+    private void clickSound() {
+        if (this.minecraft != null) {
+            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+        }
+    }
 
     private boolean overButton(double mx, double my) {
 
@@ -629,7 +634,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         if (event.button() == 0 || event.button() == 1) {
 
             if (this.overButton(mx, my)) {
-                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                this.clickSound();
                 this.setPanelOpen(!this.panelOpen);
                 return true;
             }
@@ -688,6 +693,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
 
         if (over(mx, my, px + FILTER_X, py + FILTER_Y, FILTER_W, FILTER_H)) {
 
+            this.clickSound();
             ClientState.craftableOnlyToggle = !ClientState.craftableOnlyToggle;
             ClientState.save();
             this.page = 0;
@@ -698,12 +704,18 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
 
         if (over(mx, my, px + 38, py + 137, 12, 17)) {
 
+            if (this.page > 0) {
+                this.clickSound();
+            }
             this.page = Math.max(0, this.page - 1);
             return true;
         }
 
         if (over(mx, my, px + 93, py + 137, 12, 17)) {
 
+            if (this.page < pages - 1) {
+                this.clickSound();
+            }
             this.page = Math.min(pages - 1, this.page + 1);
             return true;
         }
@@ -714,19 +726,17 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
 
         if (cell >= 0 && k < shown.size() && this.minecraft != null) {
 
+            this.clickSound();
             int idx = shown.get(k);
-			this.selected = idx;
-			this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId,
-					idx + (this.isShiftHeld() ? EnchantingMenu.FILL_ALL : 0));
+            this.selected = idx;
+            this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, idx + (this.isShiftHeld() ? EnchantingMenu.FILL_ALL : 0));
         }
         return true;
     }
 
+    private void drawGhost(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
 
-
-    /* Ghost recipe in the grid (red because you lack the items), on the still-empty slots. */
-
-    private void drawGhost(GuiGraphicsExtractor graphics) {
+        this.ghostHover = ItemStack.EMPTY;
 
         if (this.selected < 0) {
             return;
@@ -747,7 +757,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         }
 
         for (int gi : Recipes.RING) {
-            this.ghostSlot(graphics, this.menu.slots.get(1 + gi), this.ingredients[this.selected], 0, 16, false);
+            this.ghostSlot(graphics, this.menu.slots.get(1 + gi), this.ingredients[this.selected], 0, 16, false, mouseX, mouseY);
         }
 
         // Flower slots: when a recipe accepts several flowers (any tulip...), cycle through them like vanilla does.
@@ -755,22 +765,27 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         if (!flowers.isEmpty()) {
             ItemStack flower = new ItemStack(flowers.get((int) ((System.currentTimeMillis() / 1000) % flowers.size())));
             for (int gi : Recipes.FLOWER_SLOTS) {
-                this.ghostSlot(graphics, this.menu.slots.get(1 + gi), flower, 0, 16, true);
+                this.ghostSlot(graphics, this.menu.slots.get(1 + gi), flower, 0, 16, true, mouseX, mouseY);
             }
         }
 
-        this.ghostSlot(graphics, this.menu.slots.get(1 + 7), this.lapisIcon, 0, 16, true);   // lapis slot (grid index 7)
+        this.ghostSlot(graphics, this.menu.slots.get(1 + 7), this.lapisIcon, 0, 16, true, mouseX, mouseY);   // lapis slot (grid index 7)
         if (!this.menu.hasResult()) {
 
-            this.ghostSlot(graphics, this.menu.slots.get(0), this.icons[this.selected], RESULT_BOX_PAD, RESULT_BOX, false);
+            this.ghostSlot(graphics, this.menu.slots.get(0), this.icons[this.selected], RESULT_BOX_PAD, RESULT_BOX, false, mouseX, mouseY);
         }
 
+        // Tooltip of the ghost item under the mouse (drawn last so it sits on top)
+        if (!this.ghostHover.isEmpty()) {
+
+            this.tooltip(graphics, this.ghostHover, mouseX, mouseY);
+        }
     }
 
 
 
     private void ghostSlot(GuiGraphicsExtractor graphics, net.minecraft.world.inventory.Slot slot,
-        ItemStack stack, int pad, int size, boolean cover) {
+        ItemStack stack, int pad, int size, boolean cover, int mouseX, int mouseY) {
         int x = this.leftPos + slot.x;
         int y = this.topPos + slot.y;
 
@@ -779,6 +794,12 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
         }
         drawItem(graphics, stack, x, y);
         graphics.fill(x - pad, y - pad, x - pad + size, y - pad + size, GHOST_RED);
+
+        // Remember it if the mouse is over this (still empty) slot, so its tooltip can show.
+        if (!slot.hasItem() && over(mouseX, mouseY, x, y, 16, 16)) {
+
+            this.ghostHover = stack;
+        }
     }
 
 
@@ -989,7 +1010,7 @@ public class EnchantingScreen extends AbstractContainerScreen<EnchantingMenu> {
 
 
         // 5. Ghost recipe in the grid, the vanilla knowledge-book button, then the recipe-book panel.
-        this.drawGhost(graphics);
+        this.drawGhost(graphics, mouseX, mouseY);
 
         int bx = this.leftPos + BTN_X;
         int by = this.topPos + BTN_Y;

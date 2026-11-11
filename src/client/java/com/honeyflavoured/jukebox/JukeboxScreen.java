@@ -41,7 +41,9 @@ public class JukeboxScreen extends AbstractContainerScreen<JukeboxMenu> {
     // "Artist - Song" line, to the right of the disc slot, vertically centred on it
     private static final int TEXT_X = 30;
     private static final int TEXT_Y = 19;
-    private static final int TEXT_MAX = 139;
+    private static final int TEXT_MAX = 139;   // visible width of the line
+    private static final long SCROLL_PAUSE_MS = 1000L;
+    private static final int SCROLL_SPEED = 30; // pixels per second
 
     public JukeboxScreen(JukeboxMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, GUI_W, GUI_H);
@@ -89,30 +91,37 @@ public class JukeboxScreen extends AbstractContainerScreen<JukeboxMenu> {
             button(graphics, FORWARD_SELECT, FORWARD);
         }
 
-        // "Artist - Song", colour-cycling like the vanilla "Now Playing" message
+        // "Artist - Song": rainbow colour, scrolls sideways when it doesn't fit
         ItemStack disc = this.menu.getNowPlaying();
         if (!disc.isEmpty()) {
             Optional<Holder<JukeboxSong>> song = JukeboxSong.fromStack(disc);
             if (song.isPresent()) {
-                String name = fit(song.get().value().description().getString());
+                String name = song.get().value().description().getString();
                 float hue = (System.currentTimeMillis() % 3000L) / 3000.0F;
                 int color = 0xFF000000 | (Mth.hsvToRgb(hue, 0.7F, 0.6F) & 0xFFFFFF);
-                graphics.text(this.font, Component.literal(name), this.leftPos + TEXT_X, this.topPos + TEXT_Y,
-                        color, false);
+
+                int x = this.leftPos + TEXT_X;
+                int y = this.topPos + TEXT_Y;
+                int overflow = this.font.width(name) - TEXT_MAX;
+                int offset = 0;
+
+                if (overflow > 0) {
+                    long scrollMs = overflow * 1000L / SCROLL_SPEED;
+                    long t = System.currentTimeMillis() % (SCROLL_PAUSE_MS * 2 + scrollMs);
+                    if (t >= SCROLL_PAUSE_MS + scrollMs) {
+                        offset = overflow;
+                    } else if (t >= SCROLL_PAUSE_MS) {
+                        offset = (int) ((t - SCROLL_PAUSE_MS) * SCROLL_SPEED / 1000L);
+                    }
+                }
+
+                graphics.enableScissor(x, y - 2, x + TEXT_MAX, y + 10);
+                graphics.text(this.font, Component.literal(name), x - offset, y, color, false);
+                graphics.disableScissor();
             }
         }
     }
 
-    private String fit(String text) {
-        if (this.font.width(text) <= TEXT_MAX) {
-            return text;
-        }
-        String cut = text;
-        while (cut.length() > 1 && this.font.width(cut + "...") > TEXT_MAX) {
-            cut = cut.substring(0, cut.length() - 1);
-        }
-        return cut + "...";
-    }
 
     private boolean over(int[] box, double mx, double my) {
         double x = mx - this.leftPos;
