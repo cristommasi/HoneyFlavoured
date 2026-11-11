@@ -211,6 +211,11 @@ public class EnchantingMenu extends AbstractContainerMenu {
 		List<Item> flowers = Recipes.flowersFor(Recipes.ORDERED.get(id).getValue());
 		Inventory inv = clicker.getInventory();
 
+		// Clicking the recipe that is already in the grid adds one more craft, like the crafting table's recipe book.
+		if (!fillAll && this.holdsRecipe(ingredient, flowers)) {
+			return this.addOneCraft(inv, ingredient);
+		}
+
 		// Return all previous recipe ingredients, flowers and lapis.
 		// Never touch the centre slot, which holds the book or item being enchanted.
 		int[] fillSlots = {0, 1, 2, 3, 5, FLOWER_L, FLOWER_R, LAPIS};
@@ -581,5 +586,71 @@ public class EnchantingMenu extends AbstractContainerMenu {
 		this.access.execute((level, pos) -> this.clearContainer(player, this.grid));
 	}
 
+	/** True when the grid already holds this recipe's ingredient, flowers and lapis. */
+	private boolean holdsRecipe(Item ingredient, List<Item> flowers) {
+		for (int i : Recipes.RING) {
+			if (!this.grid.getItem(i).is(ingredient)) {
+				return false;
+			}
+		}
+		if (!this.grid.getItem(LAPIS).is(Items.LAPIS_LAZULI)) {
+			return false;
+		}
+		for (int i : Recipes.FLOWER_SLOTS) {
+			if (!flowers.contains(this.grid.getItem(i).getItem())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/** Adds one more set of materials to the grid. Does nothing if you lack them or a slot is full. */
+	private boolean addOneCraft(Inventory inv, Item ingredient) {
+		if (count(inv, ingredient) < Recipes.RING.length || count(inv, Items.LAPIS_LAZULI) < LAPIS_COST) {
+			return false;
+		}
+
+		for (int i : Recipes.RING) {
+			ItemStack s = this.grid.getItem(i);
+			if (s.getCount() >= s.getMaxStackSize()) {
+				return false;
+			}
+		}
+
+		ItemStack lapis = this.grid.getItem(LAPIS);
+		if (lapis.getCount() + LAPIS_COST > lapis.getMaxStackSize()) {
+			return false;
+		}
+
+		ItemStack left = this.grid.getItem(FLOWER_L);
+		ItemStack right = this.grid.getItem(FLOWER_R);
+		if (left.getCount() >= left.getMaxStackSize() || right.getCount() >= right.getMaxStackSize()) {
+			return false;
+		}
+		if (left.getItem() == right.getItem()) {
+			if (count(inv, left.getItem()) < 2) {
+				return false;
+			}
+		} else if (count(inv, left.getItem()) < 1 || count(inv, right.getItem()) < 1) {
+			return false;
+		}
+
+		for (int i : Recipes.RING) {
+			takeOne(inv, ingredient);
+			this.grid.getItem(i).grow(1);
+		}
+		for (int k = 0; k < LAPIS_COST; k++) {
+			takeOne(inv, Items.LAPIS_LAZULI);
+		}
+		lapis.grow(LAPIS_COST);
+
+		takeOne(inv, left.getItem());
+		left.grow(1);
+		takeOne(inv, right.getItem());
+		right.grow(1);
+
+		this.grid.setChanged();
+		return true;
+	}
 	
 }
