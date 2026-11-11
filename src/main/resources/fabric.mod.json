@@ -38,6 +38,10 @@
 
 		"mixins/honeyflavoured/enchantments.json",
 
+		"mixins/honeyflavoured/mountcall.json",
+
+		"mixins/honeyflavoured/jukebox.json",
+
 		"mixins/honeyflavoured/animalarmor.json",
 		{
 			"config": "mixins/honeyflavoured/animalarmor.client.json",
@@ -48,8 +52,6 @@
 		{
 			"config": "mixins/honeyflavoured/mountswim.client.json",
 			"environment": "client"
-		},
-
-		"mixins/honeyflavoured/mountcall.json"
+		}
 	]
 }

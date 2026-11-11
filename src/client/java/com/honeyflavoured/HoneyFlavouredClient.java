@@ -8,6 +8,7 @@ import com.honeyflavoured.newenchantments.NewEnchantmentsClient;
 import com.honeyflavoured.fletching.FletchingClient;
 import com.honeyflavoured.mountcall.MountCallClient;
 import com.honeyflavoured.temperature.TemperatureHud;
+import com.honeyflavoured.jukebox.JukeboxClient;
 
 import net.fabricmc.api.ClientModInitializer;
 
@@ -24,5 +25,6 @@ public class HoneyFlavouredClient implements ClientModInitializer {
         LavaBreathingHud.register();
         MountCallClient.register();
         MountModelLayers.register();
+        JukeboxClient.register();
     }
 }

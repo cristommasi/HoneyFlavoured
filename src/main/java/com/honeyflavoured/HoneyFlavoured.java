@@ -8,6 +8,7 @@ import com.honeyflavoured.fletching.Fletching;
 import com.honeyflavoured.mountcall.MountCall;
 import com.honeyflavoured.mountswim.MountSwimming;
 import com.honeyflavoured.farming.Farming;
+import com.honeyflavoured.jukebox.Jukebox;
 
 import com.honeyflavoured.temperature.TemperatureManager;
 
@@ -33,5 +34,6 @@ public class HoneyFlavoured implements ModInitializer {
         AnimalArmor.register();
         MountSwimming.register();
         MountCall.register();
+        Jukebox.register();
     }
 }

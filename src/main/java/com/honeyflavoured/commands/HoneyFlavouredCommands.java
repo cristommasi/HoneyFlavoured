@@ -15,6 +15,9 @@ import net.minecraft.world.level.gamerules.GameRuleCategory;
 public final class HoneyFlavouredCommands {
     private HoneyFlavouredCommands() {}
 
+
+    public static final GameRule<Boolean> USE_CUSTOM_JUKEBOX = registerRule("use_custom_jukebox");
+    
     public static final GameRule<Boolean> USE_ANIMAL_ARMOR = registerRule("use_animal_armor");
     public static final GameRule<Boolean> USE_MOUNT_SWIMMING = registerRule("use_mount_swimming");
 
